@@ -21,8 +21,9 @@ export interface QrRenderOptions {
   logoDataUrl: string | null;
 }
 
-const QR_MARGIN = 4;
+const QR_MARGIN = 20;
 const PREVIEW_CARD_REFERENCE_SIZE = 400;
+const PREVIEW_QR_RADIUS = 20;
 
 interface ExportFrameOptions extends QrRenderOptions {
   frame: QrExportFrame;
@@ -283,6 +284,13 @@ export async function renderFramedQrCanvas(
   const cardX = (width - cardSize) / 2;
   const cardY = (height - cardSize) / 2;
   const cardRadius = Math.round(cardSize * 0.06);
+  const qrX = cardX + cardPad;
+  const qrY = cardY + cardPad;
+  const qrRadius = Math.round(
+    (PREVIEW_QR_RADIUS /
+      (PREVIEW_CARD_REFERENCE_SIZE - options.qrPadding * 2)) *
+      qrSize,
+  );
 
   ctx.fillStyle = options.cardColor;
   ctx.beginPath();
@@ -290,7 +298,12 @@ export async function renderFramedQrCanvas(
   ctx.fill();
 
   const qr = await renderQrCanvas({ ...options, size: qrSize });
-  ctx.drawImage(qr, cardX + cardPad, cardY + cardPad, qrSize, qrSize);
+  ctx.save();
+  ctx.beginPath();
+  ctx.roundRect(qrX, qrY, qrSize, qrSize, qrRadius);
+  ctx.clip();
+  ctx.drawImage(qr, qrX, qrY, qrSize, qrSize);
+  ctx.restore();
 
   return canvas;
 }
@@ -310,6 +323,11 @@ export async function renderFramedQrSvg(
   const cardRadius = Math.round(cardSize * 0.06);
   const qrX = cardX + cardPad;
   const qrY = cardY + cardPad;
+  const qrRadius = Math.round(
+    (PREVIEW_QR_RADIUS /
+      (PREVIEW_CARD_REFERENCE_SIZE - options.qrPadding * 2)) *
+      qrSize,
+  );
   const qrSvg = await renderQrSvg({ ...options, size: qrSize });
   const qrBody = qrSvg.replace(/^[\s\S]*?<svg[^>]*>/, "").replace("</svg>", "");
   const vbMatch = qrSvg.match(/viewBox="0 0 (\d+(?:\.\d+)?)/);
@@ -319,8 +337,9 @@ export async function renderFramedQrSvg(
   return [
     `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">`,
     svgBackgroundMarkup(options.previewBackground),
+    `<defs><clipPath id="qr-inner-clip"><rect x="${qrX}" y="${qrY}" width="${qrSize}" height="${qrSize}" rx="${qrRadius}" ry="${qrRadius}"/></clipPath></defs>`,
     `<path d="${roundedRectPath(cardX, cardY, cardSize, cardSize, cardRadius)}" fill="${escapeSvgAttribute(options.cardColor)}"/>`,
-    `<g transform="translate(${qrX} ${qrY}) scale(${qrScale})">${qrBody}</g>`,
+    `<g clip-path="url(#qr-inner-clip)" transform="translate(${qrX} ${qrY}) scale(${qrScale})">${qrBody}</g>`,
     "</svg>",
   ].join("");
 }
