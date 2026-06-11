@@ -1,5 +1,4 @@
 import QRCodeStyling from "qr-code-styling";
-
 import type {
   EcLevel,
   PreviewBackground,
@@ -8,6 +7,7 @@ import type {
   QrDotStyle,
   QrExportFrame,
 } from "@/lib/qr";
+import { FALLBACK_EMOJI } from "@/lib/qr";
 
 export interface QrRenderOptions {
   payload: string;
@@ -190,7 +190,7 @@ function fillCanvasBackground(
   }
 
   if (background.pattern === "emoji") {
-    const emoji = background.emoji.trim() || "✨";
+    const emoji = background.emoji.trim() || FALLBACK_EMOJI;
     const gap = background.patternSize;
     ctx.globalAlpha = 0.9;
     ctx.font = `${Math.round(gap * 0.4)}px system-ui, sans-serif`;
@@ -229,7 +229,7 @@ function svgBackgroundMarkup(background: PreviewBackground): string {
     return `${base}<defs><pattern id="${patternId}" width="${patternSize}" height="${patternSize}" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="${patternSize}" stroke="${patternColor}" stroke-width="1" opacity="0.72"/></pattern></defs><rect width="100%" height="100%" fill="url(#${patternId})"/>`;
   }
 
-  const emoji = escapeSvgText(background.emoji.trim() || "✨");
+  const emoji = escapeSvgText(background.emoji.trim() || FALLBACK_EMOJI);
   return `${base}<defs><pattern id="${patternId}" width="${patternSize}" height="${patternSize}" patternUnits="userSpaceOnUse"><text x="${patternSize / 2}" y="${patternSize / 2}" text-anchor="middle" dominant-baseline="middle" font-size="${Math.round(patternSize * 0.4)}">${emoji}</text></pattern></defs><rect width="100%" height="100%" fill="url(#${patternId})"/>`;
 }
 

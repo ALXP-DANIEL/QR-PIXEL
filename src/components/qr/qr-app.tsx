@@ -18,6 +18,7 @@ import {
   type QrFields,
   type QrState,
   type QrType,
+  SAFE_BACKGROUND_EMOJIS,
   type ValidationResult,
   validate,
 } from "@/lib/qr";
@@ -107,15 +108,7 @@ function hslToHex(hue: number, saturation: number, lightness: number): string {
 }
 
 function randomEmoji(): string {
-  const emojiRanges = [
-    [0x1f300, 0x1f5ff],
-    [0x1f600, 0x1f64f],
-    [0x1f680, 0x1f6ff],
-    [0x1f900, 0x1f9ff],
-    [0x1fa70, 0x1faff],
-  ] as const;
-  const [start, end] = randomItem(emojiRanges);
-  return String.fromCodePoint(randomInt(start, end));
+  return randomItem(SAFE_BACKGROUND_EMOJIS);
 }
 
 function createRandomTheme(): Pick<

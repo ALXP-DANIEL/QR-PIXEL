@@ -33,6 +33,7 @@ import {
   BACKGROUND_PATTERN_SIZE_MAX,
   BACKGROUND_PATTERN_SIZE_MIN,
   BACKGROUND_PATTERN_SIZE_STEP,
+  FALLBACK_EMOJI,
   PREVIEW_BACKGROUND_PATTERN_LABELS,
   type PreviewBackground,
   type PreviewBackgroundPattern,
@@ -41,6 +42,7 @@ import {
   type QrFields,
   type QrState,
   type QrType,
+  SAFE_BACKGROUND_EMOJIS,
   type ValidationResult,
 } from "@/lib/qr";
 import { cn } from "@/lib/utils";
@@ -51,10 +53,7 @@ interface ControlDockProps {
   state: QrState;
   validation: ValidationResult;
   onTypeChange: (type: QrType) => void;
-  onFieldChange: <T extends QrType>(
-    type: T,
-    patch: Partial<QrFields[T]>,
-  ) => void;
+  onFieldChange: <T extends QrType>(type: T, patch: Partial<QrFields[T]>) => void;
   onPatch: (patch: Partial<QrState>) => void;
   onLogoSelect: (file: File) => void;
   onLogoRemove: () => void;
@@ -92,6 +91,21 @@ function BackgroundColorField({
       </div>
     </div>
   );
+}
+
+function normalizeSafeEmoji(value: string): string {
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return FALLBACK_EMOJI;
+  }
+
+  const exact = SAFE_BACKGROUND_EMOJIS.find((emoji) => emoji === trimmed);
+  if (exact) {
+    return exact;
+  }
+
+  const first = Array.from(trimmed)[0];
+  return SAFE_BACKGROUND_EMOJIS.find((emoji) => emoji === first) ?? FALLBACK_EMOJI;
 }
 
 function BackgroundPanel({
@@ -137,13 +151,11 @@ function BackgroundPanel({
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              {Object.entries(PREVIEW_BACKGROUND_PATTERN_LABELS).map(
-                ([value, label]) => (
-                  <SelectItem key={value} value={value}>
-                    {label}
-                  </SelectItem>
-                ),
-              )}
+              {Object.entries(PREVIEW_BACKGROUND_PATTERN_LABELS).map(([value, label]) => (
+                <SelectItem key={value} value={value}>
+                  {label}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
@@ -151,15 +163,42 @@ function BackgroundPanel({
         {background.pattern === "emoji" && (
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="preview-bg-emoji">Emoji</Label>
-            <Input
-              id="preview-bg-emoji"
-              value={background.emoji}
-              placeholder="✨"
-              className="text-base"
-              onChange={(event) =>
-                patchBackground({ emoji: event.target.value.slice(0, 8) })
-              }
-            />
+            <div className="flex gap-2">
+              <div className="grid size-10 shrink-0 place-items-center border border-input bg-background text-xl">
+                {background.emoji}
+              </div>
+              <Input
+                id="preview-bg-emoji"
+                value={background.emoji}
+                placeholder={FALLBACK_EMOJI}
+                className="text-base"
+                onChange={(event) =>
+                  patchBackground({
+                    emoji: normalizeSafeEmoji(event.target.value),
+                  })
+                }
+              />
+            </div>
+            <div className="grid max-h-24 grid-cols-7 gap-1.5 overflow-y-auto pr-1 sm:grid-cols-10">
+              {SAFE_BACKGROUND_EMOJIS.map((emoji) => (
+                <button
+                  key={emoji}
+                  type="button"
+                  aria-label={`Use ${emoji} emoji background`}
+                  aria-pressed={background.emoji === emoji}
+                  onClick={() => patchBackground({ emoji })}
+                  className={cn(
+                    "grid size-7 place-items-center border border-input bg-transparent text-sm transition-colors hover:bg-muted/60",
+                    background.emoji === emoji && "border-foreground bg-background"
+                  )}
+                >
+                  {emoji}
+                </button>
+              ))}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Uses conservative emoji that render on most Android, iOS, and desktop devices.
+            </p>
           </div>
         )}
       </div>
@@ -167,9 +206,7 @@ function BackgroundPanel({
       {background.pattern !== "solid" && (
         <div className="flex flex-col gap-2.5">
           <div className="flex items-center justify-between">
-            <span className="text-xs leading-none select-none">
-              Pattern size
-            </span>
+            <span className="text-xs leading-none select-none">Pattern size</span>
             <span className="text-xs tabular-nums text-muted-foreground">
               {background.patternSize}px
             </span>
@@ -241,37 +278,50 @@ function ImagePanel({
 }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   return (
-    <div className="flex flex-col gap-3">
-      <p className="text-xs text-muted-foreground leading-relaxed">
-        Place a logo at the center of the QR code. Error correction is raised to
-        H automatically.
-      </p>
-      {hasLogo ? (
-        <div className="flex h-8 items-center gap-2 border border-input px-2.5 dark:bg-input/30">
-          <span className="min-w-0 flex-1 truncate text-xs">
-            {logoName ?? "Logo"}
-          </span>
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon-xs"
-            aria-label="Remove logo"
-            onClick={onLogoRemove}
-          >
-            <XIcon />
-          </Button>
+    <div className="flex flex-col gap-4">
+      <section className="flex flex-col gap-3">
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <h3 className="text-xs font-medium text-foreground">Center logo</h3>
+            <p className="text-xs text-muted-foreground">
+              Error correction switches to high while a logo is used.
+            </p>
+          </div>
+          {hasLogo && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon-xs"
+              aria-label="Remove logo"
+              onClick={onLogoRemove}
+            >
+              <XIcon />
+            </Button>
+          )}
         </div>
-      ) : (
-        <Button
+
+        <button
           type="button"
-          variant="outline"
-          className="w-full justify-start"
           onClick={() => fileInputRef.current?.click()}
+          className={cn(
+            "flex min-h-24 w-full items-center gap-3 border border-dashed border-input bg-transparent p-3 text-left transition-colors hover:bg-muted/60",
+            hasLogo && "border-solid bg-background/50"
+          )}
         >
-          <UploadSimpleIcon />
-          Upload logo
-        </Button>
-      )}
+          <span className="grid size-12 shrink-0 place-items-center border border-input bg-muted/40 text-muted-foreground">
+            {hasLogo ? <ImageIcon className="size-5" /> : <UploadSimpleIcon className="size-5" />}
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block truncate text-sm text-foreground">
+              {hasLogo ? (logoName ?? "Logo image") : "Upload image"}
+            </span>
+            <span className="mt-1 block text-xs text-muted-foreground">
+              PNG, JPG, WebP, or SVG up to 2 MB.
+            </span>
+          </span>
+        </button>
+      </section>
+
       <input
         ref={fileInputRef}
         type="file"
@@ -303,44 +353,78 @@ function DownloadPanel({
   onCopy: () => void;
 }) {
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-1.5">
-        <Label htmlFor="qr-export-frame">Canvas</Label>
-        <Select
-          items={QR_EXPORT_FRAME_LABELS}
-          value={exportFrame}
-          onValueChange={(value) =>
-            onPatch({ exportFrame: value as QrExportFrame })
-          }
-        >
-          <SelectTrigger id="qr-export-frame" className="w-full">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {Object.entries(QR_EXPORT_FRAME_LABELS).map(([value, label]) => (
-              <SelectItem key={value} value={value}>
-                {label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-      <div className="grid grid-cols-2 gap-2">
-        <Button type="button" onClick={onDownloadPng}>
-          <DownloadSimpleIcon weight="bold" />
-          PNG
-        </Button>
-        <Button type="button" variant="outline" onClick={onDownloadSvg}>
-          <FileSvgIcon />
-          SVG
-        </Button>
-      </div>
-      <div className="grid grid-cols-1 gap-2">
+    <div className="flex flex-col gap-5">
+      <section className="flex flex-col gap-3">
+        <div>
+          <h3 className="text-xs font-medium text-foreground">Canvas</h3>
+          <p className="text-xs text-muted-foreground">
+            Export includes the backdrop, card, padding, and QR styling.
+          </p>
+        </div>
+        <div className="grid grid-cols-3 gap-2">
+          {Object.entries(QR_EXPORT_FRAME_LABELS).map(([value, label]) => {
+            const isActive = exportFrame === value;
+            return (
+              <button
+                key={value}
+                type="button"
+                aria-pressed={isActive}
+                onClick={() => onPatch({ exportFrame: value as QrExportFrame })}
+                className={cn(
+                  "flex h-17 flex-col items-center justify-center gap-1 border border-input bg-transparent px-2 text-xs transition-colors hover:bg-muted/60",
+                  isActive && "border-foreground bg-background text-foreground shadow-sm"
+                )}
+              >
+                <span
+                  className={cn(
+                    "border border-current opacity-80",
+                    value === "portrait" && "h-6 w-4",
+                    value === "desktop" && "h-4 w-7",
+                    value === "square" && "size-5"
+                  )}
+                />
+                <span>{label}</span>
+              </button>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-3">
+        <h3 className="text-xs font-medium text-foreground">Export</h3>
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            type="button"
+            onClick={onDownloadPng}
+            className="flex min-h-18 items-center gap-3 border border-input bg-primary px-3 text-left text-primary-foreground transition-colors hover:bg-primary/80"
+          >
+            <span className="grid size-9 shrink-0 place-items-center border border-primary-foreground/25">
+              <DownloadSimpleIcon weight="bold" />
+            </span>
+            <span>
+              <span className="block text-sm font-medium">PNG</span>
+              <span className="block text-xs opacity-75">Raster image</span>
+            </span>
+          </button>
+          <button
+            type="button"
+            onClick={onDownloadSvg}
+            className="flex min-h-18 items-center gap-3 border border-input bg-transparent px-3 text-left transition-colors hover:bg-muted/60"
+          >
+            <span className="grid size-9 shrink-0 place-items-center border border-input text-muted-foreground">
+              <FileSvgIcon />
+            </span>
+            <span>
+              <span className="block text-sm font-medium">SVG</span>
+              <span className="block text-xs text-muted-foreground">Vector file</span>
+            </span>
+          </button>
+        </div>
         <Button type="button" variant="ghost" onClick={onCopy}>
           <CopySimpleIcon />
-          Copy content
+          Copy encoded content
         </Button>
-      </div>
+      </section>
     </div>
   );
 }
@@ -417,11 +501,15 @@ export function ControlDock({
         delay: 0.12,
       }}
     >
-      <div className="flex flex-col gap-2">
+      <motion.div
+        layout
+        className="flex flex-col gap-2"
+        transition={{ duration: 0.24, ease: [0.21, 0.47, 0.32, 0.98] }}
+      >
         {/* Floating panel */}
         <AnimatePresence
           initial={false}
-          mode="wait"
+          mode="popLayout"
           onExitComplete={() => {
             if (activePanel === null) {
               onActivePanelChange(null);
@@ -430,15 +518,27 @@ export function ControlDock({
         >
           {activePanel && (
             <motion.div
+              layout
               key={activePanel}
               className="glass-panel overflow-hidden rounded-3xl"
-              initial={{ opacity: 0, y: 6 }}
+              initial={{ opacity: 0, y: 10, scale: 0.98 }}
               animate={{
                 opacity: 1,
                 y: 0,
-                transition: { type: "spring", stiffness: 420, damping: 36 },
+                scale: 1,
+                transition: {
+                  type: "spring",
+                  stiffness: 520,
+                  damping: 27,
+                  mass: 0.8,
+                },
               }}
-              exit={{ opacity: 0, y: 6, transition: { duration: 0.14 } }}
+              exit={{
+                opacity: 0,
+                y: 8,
+                scale: 0.985,
+                transition: { duration: 0.12 },
+              }}
             >
               <div className="max-h-[min(45dvh,340px)] overflow-y-auto p-4">
                 {activePanel === "content" && (
@@ -492,15 +592,10 @@ export function ControlDock({
                   onClick={() => toggle(id)}
                   className={cn(
                     "flex min-w-0 flex-1 flex-col items-center justify-center gap-1 py-2.5 text-[9px] leading-none transition-colors duration-150 sm:py-3 sm:text-[11px]",
-                    isActive
-                      ? "text-foreground"
-                      : "text-muted-foreground hover:text-foreground",
+                    isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"
                   )}
                 >
-                  <Icon
-                    weight={isActive ? "fill" : "regular"}
-                    className="size-4 sm:size-5"
-                  />
+                  <Icon weight={isActive ? "fill" : "regular"} className="size-4 sm:size-5" />
                   <span className="max-w-full truncate">{label}</span>
                 </button>
               );
@@ -525,7 +620,7 @@ export function ControlDock({
             <span>Reset</span>
           </button>
         </div>
-      </div>
+      </motion.div>
     </motion.div>
   );
 }

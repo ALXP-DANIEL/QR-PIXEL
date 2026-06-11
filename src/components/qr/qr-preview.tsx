@@ -5,7 +5,6 @@ import { AnimatePresence, motion, useAnimationControls } from "motion/react";
 import type { CSSProperties } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-
 import type {
   EcLevel,
   PreviewBackground,
@@ -13,6 +12,7 @@ import type {
   QrCornerSquareStyle,
   QrDotStyle,
 } from "@/lib/qr";
+import { FALLBACK_EMOJI } from "@/lib/qr";
 import { renderQrCanvas } from "@/lib/qr-render";
 import { cn } from "@/lib/utils";
 
@@ -45,7 +45,7 @@ function escapeSvgText(value: string): string {
 }
 
 function emojiPatternDataUrl(emoji: string, size: number): string {
-  const glyph = emoji.trim() || "✨";
+  const glyph = emoji.trim() || FALLBACK_EMOJI;
   const fontSize = Math.round(size * 0.4);
   const center = size / 2;
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"><text x="${center}" y="${center}" text-anchor="middle" dominant-baseline="middle" font-size="${fontSize}">${escapeSvgText(glyph)}</text></svg>`;

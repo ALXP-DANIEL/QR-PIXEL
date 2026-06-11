@@ -92,6 +92,37 @@ export const QR_PADDING_STEP = 4;
 export const BACKGROUND_PATTERN_SIZE_MIN = 24;
 export const BACKGROUND_PATTERN_SIZE_MAX = 120;
 export const BACKGROUND_PATTERN_SIZE_STEP = 4;
+export const FALLBACK_EMOJI = "✨";
+export const SAFE_BACKGROUND_EMOJIS = [
+  "😀",
+  "😎",
+  "😍",
+  "🥳",
+  "🔥",
+  "✨",
+  "⭐",
+  "🌙",
+  "☀️",
+  "🌈",
+  "⚡",
+  "💎",
+  "💫",
+  "🎉",
+  "🎈",
+  "🎵",
+  "🎮",
+  "🚀",
+  "🌍",
+  "🌸",
+  "🍀",
+  "🍕",
+  "🍩",
+  "☕",
+  "❤️",
+  "💜",
+  "💚",
+  "👍",
+] as const;
 
 export const PREVIEW_BACKGROUND_PATTERN_LABELS: Record<
   PreviewBackgroundPattern,
@@ -158,7 +189,7 @@ export function createDefaultState(): QrState {
       pattern: "dots",
       patternColor: "#0f172a",
       patternSize: 32,
-      emoji: "✨",
+      emoji: FALLBACK_EMOJI,
     },
     logoDataUrl: null,
     logoName: null,
