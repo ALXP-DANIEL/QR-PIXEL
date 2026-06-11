@@ -1,167 +1,145 @@
 # QR Pixel
 
-QR Pixel is a production-ready Next.js 16 App Router tool for generating polished QR codes from URLs, free text, email links, phone numbers, and Wi-Fi credentials. The app renders a live QR preview in the browser, supports light/dark themes, lets users tune export size and error correction, and exports PNG or SVG files.
+**Beautiful pixel-perfect QR codes in seconds**
 
-## Stack
+QR Pixel is a modern single-page QR code generator built with Next.js 16, React 19, Tailwind CSS 4, and `qr-code-styling`. It provides a premium glass-style interface for creating, customizing, previewing, and exporting QR codes instantly.
 
-- Next.js 16.2 App Router with React 19
-- Tailwind CSS 4 and shadcn/base-ui-style primitives
-- Biome for linting and formatting
-- Vitest for QR payload unit tests
-- Playwright for browser smoke tests
-- Docker standalone output for production containers
-- GitHub Actions CI plus GHCR image publishing
-- Graphify code graph indexing under `graphify-out/`
-- PWA manifest, service worker, offline fallback, install icons, and splash metadata
-- GraphQL endpoint for QR validation and payload generation
-- Maintenance-mode, wrapper loader, and dev HUD patterns adapted from the AE1.TECH revamp repo
-- Config-driven SEO metadata and dynamic Open Graph image route adapted from the older AE1.TECH layout
+The app supports multiple QR content types, custom QR styling, logo uploads, randomized themes, live preview, and PNG/SVG export.
 
-## Local Development
+---
 
-```bash
-npm ci
-cp .env.example .env.local
-npm run dev
-```
+## Preview
 
-Open http://localhost:3000.
+QR Pixel provides a full-screen QR studio with:
 
-## Verification
+- Floating glass header
+- Centered live QR preview
+- Bottom control dock
+- QR customization controls
+- Backdrop pattern customization
+- Logo upload
+- PNG and SVG export
 
-Run the full local gate:
+---
 
-```bash
-npm run verify
-```
+## Features
 
-Individual checks:
+### QR Content Types
 
-```bash
-npm run lint
-npm run typecheck
-npm run test
-npm run build
-npm run test:e2e
-```
+QR Pixel supports multiple payload types:
 
-Playwright starts the standalone production server from the latest `npm run build` output. The `start` script mirrors the Docker runtime by copying `.next/static` and `public/` into `.next/standalone/` before launching `server.js`. If the build is stale, run `npm run build` before `npm run test:e2e`.
+- URL
+- Text
+- Email
+- Phone
+- Wi-Fi
 
-## Docker
+Each content type has validation and payload generation handled by the shared QR logic.
 
-Build and run the production image:
+---
 
-```bash
-npm run docker:build
-npm run docker:run
-```
+### Live QR Preview
 
-Or use Compose:
+The QR preview updates instantly when the user changes:
 
-```bash
-docker compose up --build
-```
+- Content
+- QR colors
+- QR dot style
+- Corner style
+- Background color
+- Card color
+- Padding
+- Logo image
+- Backdrop style
 
-The container exposes port `3000` and runs the Next standalone server from `.next/standalone`.
+---
 
-## PWA
+### QR Customization
 
-QR Pixel ships as an installable PWA:
+Users can customize:
 
-- `src/app/manifest.ts` generates `/manifest.webmanifest`.
-- `public/sw.js` caches the app shell and serves the generator while offline.
-- `public/offline.html` is the fallback if the shell has not been cached yet.
-- `public/icons/` contains install and maskable icons.
-- `public/splash/` contains startup/screenshot artwork referenced by metadata and the manifest.
+- Foreground color
+- QR background color
+- Card color
+- Dot/module style
+- Corner frame style
+- Corner dot style
+- QR padding
+- Export size
+- Error correction level
 
-Service-worker headers are defined in `next.config.ts` so browsers receive `sw.js` as JavaScript with no stale caching.
+Supported QR styles include:
 
-## GraphQL
+- Square
+- Dots
+- Rounded
+- Extra rounded
+- Classy
+- Classy rounded
 
-The QR payload engine is exposed at `POST /api/graphql`.
+---
 
-Example:
+### Backdrop Styles
 
-```bash
-curl -s http://localhost:3000/api/graphql \
-  -H 'content-type: application/json' \
-  -d '{
-    "query": "mutation Build($input: QrInput!) { buildPayload(input: $input) { payload validation { ok message } } }",
-    "variables": {
-      "input": {
-        "type": "url",
-        "url": { "url": "example.com" }
-      }
-    }
-  }'
-```
+QR Pixel includes multiple visual backdrop modes:
 
-Useful operations:
+- Solid
+- Dots
+- Grid
+- Diagonal
+- Emoji pattern
 
-- `query { health { ok name } }`
-- `query { qrTypes { id label } }`
-- `query Preview($input: QrInput!) { preview(input: $input) { payload validation { ok field message } } }`
-- `mutation Build($input: QrInput!) { buildPayload(input: $input) { payload validation { ok field message } } }`
+These styles are shown both in the live preview and exported output.
 
-## Metadata And OG
+---
 
-Metadata is driven by `src/config/site.ts`, following the AE1.TECH pattern where the layout reads from one site config object.
+### Logo Upload
 
-Implemented metadata includes:
+Users can upload a custom logo to embed inside the QR code.
 
-- title template
-- description and keywords
-- authors, creator, and publisher
-- Open Graph website metadata
-- Twitter summary image metadata
-- robots and Googlebot directives
-- manifest, icons, Apple PWA metadata, and viewport theme colors
+Current upload limit:
 
-Dynamic OG images are served from `GET /api/og`:
+- Maximum file size: 2 MB
+
+---
+
+### Export Options
+
+QR Pixel supports exporting QR codes as:
+
+- PNG
+- SVG
+
+Export includes:
+
+- QR code
+- Card styling
+- Backdrop styling
+- Padding
+- Colors
+- Logo image
+
+Supported export canvas formats:
+
+- Square
+- Portrait
+- Desktop
+
+---
+
+### Randomizer
+
+The app includes a randomizer that generates different QR visual styles using randomized colors, patterns, and style combinations.
+
+A reset action is also available to return the QR state to the default design.
+
+---
+
+### GraphQL Payload Builder
+
+QR Pixel includes a GraphQL endpoint for QR payload validation and generation.
+
+Endpoint:
 
 ```txt
-/api/og?type=Share&title=QR%20Pixel%20Studio&link=https%3A%2F%2Fqr-pixel.local
-```
-
-## Runtime Flags
-
-QR Pixel includes two small operational switches inspired by the AE1.TECH revamp layout:
-
-- `NEXT_PUBLIC_APP_URL` sets the canonical app URL used by metadata and Open Graph images. Use your production domain in deployed environments.
-- `QR_PIXEL_MAINTENANCE=true` renders a focused maintenance screen instead of the generator.
-- `NEXT_PUBLIC_QR_PIXEL_DEBUG=true` enables a compact dev HUD in production builds. In development, the HUD is enabled automatically. Press `Ctrl+D` or click `DEV` to toggle details.
-
-## CI/CD
-
-`.github/workflows/ci.yml` runs on pushes to `main` and pull requests:
-
-1. Install dependencies with `npm ci`.
-2. Cache `.next/cache` for faster builds.
-3. Install Chromium for Playwright.
-4. Run lint, typecheck, unit tests, production build, and E2E tests.
-5. Upload the Playwright HTML report as an artifact.
-
-`.github/workflows/docker-publish.yml` builds and publishes the Docker image to GitHub Container Registry on `main`, version tags, or manual dispatch.
-
-## Graphify
-
-Refresh the focused code graph:
-
-```bash
-npm run graphify:update
-```
-
-The wrapper copies only source, tests, key configs, Docker files, and this README into a temporary scope before indexing, then writes results to `graphify-out/`.
-
-Useful outputs:
-
-- `graphify-out/graph.html`
-- `graphify-out/GRAPH_REPORT.md`
-- `graphify-out/manifest.json`
-
-## Production Notes
-
-- Runtime uses Node 24 Alpine and the Next standalone server.
-- No runtime secrets are required for the current local QR/PWA/GraphQL feature set.
-- Keep `next.config.ts` on `output: "standalone"` so Docker receives minimal server output.
-- Run `npm audit` before release and triage production-impacting advisories separately from dev-tool advisories.
+POST /api/graphql

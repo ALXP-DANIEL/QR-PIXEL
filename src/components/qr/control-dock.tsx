@@ -53,7 +53,10 @@ interface ControlDockProps {
   state: QrState;
   validation: ValidationResult;
   onTypeChange: (type: QrType) => void;
-  onFieldChange: <T extends QrType>(type: T, patch: Partial<QrFields[T]>) => void;
+  onFieldChange: <T extends QrType>(
+    type: T,
+    patch: Partial<QrFields[T]>,
+  ) => void;
   onPatch: (patch: Partial<QrState>) => void;
   onLogoSelect: (file: File) => void;
   onLogoRemove: () => void;
@@ -105,7 +108,9 @@ function normalizeSafeEmoji(value: string): string {
   }
 
   const first = Array.from(trimmed)[0];
-  return SAFE_BACKGROUND_EMOJIS.find((emoji) => emoji === first) ?? FALLBACK_EMOJI;
+  return (
+    SAFE_BACKGROUND_EMOJIS.find((emoji) => emoji === first) ?? FALLBACK_EMOJI
+  );
 }
 
 function BackgroundPanel({
@@ -151,11 +156,13 @@ function BackgroundPanel({
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              {Object.entries(PREVIEW_BACKGROUND_PATTERN_LABELS).map(([value, label]) => (
-                <SelectItem key={value} value={value}>
-                  {label}
-                </SelectItem>
-              ))}
+              {Object.entries(PREVIEW_BACKGROUND_PATTERN_LABELS).map(
+                ([value, label]) => (
+                  <SelectItem key={value} value={value}>
+                    {label}
+                  </SelectItem>
+                ),
+              )}
             </SelectContent>
           </Select>
         </div>
@@ -189,7 +196,8 @@ function BackgroundPanel({
                   onClick={() => patchBackground({ emoji })}
                   className={cn(
                     "grid size-7 place-items-center border border-input bg-transparent text-sm transition-colors hover:bg-muted/60",
-                    background.emoji === emoji && "border-foreground bg-background"
+                    background.emoji === emoji &&
+                      "border-foreground bg-background",
                   )}
                 >
                   {emoji}
@@ -197,7 +205,8 @@ function BackgroundPanel({
               ))}
             </div>
             <p className="text-xs text-muted-foreground">
-              Uses conservative emoji that render on most Android, iOS, and desktop devices.
+              Uses conservative emoji that render on most Android, iOS, and
+              desktop devices.
             </p>
           </div>
         )}
@@ -206,7 +215,9 @@ function BackgroundPanel({
       {background.pattern !== "solid" && (
         <div className="flex flex-col gap-2.5">
           <div className="flex items-center justify-between">
-            <span className="text-xs leading-none select-none">Pattern size</span>
+            <span className="text-xs leading-none select-none">
+              Pattern size
+            </span>
             <span className="text-xs tabular-nums text-muted-foreground">
               {background.patternSize}px
             </span>
@@ -305,11 +316,15 @@ function ImagePanel({
           onClick={() => fileInputRef.current?.click()}
           className={cn(
             "flex min-h-24 w-full items-center gap-3 border border-dashed border-input bg-transparent p-3 text-left transition-colors hover:bg-muted/60",
-            hasLogo && "border-solid bg-background/50"
+            hasLogo && "border-solid bg-background/50",
           )}
         >
           <span className="grid size-12 shrink-0 place-items-center border border-input bg-muted/40 text-muted-foreground">
-            {hasLogo ? <ImageIcon className="size-5" /> : <UploadSimpleIcon className="size-5" />}
+            {hasLogo ? (
+              <ImageIcon className="size-5" />
+            ) : (
+              <UploadSimpleIcon className="size-5" />
+            )}
           </span>
           <span className="min-w-0 flex-1">
             <span className="block truncate text-sm text-foreground">
@@ -372,7 +387,8 @@ function DownloadPanel({
                 onClick={() => onPatch({ exportFrame: value as QrExportFrame })}
                 className={cn(
                   "flex h-17 flex-col items-center justify-center gap-1 border border-input bg-transparent px-2 text-xs transition-colors hover:bg-muted/60",
-                  isActive && "border-foreground bg-background text-foreground shadow-sm"
+                  isActive &&
+                    "border-foreground bg-background text-foreground shadow-sm",
                 )}
               >
                 <span
@@ -380,7 +396,7 @@ function DownloadPanel({
                     "border border-current opacity-80",
                     value === "portrait" && "h-6 w-4",
                     value === "desktop" && "h-4 w-7",
-                    value === "square" && "size-5"
+                    value === "square" && "size-5",
                   )}
                 />
                 <span>{label}</span>
@@ -416,7 +432,9 @@ function DownloadPanel({
             </span>
             <span>
               <span className="block text-sm font-medium">SVG</span>
-              <span className="block text-xs text-muted-foreground">Vector file</span>
+              <span className="block text-xs text-muted-foreground">
+                Vector file
+              </span>
             </span>
           </button>
         </div>
@@ -592,10 +610,15 @@ export function ControlDock({
                   onClick={() => toggle(id)}
                   className={cn(
                     "flex min-w-0 flex-1 flex-col items-center justify-center gap-1 py-2.5 text-[9px] leading-none transition-colors duration-150 sm:py-3 sm:text-[11px]",
-                    isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                    isActive
+                      ? "text-foreground"
+                      : "text-muted-foreground hover:text-foreground",
                   )}
                 >
-                  <Icon weight={isActive ? "fill" : "regular"} className="size-4 sm:size-5" />
+                  <Icon
+                    weight={isActive ? "fill" : "regular"}
+                    className="size-4 sm:size-5"
+                  />
                   <span className="max-w-full truncate">{label}</span>
                 </button>
               );
