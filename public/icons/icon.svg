@@ -1,13 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="QR Pixel">
-  <rect width="512" height="512" rx="112" fill="#0a0a0a" />
-  <rect x="96" y="96" width="112" height="112" rx="18" fill="#f5f5f5" />
-  <rect x="128" y="128" width="48" height="48" rx="8" fill="#0a0a0a" />
-  <rect x="304" y="96" width="112" height="112" rx="18" fill="#f5f5f5" />
-  <rect x="336" y="128" width="48" height="48" rx="8" fill="#0a0a0a" />
-  <rect x="96" y="304" width="112" height="112" rx="18" fill="#f5f5f5" />
-  <rect x="128" y="336" width="48" height="48" rx="8" fill="#0a0a0a" />
-  <rect x="272" y="272" width="48" height="48" rx="8" fill="#f5f5f5" />
-  <rect x="352" y="272" width="64" height="48" rx="8" fill="#f5f5f5" />
-  <rect x="272" y="352" width="48" height="64" rx="8" fill="#f5f5f5" />
-  <rect x="352" y="352" width="32" height="32" rx="6" fill="#f5f5f5" />
+  <rect width="512" height="512" rx="112" fill="#0a0a0a"/>
+  <path
+    fill="#f5f5f5"
+    fill-rule="evenodd"
+    shape-rendering="crispEdges"
+    transform="translate(106 106)"
+    d="M0 0h300v300H0zM60 60h180v180H60zM120 120h60v60H120z"
+  />
 </svg>
