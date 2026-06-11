@@ -1,4 +1,7 @@
-import { GithubLogoIcon, LinkedinLogoIcon } from "@phosphor-icons/react/dist/ssr";
+import {
+  GithubLogoIcon,
+  LinkedinLogoIcon,
+} from "@phosphor-icons/react/dist/ssr";
 
 import { FadeIn } from "@/components/animation/fade-in";
 import { ThemeToggle } from "@/components/layouts/header/theme-toggle";
@@ -18,7 +21,9 @@ export default function Home() {
                 <PixelMark className="size-4 sm:size-4.5" />
               </div>
               <div className="flex min-w-0 flex-col gap-1 pr-2 sm:pr-0">
-                <h1 className="text-xs leading-none font-semibold tracking-tight sm:text-sm">QR Pixel</h1>
+                <h1 className="text-xs leading-none font-semibold tracking-tight sm:text-sm">
+                  QR Pixel
+                </h1>
                 <p className="hidden text-xs leading-none text-muted-foreground sm:block">
                   Beautiful pixel-perfect QR codes in seconds
                 </p>
@@ -38,7 +43,10 @@ export default function Home() {
                     href={siteConfig.links.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                  />
+                    aria-label="View on LinkedIn"
+                  >
+                    <span className="sr-only">View on LinkedIn</span>
+                  </a>
                 }
               >
                 <LinkedinLogoIcon weight="bold" />
@@ -54,7 +62,10 @@ export default function Home() {
                     href={siteConfig.links.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                  />
+                    aria-label="View on GitHub"
+                  >
+                    <span className="sr-only">View on GitHub</span>
+                  </a>
                 }
               >
                 <GithubLogoIcon weight="bold" />

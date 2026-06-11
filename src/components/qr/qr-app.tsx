@@ -12,6 +12,9 @@ import {
   type EcLevel,
   isContentEmpty,
   type PreviewBackgroundPattern,
+  type QrCornerDotStyle,
+  type QrCornerSquareStyle,
+  type QrDotStyle,
   type QrFields,
   type QrState,
   type QrType,
@@ -28,6 +31,44 @@ const BACKGROUND_PATTERNS: PreviewBackgroundPattern[] = [
   "diagonal",
   "emoji",
 ];
+const QR_DOT_STYLES: QrDotStyle[] = [
+  "square",
+  "dots",
+  "rounded",
+  "extra-rounded",
+  "classy",
+  "classy-rounded",
+];
+const QR_CORNER_SQUARE_STYLES: QrCornerSquareStyle[] = [
+  "square",
+  "dot",
+  "extra-rounded",
+];
+const QR_CORNER_DOT_STYLES: QrCornerDotStyle[] = ["square", "dot"];
+const FILENAME_ADJECTIVES = [
+  "bright",
+  "cosmic",
+  "crisp",
+  "electric",
+  "fresh",
+  "glossy",
+  "lucky",
+  "pixel",
+  "quick",
+  "vivid",
+] as const;
+const FILENAME_NOUNS = [
+  "badge",
+  "beam",
+  "code",
+  "link",
+  "mark",
+  "portal",
+  "signal",
+  "spark",
+  "tag",
+  "tile",
+] as const;
 
 function randomItem<T>(items: readonly T[]): T {
   return items[Math.floor(Math.random() * items.length)];
@@ -79,7 +120,13 @@ function randomEmoji(): string {
 
 function createRandomTheme(): Pick<
   QrState,
-  "bgColor" | "fgColor" | "cardColor" | "previewBackground"
+  | "bgColor"
+  | "fgColor"
+  | "cardColor"
+  | "dotStyle"
+  | "cornerSquareStyle"
+  | "cornerDotStyle"
+  | "previewBackground"
 > {
   const hue = randomInt(0, 359);
   const accentHue = hue + randomInt(-18, 18);
@@ -89,6 +136,9 @@ function createRandomTheme(): Pick<
     fgColor: hslToHex(accentHue, saturation, randomInt(16, 24)),
     bgColor: hslToHex(accentHue, randomInt(34, 50), randomInt(92, 97)),
     cardColor: hslToHex(accentHue, randomInt(28, 44), randomInt(78, 86)),
+    dotStyle: randomItem(QR_DOT_STYLES),
+    cornerSquareStyle: randomItem(QR_CORNER_SQUARE_STYLES),
+    cornerDotStyle: randomItem(QR_CORNER_DOT_STYLES),
     previewBackground: {
       color: hslToHex(
         hue + randomInt(-10, 10),
@@ -112,6 +162,13 @@ function exportErrorMessage(error: unknown, format: string): string {
     return "Content is too long for a QR code";
   }
   return `Could not export ${format}`;
+}
+
+function createDownloadFilename(extension: "png" | "svg"): string {
+  const adjective = randomItem(FILENAME_ADJECTIVES);
+  const noun = randomItem(FILENAME_NOUNS);
+  const suffix = randomInt(1000, 9999);
+  return `qr-${adjective}-${noun}-${suffix}.${extension}`;
 }
 
 export function QrApp() {
@@ -170,6 +227,9 @@ export function QrApp() {
         qrPadding: state.qrPadding,
         fgColor: state.fgColor,
         bgColor: state.bgColor,
+        dotStyle: state.dotStyle,
+        cornerSquareStyle: state.cornerSquareStyle,
+        cornerDotStyle: state.cornerDotStyle,
         cardColor: state.cardColor,
         ecLevel: effectiveEcLevel,
         logoDataUrl: state.logoDataUrl,
@@ -181,7 +241,7 @@ export function QrApp() {
       if (blob === null) {
         throw new Error("PNG encoding failed");
       }
-      downloadBlob(blob, "qr-pixel.png");
+      downloadBlob(blob, createDownloadFilename("png"));
       toast.success("PNG downloaded");
     } catch (error) {
       toast.error(exportErrorMessage(error, "PNG"));
@@ -201,13 +261,16 @@ export function QrApp() {
         qrPadding: state.qrPadding,
         fgColor: state.fgColor,
         bgColor: state.bgColor,
+        dotStyle: state.dotStyle,
+        cornerSquareStyle: state.cornerSquareStyle,
+        cornerDotStyle: state.cornerDotStyle,
         cardColor: state.cardColor,
         ecLevel: effectiveEcLevel,
         logoDataUrl: state.logoDataUrl,
         previewBackground: state.previewBackground,
       });
       const blob = new Blob([svg], { type: "image/svg+xml;charset=utf-8" });
-      downloadBlob(blob, "qr-pixel.svg");
+      downloadBlob(blob, createDownloadFilename("svg"));
       toast.success("SVG downloaded");
     } catch (error) {
       toast.error(exportErrorMessage(error, "SVG"));
@@ -263,6 +326,9 @@ export function QrApp() {
           fgColor={state.fgColor}
           bgColor={state.bgColor}
           cardColor={state.cardColor}
+          dotStyle={state.dotStyle}
+          cornerSquareStyle={state.cornerSquareStyle}
+          cornerDotStyle={state.cornerDotStyle}
           qrPadding={state.qrPadding}
           ecLevel={effectiveEcLevel}
           logoDataUrl={state.logoDataUrl}

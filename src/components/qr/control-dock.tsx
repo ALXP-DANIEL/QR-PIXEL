@@ -209,6 +209,9 @@ function CustomizePanel({
         fgColor={state.fgColor}
         bgColor={state.bgColor}
         cardColor={state.cardColor}
+        dotStyle={state.dotStyle}
+        cornerSquareStyle={state.cornerSquareStyle}
+        cornerDotStyle={state.cornerDotStyle}
         qrPadding={state.qrPadding}
         exportSize={state.exportSize}
         ecLevel={state.ecLevel}

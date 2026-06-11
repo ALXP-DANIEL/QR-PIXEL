@@ -1,19 +1,27 @@
-import QRCode from "qrcode";
+import QRCodeStyling from "qr-code-styling";
 
-import type { EcLevel, PreviewBackground, QrExportFrame } from "@/lib/qr";
+import type {
+  EcLevel,
+  PreviewBackground,
+  QrCornerDotStyle,
+  QrCornerSquareStyle,
+  QrDotStyle,
+  QrExportFrame,
+} from "@/lib/qr";
 
 export interface QrRenderOptions {
   payload: string;
   size: number;
   fgColor: string;
   bgColor: string;
+  dotStyle: QrDotStyle;
+  cornerSquareStyle: QrCornerSquareStyle;
+  cornerDotStyle: QrCornerDotStyle;
   ecLevel: EcLevel;
   logoDataUrl: string | null;
 }
 
 const QR_MARGIN = 4;
-const LOGO_PAD_RATIO = 0.25;
-const LOGO_RATIO = 0.2;
 const PREVIEW_CARD_REFERENCE_SIZE = 400;
 
 interface ExportFrameOptions extends QrRenderOptions {
@@ -31,30 +39,6 @@ const EXPORT_FRAME_RATIOS: Record<
   portrait: { width: 9, height: 16 },
   desktop: { width: 16, height: 9 },
 };
-
-function loadImage(src: string): Promise<HTMLImageElement> {
-  return new Promise((resolve, reject) => {
-    const image = new Image();
-    image.onload = () => resolve(image);
-    image.onerror = () => reject(new Error("Failed to load logo image"));
-    image.src = src;
-  });
-}
-
-function containFit(
-  image: HTMLImageElement,
-  box: number,
-): { width: number; height: number } {
-  // Firefox reports 0×0 for SVGs without intrinsic dimensions; fall back to a square.
-  if (image.naturalWidth === 0 || image.naturalHeight === 0) {
-    return { width: box, height: box };
-  }
-  const scale = Math.min(box / image.naturalWidth, box / image.naturalHeight);
-  return {
-    width: image.naturalWidth * scale,
-    height: image.naturalHeight * scale,
-  };
-}
 
 function getFrameSize(
   frame: QrExportFrame,
@@ -76,6 +60,41 @@ function getFrameSize(
     width: baseSize,
     height: Math.round(baseSize * (ratio.height / ratio.width)),
   };
+}
+
+function createStyledQr(options: QrRenderOptions, type: "canvas" | "svg") {
+  return new QRCodeStyling({
+    type,
+    width: options.size,
+    height: options.size,
+    margin: QR_MARGIN,
+    data: options.payload,
+    image: options.logoDataUrl ?? undefined,
+    qrOptions: {
+      errorCorrectionLevel: options.ecLevel,
+    },
+    imageOptions: {
+      hideBackgroundDots: true,
+      imageSize: 0.2,
+      margin: Math.round(options.size * 0.025),
+    },
+    dotsOptions: {
+      type: options.dotStyle,
+      color: options.fgColor,
+      roundSize: true,
+    },
+    cornersSquareOptions: {
+      type: options.cornerSquareStyle,
+      color: options.fgColor,
+    },
+    cornersDotOptions: {
+      type: options.cornerDotStyle,
+      color: options.fgColor,
+    },
+    backgroundOptions: {
+      color: options.bgColor,
+    },
+  });
 }
 
 function escapeSvgText(value: string): string {
@@ -216,63 +235,28 @@ function svgBackgroundMarkup(background: PreviewBackground): string {
 export async function renderQrCanvas(
   options: QrRenderOptions,
 ): Promise<HTMLCanvasElement> {
-  const { payload, size, fgColor, bgColor, ecLevel, logoDataUrl } = options;
-  const canvas = document.createElement("canvas");
-  await QRCode.toCanvas(canvas, payload, {
-    width: size,
-    margin: QR_MARGIN,
-    errorCorrectionLevel: ecLevel,
-    color: { dark: fgColor, light: bgColor },
-  });
-
-  if (logoDataUrl) {
-    const logo = await loadImage(logoDataUrl);
-    const ctx = canvas.getContext("2d");
-    if (!ctx) {
-      throw new Error("Canvas 2D context is unavailable");
-    }
-    const padBox = size * LOGO_PAD_RATIO;
-    const padOrigin = (size - padBox) / 2;
-    ctx.fillStyle = bgColor;
-    ctx.beginPath();
-    ctx.roundRect(padOrigin, padOrigin, padBox, padBox, padBox * 0.12);
-    ctx.fill();
-
-    const logoBox = size * LOGO_RATIO;
-    const { width, height } = containFit(logo, logoBox);
-    ctx.drawImage(logo, (size - width) / 2, (size - height) / 2, width, height);
+  const raw = await createStyledQr(options, "canvas").getRawData("png");
+  if (!(raw instanceof Blob)) {
+    throw new Error("QR canvas export failed");
   }
-
+  const image = await createImageBitmap(raw);
+  const canvas = document.createElement("canvas");
+  canvas.width = options.size;
+  canvas.height = options.size;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) {
+    throw new Error("Canvas 2D context is unavailable");
+  }
+  ctx.drawImage(image, 0, 0, options.size, options.size);
   return canvas;
 }
 
 export async function renderQrSvg(options: QrRenderOptions): Promise<string> {
-  const { payload, size, fgColor, bgColor, ecLevel, logoDataUrl } = options;
-  const svg = await QRCode.toString(payload, {
-    type: "svg",
-    width: size,
-    margin: QR_MARGIN,
-    errorCorrectionLevel: ecLevel,
-    color: { dark: fgColor, light: bgColor },
-  });
-
-  if (!logoDataUrl) {
-    return svg;
+  const raw = await createStyledQr(options, "svg").getRawData("svg");
+  if (!(raw instanceof Blob)) {
+    throw new Error("QR SVG export failed");
   }
-
-  const viewBoxMatch = svg.match(/viewBox="0 0 (\d+(?:\.\d+)?) /);
-  if (!viewBoxMatch) {
-    return svg;
-  }
-  const units = Number(viewBoxMatch[1]);
-  const padBox = units * LOGO_PAD_RATIO;
-  const padOrigin = (units - padBox) / 2;
-  const logoBox = units * LOGO_RATIO;
-  const logoOrigin = (units - logoBox) / 2;
-  const overlay =
-    `<rect x="${padOrigin}" y="${padOrigin}" width="${padBox}" height="${padBox}" rx="${padBox * 0.12}" fill="${bgColor}"/>` +
-    `<image x="${logoOrigin}" y="${logoOrigin}" width="${logoBox}" height="${logoBox}" href="${logoDataUrl}" preserveAspectRatio="xMidYMid meet"/>`;
-  return svg.replace("</svg>", `${overlay}</svg>`);
+  return raw.text();
 }
 
 export async function renderFramedQrCanvas(
@@ -327,7 +311,7 @@ export async function renderFramedQrSvg(
   const qrX = cardX + cardPad;
   const qrY = cardY + cardPad;
   const qrSvg = await renderQrSvg({ ...options, size: qrSize });
-  const qrBody = qrSvg.replace(/^<svg[^>]*>/, "").replace("</svg>", "");
+  const qrBody = qrSvg.replace(/^[\s\S]*?<svg[^>]*>/, "").replace("</svg>", "");
   const vbMatch = qrSvg.match(/viewBox="0 0 (\d+(?:\.\d+)?)/);
   const qrVb = vbMatch ? Number(vbMatch[1]) : qrSize;
   const qrScale = qrVb > 0 ? qrSize / qrVb : 1;

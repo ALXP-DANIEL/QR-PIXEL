@@ -6,7 +6,13 @@ import type { CSSProperties } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
-import type { EcLevel, PreviewBackground } from "@/lib/qr";
+import type {
+  EcLevel,
+  PreviewBackground,
+  QrCornerDotStyle,
+  QrCornerSquareStyle,
+  QrDotStyle,
+} from "@/lib/qr";
 import { renderQrCanvas } from "@/lib/qr-render";
 import { cn } from "@/lib/utils";
 
@@ -21,6 +27,9 @@ interface QrPreviewProps {
   fgColor: string;
   bgColor: string;
   cardColor: string;
+  dotStyle: QrDotStyle;
+  cornerSquareStyle: QrCornerSquareStyle;
+  cornerDotStyle: QrCornerDotStyle;
   qrPadding: number;
   ecLevel: EcLevel;
   logoDataUrl: string | null;
@@ -87,6 +96,9 @@ export function QrPreview({
   fgColor,
   bgColor,
   cardColor,
+  dotStyle,
+  cornerSquareStyle,
+  cornerDotStyle,
   qrPadding,
   ecLevel,
   logoDataUrl,
@@ -105,7 +117,9 @@ export function QrPreview({
   useEffect(() => {
     const update = () => {
       // Scale shift with viewport height: ~20dvh, clamped so it never clips behind the header or overshoots on large screens
-      setDockShift(Math.min(Math.max(Math.round(window.innerHeight * 0.2), 100), 160));
+      setDockShift(
+        Math.min(Math.max(Math.round(window.innerHeight * 0.2), 100), 160),
+      );
     };
     update();
     window.addEventListener("resize", update);
@@ -126,6 +140,9 @@ export function QrPreview({
       size: PREVIEW_SIZE,
       fgColor,
       bgColor,
+      dotStyle,
+      cornerSquareStyle,
+      cornerDotStyle,
       ecLevel,
       logoDataUrl,
     })
@@ -145,7 +162,17 @@ export function QrPreview({
           setRenderError("Content is too long for a QR code");
         }
       });
-  }, [status, payload, fgColor, bgColor, ecLevel, logoDataUrl]);
+  }, [
+    status,
+    payload,
+    fgColor,
+    bgColor,
+    dotStyle,
+    cornerSquareStyle,
+    cornerDotStyle,
+    ecLevel,
+    logoDataUrl,
+  ]);
 
   useEffect(() => {
     const previous = themeRef.current;
@@ -213,7 +240,10 @@ export function QrPreview({
                 "glass-panel relative w-[min(60vmin,400px)] rounded-3xl",
                 canExpand && "cursor-zoom-in",
               )}
-              style={{ padding: qrPadding, backgroundColor: showCanvas ? cardColor : undefined }}
+              style={{
+                padding: qrPadding,
+                backgroundColor: showCanvas ? cardColor : undefined,
+              }}
               animate={qrCardControls}
               whileHover={canExpand ? { scale: 1.04 } : undefined}
               transition={{ type: "spring", stiffness: 340, damping: 28 }}

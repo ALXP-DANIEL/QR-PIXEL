@@ -13,6 +13,18 @@ export type PreviewBackgroundPattern =
 
 export type QrExportFrame = "square" | "portrait" | "desktop";
 
+export type QrDotStyle =
+  | "square"
+  | "dots"
+  | "rounded"
+  | "extra-rounded"
+  | "classy"
+  | "classy-rounded";
+
+export type QrCornerSquareStyle = "square" | "dot" | "extra-rounded";
+
+export type QrCornerDotStyle = "square" | "dot";
+
 export interface QrFields {
   url: { url: string };
   text: { text: string };
@@ -40,6 +52,9 @@ export interface QrState {
   fgColor: string;
   bgColor: string;
   cardColor: string;
+  dotStyle: QrDotStyle;
+  cornerSquareStyle: QrCornerSquareStyle;
+  cornerDotStyle: QrCornerDotStyle;
   qrPadding: number;
   exportSize: number;
   exportFrame: QrExportFrame;
@@ -95,6 +110,29 @@ export const QR_EXPORT_FRAME_LABELS: Record<QrExportFrame, string> = {
   desktop: "Desktop",
 };
 
+export const QR_DOT_STYLE_LABELS: Record<QrDotStyle, string> = {
+  square: "Square",
+  dots: "Dots",
+  rounded: "Rounded",
+  "extra-rounded": "Extra rounded",
+  classy: "Classy",
+  "classy-rounded": "Classy rounded",
+};
+
+export const QR_CORNER_SQUARE_STYLE_LABELS: Record<
+  QrCornerSquareStyle,
+  string
+> = {
+  square: "Square",
+  dot: "Dot",
+  "extra-rounded": "Extra rounded",
+};
+
+export const QR_CORNER_DOT_STYLE_LABELS: Record<QrCornerDotStyle, string> = {
+  square: "Square",
+  dot: "Dot",
+};
+
 export function createDefaultState(): QrState {
   return {
     type: "url",
@@ -108,6 +146,9 @@ export function createDefaultState(): QrState {
     fgColor: "#0a0a0a",
     bgColor: "#ffffff",
     cardColor: "#ffffff",
+    dotStyle: "square",
+    cornerSquareStyle: "square",
+    cornerDotStyle: "square",
     qrPadding: 16,
     exportSize: 1024,
     exportFrame: "square",

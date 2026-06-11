@@ -120,7 +120,8 @@ export default function RootLayout({
 }>) {
   const maintenanceMode = process.env.QR_PIXEL_MAINTENANCE === "true";
   const debugHud =
-    process.env.NODE_ENV === "development" || process.env.NEXT_PUBLIC_QR_PIXEL_DEBUG === "true";
+    process.env.NODE_ENV === "development" ||
+    process.env.NEXT_PUBLIC_QR_PIXEL_DEBUG === "true";
 
   return (
     <html
@@ -132,7 +133,7 @@ export default function RootLayout({
         geistSans.variable,
         geistMono.variable,
         "font-mono",
-        jetbrainsMono.variable
+        jetbrainsMono.variable,
       )}
     >
       <body className="min-h-full flex flex-col">
@@ -144,7 +145,11 @@ export default function RootLayout({
         >
           <MotionProvider>
             <PwaRegister />
-            {maintenanceMode ? <Maintenance /> : <WrapperLoader>{children}</WrapperLoader>}
+            {maintenanceMode ? (
+              <Maintenance />
+            ) : (
+              <WrapperLoader>{children}</WrapperLoader>
+            )}
             <DebugInfo enabled={debugHud} />
             <Toaster position="top-center" />
           </MotionProvider>

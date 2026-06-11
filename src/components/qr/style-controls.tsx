@@ -19,9 +19,15 @@ import {
   EXPORT_SIZE_MAX,
   EXPORT_SIZE_MIN,
   EXPORT_SIZE_STEP,
+  QR_CORNER_DOT_STYLE_LABELS,
+  QR_CORNER_SQUARE_STYLE_LABELS,
+  QR_DOT_STYLE_LABELS,
   QR_PADDING_MAX,
   QR_PADDING_MIN,
   QR_PADDING_STEP,
+  type QrCornerDotStyle,
+  type QrCornerSquareStyle,
+  type QrDotStyle,
   type QrState,
 } from "@/lib/qr";
 import { cn } from "@/lib/utils";
@@ -30,6 +36,9 @@ interface StyleControlsProps {
   fgColor: string;
   bgColor: string;
   cardColor: string;
+  dotStyle: QrDotStyle;
+  cornerSquareStyle: QrCornerSquareStyle;
+  cornerDotStyle: QrCornerDotStyle;
   qrPadding: number;
   exportSize: number;
   ecLevel: EcLevel;
@@ -73,6 +82,9 @@ export function StyleControls({
   fgColor,
   bgColor,
   cardColor,
+  dotStyle,
+  cornerSquareStyle,
+  cornerDotStyle,
   qrPadding,
   exportSize,
   ecLevel,
@@ -106,6 +118,76 @@ export function StyleControls({
           value={cardColor}
           onChange={(value) => onPatch({ cardColor: value })}
         />
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-3">
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="qr-dot-style">Modules</Label>
+          <Select
+            items={QR_DOT_STYLE_LABELS}
+            value={dotStyle}
+            onValueChange={(value) =>
+              onPatch({ dotStyle: value as QrDotStyle })
+            }
+          >
+            <SelectTrigger id="qr-dot-style" className="w-full">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.entries(QR_DOT_STYLE_LABELS).map(([value, label]) => (
+                <SelectItem key={value} value={value}>
+                  {label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="qr-corner-square-style">Corners</Label>
+          <Select
+            items={QR_CORNER_SQUARE_STYLE_LABELS}
+            value={cornerSquareStyle}
+            onValueChange={(value) =>
+              onPatch({ cornerSquareStyle: value as QrCornerSquareStyle })
+            }
+          >
+            <SelectTrigger id="qr-corner-square-style" className="w-full">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.entries(QR_CORNER_SQUARE_STYLE_LABELS).map(
+                ([value, label]) => (
+                  <SelectItem key={value} value={value}>
+                    {label}
+                  </SelectItem>
+                ),
+              )}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="qr-corner-dot-style">Corner dots</Label>
+          <Select
+            items={QR_CORNER_DOT_STYLE_LABELS}
+            value={cornerDotStyle}
+            onValueChange={(value) =>
+              onPatch({ cornerDotStyle: value as QrCornerDotStyle })
+            }
+          >
+            <SelectTrigger id="qr-corner-dot-style" className="w-full">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.entries(QR_CORNER_DOT_STYLE_LABELS).map(
+                ([value, label]) => (
+                  <SelectItem key={value} value={value}>
+                    {label}
+                  </SelectItem>
+                ),
+              )}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
       <div className="flex flex-col gap-2.5">
