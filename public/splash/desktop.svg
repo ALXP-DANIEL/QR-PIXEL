@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 1024">
+  <rect width="1440" height="1024" fill="#0a0a0a" />
+  <g opacity="0.12" stroke="#f5f5f5">
+    <path d="M0 192h1440M0 320h1440M0 448h1440M0 576h1440M0 704h1440M0 832h1440" />
+    <path d="M208 0v1024M336 0v1024M464 0v1024M592 0v1024M720 0v1024M848 0v1024M976 0v1024M1104 0v1024M1232 0v1024" />
+  </g>
+  <g transform="translate(624 372)">
+    <rect width="192" height="192" rx="44" fill="#f5f5f5" />
+    <rect x="40" y="40" width="48" height="48" rx="10" fill="#0a0a0a" />
+    <rect x="112" y="40" width="40" height="40" rx="8" fill="#0a0a0a" />
+    <rect x="40" y="112" width="40" height="40" rx="8" fill="#0a0a0a" />
+    <rect x="112" y="112" width="48" height="48" rx="10" fill="#0a0a0a" />
+  </g>
+  <text x="720" y="632" fill="#f5f5f5" font-family="Menlo, monospace" font-size="34" text-anchor="middle" font-weight="700">QR Pixel</text>
+  <text x="720" y="676" fill="#b8b8b8" font-family="Menlo, monospace" font-size="16" text-anchor="middle">Offline-ready QR generator</text>
+</svg>

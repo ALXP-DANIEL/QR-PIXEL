@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="QR Pixel">
+  <rect width="512" height="512" fill="#0a0a0a" />
+  <rect x="72" y="72" width="132" height="132" rx="20" fill="#f5f5f5" />
+  <rect x="112" y="112" width="52" height="52" rx="8" fill="#0a0a0a" />
+  <rect x="308" y="72" width="132" height="132" rx="20" fill="#f5f5f5" />
+  <rect x="348" y="112" width="52" height="52" rx="8" fill="#0a0a0a" />
+  <rect x="72" y="308" width="132" height="132" rx="20" fill="#f5f5f5" />
+  <rect x="112" y="348" width="52" height="52" rx="8" fill="#0a0a0a" />
+  <rect x="260" y="260" width="60" height="60" rx="10" fill="#f5f5f5" />
+  <rect x="360" y="260" width="80" height="60" rx="10" fill="#f5f5f5" />
+  <rect x="260" y="360" width="60" height="80" rx="10" fill="#f5f5f5" />
+  <rect x="360" y="360" width="44" height="44" rx="8" fill="#f5f5f5" />
+</svg>

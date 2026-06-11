@@ -1,0 +1,42 @@
+{
+  "name": "QR Pixel",
+  "short_name": "QR Pixel",
+  "description": "Generate polished QR codes offline-ready from your browser.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a0a0a",
+  "categories": ["productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/maskable-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/splash/desktop.svg",
+      "sizes": "1440x1024",
+      "type": "image/svg+xml",
+      "form_factor": "wide",
+      "label": "QR Pixel desktop generator"
+    },
+    {
+      "src": "/splash/mobile.svg",
+      "sizes": "390x844",
+      "type": "image/svg+xml",
+      "form_factor": "narrow",
+      "label": "QR Pixel mobile generator"
+    }
+  ]
+}

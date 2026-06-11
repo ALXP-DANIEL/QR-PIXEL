@@ -127,4 +127,37 @@
   html {
     @apply font-mono;
   }
+  input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+  input[type="color"]::-webkit-color-swatch {
+    border: none;
+    border-radius: 2px;
+  }
+  input[type="color"]::-moz-color-swatch {
+    border: none;
+    border-radius: 2px;
+  }
+}
+
+@utility glass-panel {
+  @apply border bg-background/65 backdrop-blur-2xl;
+  box-shadow:
+    inset 0 1px 0 0 oklch(1 0 0 / 0.15),
+    0 25px 50px -12px oklch(0 0 0 / 0.25);
+}
+
+@utility bg-pixel-grid {
+  background-image:
+    linear-gradient(
+      to right,
+      color-mix(in oklab, var(--foreground) 5%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--foreground) 5%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 28px 28px;
 }

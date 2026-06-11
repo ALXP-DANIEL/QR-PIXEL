@@ -1,65 +1,70 @@
-import Image from "next/image";
+import { GithubLogoIcon, LinkedinLogoIcon } from "@phosphor-icons/react/dist/ssr";
+
+import { FadeIn } from "@/components/animation/fade-in";
+import { ThemeToggle } from "@/components/layouts/header/theme-toggle";
+import { PixelMark } from "@/components/qr/pixel-mark";
+import { QrApp } from "@/components/qr/qr-app";
+import { Button } from "@/components/ui/button";
+import { siteConfig } from "@/config/site";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="relative flex flex-1 flex-col overflow-x-clip">
+      <header className="pointer-events-none fixed inset-x-0 top-0 z-30 px-3 pt-3 sm:px-6 sm:pt-5">
+        <div className="flex items-center justify-between gap-3">
+          <FadeIn x={-44} y={-10}>
+            <div className="glass-panel pointer-events-auto flex min-w-0 items-center gap-1.5 rounded-3xl p-1 sm:gap-3 sm:px-4 sm:py-3">
+              <div className="flex size-8 shrink-0 items-center justify-center rounded-2xl border border-border/70 bg-background/45 backdrop-blur-xl sm:size-9">
+                <PixelMark className="size-4 sm:size-4.5" />
+              </div>
+              <div className="flex min-w-0 flex-col gap-1 pr-2 sm:pr-0">
+                <h1 className="text-xs leading-none font-semibold tracking-tight sm:text-sm">QR Pixel</h1>
+                <p className="hidden text-xs leading-none text-muted-foreground sm:block">
+                  Beautiful pixel-perfect QR codes in seconds
+                </p>
+              </div>
+            </div>
+          </FadeIn>
+          <FadeIn x={14} y={-10}>
+            <div className="glass-panel pointer-events-auto flex shrink-0 items-center gap-1 rounded-3xl p-1">
+              <Button
+                variant="outline"
+                size="icon"
+                aria-label="View on LinkedIn"
+                className="rounded-2xl border-transparent bg-transparent hover:bg-background/50"
+                nativeButton={false}
+                render={
+                  <a
+                    href={siteConfig.links.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  />
+                }
+              >
+                <LinkedinLogoIcon weight="bold" />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                aria-label="View on GitHub"
+                className="rounded-2xl border-transparent bg-transparent hover:bg-background/50"
+                nativeButton={false}
+                render={
+                  <a
+                    href={siteConfig.links.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  />
+                }
+              >
+                <GithubLogoIcon weight="bold" />
+              </Button>
+              <ThemeToggle />
+            </div>
+          </FadeIn>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </header>
+      <QrApp />
     </div>
   );
 }

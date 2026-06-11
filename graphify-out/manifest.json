@@ -1,0 +1,227 @@
+{
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/README.md": {
+    "ast_hash": "d1d74672caf8e98dfd8be584607c645a",
+    "mtime": 1781149807.1343307,
+    "semantic_hash": "d1d74672caf8e98dfd8be584607c645a"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/next.config.ts": {
+    "ast_hash": "5a478f9cdfc0c66389059b71cd2a177e",
+    "mtime": 1781147990.528064,
+    "semantic_hash": "5a478f9cdfc0c66389059b71cd2a177e"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/package.json": {
+    "ast_hash": "bfd9b923facb0738e1e7fe25328421e8",
+    "mtime": 1781148050.6793153,
+    "semantic_hash": "bfd9b923facb0738e1e7fe25328421e8"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/playwright.config.ts": {
+    "ast_hash": "c833bffa2b71e35b22134e0c062dc79e",
+    "mtime": 1781148582.2138047,
+    "semantic_hash": "c833bffa2b71e35b22134e0c062dc79e"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/app/api/graphql/route.ts": {
+    "ast_hash": "f437e970488962fdeb86351820762850",
+    "mtime": 1781148000.1810188,
+    "semantic_hash": "f437e970488962fdeb86351820762850"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/app/api/og/route.tsx": {
+    "ast_hash": "4ec50155bd3a07390c5ad4fa69fcf53b",
+    "mtime": 1781149539.5989745,
+    "semantic_hash": "4ec50155bd3a07390c5ad4fa69fcf53b"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/app/layout.tsx": {
+    "ast_hash": "08062d018b681b9f85b437ed90018bf4",
+    "mtime": 1781149502.5956416,
+    "semantic_hash": "08062d018b681b9f85b437ed90018bf4"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/app/manifest.ts": {
+    "ast_hash": "a2efd6ca8c339328f4889313e97d4cd4",
+    "mtime": 1781147938.6563528,
+    "semantic_hash": "a2efd6ca8c339328f4889313e97d4cd4"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/app/page.tsx": {
+    "ast_hash": "36df346c5e749d310cc719b61d04eb2f",
+    "mtime": 1781149066.5649164,
+    "semantic_hash": "36df346c5e749d310cc719b61d04eb2f"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/components/animation/fade-in.tsx": {
+    "ast_hash": "60376728e7cefad4e4e459b3a68cde64",
+    "mtime": 1781147325.5653512,
+    "semantic_hash": "60376728e7cefad4e4e459b3a68cde64"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/components/debug/debug-info.tsx": {
+    "ast_hash": "21baeea859cda4579a902af965e697ba",
+    "mtime": 1781149041.7887137,
+    "semantic_hash": "21baeea859cda4579a902af965e697ba"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/components/layouts/header/theme-toggle.tsx": {
+    "ast_hash": "2cbc612d4595f3a1d27c70d3ba4b6594",
+    "mtime": 1781145759.3596256,
+    "semantic_hash": "2cbc612d4595f3a1d27c70d3ba4b6594"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/components/layouts/maintenance/maintenance.tsx": {
+    "ast_hash": "24c69eef5850e5545877f310d76cce16",
+    "mtime": 1781149041.7880669,
+    "semantic_hash": "24c69eef5850e5545877f310d76cce16"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/components/layouts/wrapper/loader.tsx": {
+    "ast_hash": "ca8132919ee99ff70c71867c13dbcd79",
+    "mtime": 1781149002.472975,
+    "semantic_hash": "ca8132919ee99ff70c71867c13dbcd79"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/components/layouts/wrapper/wrapper-loader.tsx": {
+    "ast_hash": "48a4f69dfcec166d580fa2ab9937a77f",
+    "mtime": 1781149002.4736128,
+    "semantic_hash": "48a4f69dfcec166d580fa2ab9937a77f"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/components/providers/motion-provider.tsx": {
+    "ast_hash": "df094c17aaf28c97713cf934fdb60b1c",
+    "mtime": 1781147323.6669767,
+    "semantic_hash": "df094c17aaf28c97713cf934fdb60b1c"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/components/providers/theme-provider.tsx": {
+    "ast_hash": "f0637989b236542db6c88c8e300c1952",
+    "mtime": 1781145753.9619038,
+    "semantic_hash": "f0637989b236542db6c88c8e300c1952"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/components/pwa/pwa-register.tsx": {
+    "ast_hash": "fb30dc847cc6cb0f2a882e4870ff56c4",
+    "mtime": 1781148000.1772428,
+    "semantic_hash": "fb30dc847cc6cb0f2a882e4870ff56c4"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/components/qr/content-form.tsx": {
+    "ast_hash": "741db2f99f2b8b6f17db2e7887b7e305",
+    "mtime": 1781147508.8496962,
+    "semantic_hash": "741db2f99f2b8b6f17db2e7887b7e305"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/components/qr/control-dock.tsx": {
+    "ast_hash": "333d453c252d540b8551612f7f18a276",
+    "mtime": 1781147495.5033073,
+    "semantic_hash": "333d453c252d540b8551612f7f18a276"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/components/qr/pixel-mark.tsx": {
+    "ast_hash": "41fd7fa8bfe7dc00a88b5b2e7215f2db",
+    "mtime": 1781146071.6087027,
+    "semantic_hash": "41fd7fa8bfe7dc00a88b5b2e7215f2db"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/components/qr/qr-app.tsx": {
+    "ast_hash": "0931a0d7925bb19afc9dde38a19156af",
+    "mtime": 1781147449.5773568,
+    "semantic_hash": "0931a0d7925bb19afc9dde38a19156af"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/components/qr/qr-preview.tsx": {
+    "ast_hash": "08e30c88e01a857ea8f600f3798315c2",
+    "mtime": 1781147688.7211432,
+    "semantic_hash": "08e30c88e01a857ea8f600f3798315c2"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/components/qr/style-controls.tsx": {
+    "ast_hash": "44aa434baa9acc1c9248e107381d75e3",
+    "mtime": 1781146133.4786046,
+    "semantic_hash": "44aa434baa9acc1c9248e107381d75e3"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/components/ui/button.tsx": {
+    "ast_hash": "6508347d7304ffd2aa8e338285efc2ff",
+    "mtime": 1781146216.224504,
+    "semantic_hash": "6508347d7304ffd2aa8e338285efc2ff"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/components/ui/card.tsx": {
+    "ast_hash": "701f1e347b02c9f5bd5e32c98db22c94",
+    "mtime": 1781146226.052408,
+    "semantic_hash": "701f1e347b02c9f5bd5e32c98db22c94"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/components/ui/input.tsx": {
+    "ast_hash": "5df6f670b13674f79ed5266d4c1b4e70",
+    "mtime": 1781146655.4142847,
+    "semantic_hash": "5df6f670b13674f79ed5266d4c1b4e70"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/components/ui/label.tsx": {
+    "ast_hash": "6b3b52eda14188356d83f265694d6086",
+    "mtime": 1781146266.656726,
+    "semantic_hash": "6b3b52eda14188356d83f265694d6086"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/components/ui/select.tsx": {
+    "ast_hash": "c60a3e6c50222de45979008e8730730c",
+    "mtime": 1781146226.0543802,
+    "semantic_hash": "c60a3e6c50222de45979008e8730730c"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/components/ui/slider.tsx": {
+    "ast_hash": "26688da5c8476ab90bdb7978f233cdf4",
+    "mtime": 1781146268.6474023,
+    "semantic_hash": "26688da5c8476ab90bdb7978f233cdf4"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/components/ui/sonner.tsx": {
+    "ast_hash": "8ed0ba34ba3523872af6f0424d99c001",
+    "mtime": 1781146226.053234,
+    "semantic_hash": "8ed0ba34ba3523872af6f0424d99c001"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/components/ui/switch.tsx": {
+    "ast_hash": "73df514344cee92559c3dac242ef7175",
+    "mtime": 1781146216.2251246,
+    "semantic_hash": "73df514344cee92559c3dac242ef7175"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/components/ui/tabs.tsx": {
+    "ast_hash": "6d616228c154410eedb48b77633a9b00",
+    "mtime": 1781146216.225662,
+    "semantic_hash": "6d616228c154410eedb48b77633a9b00"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/components/ui/textarea.tsx": {
+    "ast_hash": "e6697ba2857189d2ff3f720de440fd16",
+    "mtime": 1781146226.0542626,
+    "semantic_hash": "e6697ba2857189d2ff3f720de440fd16"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/config/site.ts": {
+    "ast_hash": "1ac9fc5806325addf0f6692e99a23372",
+    "mtime": 1781149550.0879877,
+    "semantic_hash": "1ac9fc5806325addf0f6692e99a23372"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/lib/download.ts": {
+    "ast_hash": "ed7948d3de2454f9c07c439abda8d773",
+    "mtime": 1781145741.5933824,
+    "semantic_hash": "ed7948d3de2454f9c07c439abda8d773"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/lib/graphql/schema.test.ts": {
+    "ast_hash": "8a51811cc53ff6cbe3779a50cb7d39f9",
+    "mtime": 1781147938.6559424,
+    "semantic_hash": "8a51811cc53ff6cbe3779a50cb7d39f9"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/lib/graphql/schema.ts": {
+    "ast_hash": "ee78d4f6480ea82f8d81b349974c2f9c",
+    "mtime": 1781148000.1806638,
+    "semantic_hash": "ee78d4f6480ea82f8d81b349974c2f9c"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/lib/qr-render.ts": {
+    "ast_hash": "01c04ca3617199bc63b52b1a328b49b4",
+    "mtime": 1781146216.2260268,
+    "semantic_hash": "01c04ca3617199bc63b52b1a328b49b4"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/lib/qr.test.ts": {
+    "ast_hash": "44252bd1e05e35c6e14027ae7407b4d7",
+    "mtime": 1781146595.2388303,
+    "semantic_hash": "44252bd1e05e35c6e14027ae7407b4d7"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/lib/qr.ts": {
+    "ast_hash": "7916835e6065366b911d458dbb53ffab",
+    "mtime": 1781147938.6555088,
+    "semantic_hash": "7916835e6065366b911d458dbb53ffab"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/src/lib/utils.ts": {
+    "ast_hash": "618d00bf4537ce84f9ba62c5b215fb30",
+    "mtime": 1781146226.0503018,
+    "semantic_hash": "618d00bf4537ce84f9ba62c5b215fb30"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/tests/e2e/qr-pixel.spec.ts": {
+    "ast_hash": "fa1433ad7a5a72e5f551b4cc9b1cfe88",
+    "mtime": 1781149502.5963192,
+    "semantic_hash": "fa1433ad7a5a72e5f551b4cc9b1cfe88"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/tsconfig.json": {
+    "ast_hash": "ee17fd1c97c735e9f3564e3f5251f125",
+    "mtime": 1781144529.5887861,
+    "semantic_hash": "ee17fd1c97c735e9f3564e3f5251f125"
+  },
+  "/Users/alif/Developer/Projects/web/next-js/qr-pixel/vitest.config.ts": {
+    "ast_hash": "13cca1e5b5607a1ba1f9be6b6a606af5",
+    "mtime": 1781146615.658761,
+    "semantic_hash": "13cca1e5b5607a1ba1f9be6b6a606af5"
+  }
+}

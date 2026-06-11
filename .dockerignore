@@ -1,0 +1,12 @@
+.git
+.github
+.next
+.serena
+coverage
+graphify-out
+node_modules
+playwright-report
+test-results
+npm-debug.log*
+.env*
+*.tsbuildinfo
