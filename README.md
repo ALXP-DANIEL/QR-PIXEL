@@ -1,4 +1,5 @@
 # QR Pixel
+<img width="2172" height="724" alt="image" src="https://github.com/user-attachments/assets/448b42d3-8ee9-4dc2-8003-4a0a2256aca6" />
 
 **Beautiful pixel-perfect QR codes in seconds**
 
