@@ -292,14 +292,12 @@ function DownloadPanel({
   onDownloadPng,
   onDownloadSvg,
   onCopy,
-  onReset,
 }: {
   exportFrame: QrExportFrame;
   onPatch: (patch: Partial<QrState>) => void;
   onDownloadPng: () => void;
   onDownloadSvg: () => void;
   onCopy: () => void;
-  onReset: () => void;
 }) {
   return (
     <div className="flex flex-col gap-4">
@@ -334,14 +332,10 @@ function DownloadPanel({
           SVG
         </Button>
       </div>
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-1 gap-2">
         <Button type="button" variant="ghost" onClick={onCopy}>
           <CopySimpleIcon />
           Copy content
-        </Button>
-        <Button type="button" variant="ghost" onClick={onReset}>
-          <ArrowCounterClockwiseIcon />
-          Reset all
         </Button>
       </div>
     </div>
@@ -476,7 +470,6 @@ export function ControlDock({
                     onDownloadPng={onDownloadPng}
                     onDownloadSvg={onDownloadSvg}
                     onCopy={onCopy}
-                    onReset={handleReset}
                   />
                 )}
               </div>
@@ -495,7 +488,7 @@ export function ControlDock({
                   type="button"
                   onClick={() => toggle(id)}
                   className={cn(
-                    "flex min-w-0 flex-1 flex-col items-center justify-center gap-1 py-3 text-[10px] leading-none transition-colors duration-150 sm:text-[11px]",
+                    "flex min-w-0 flex-1 flex-col items-center justify-center gap-1 py-2.5 text-[9px] leading-none transition-colors duration-150 sm:py-3 sm:text-[11px]",
                     isActive
                       ? "text-foreground"
                       : "text-muted-foreground hover:text-foreground",
@@ -503,7 +496,7 @@ export function ControlDock({
                 >
                   <Icon
                     weight={isActive ? "fill" : "regular"}
-                    className="size-5"
+                    className="size-4 sm:size-5"
                   />
                   <span className="max-w-full truncate">{label}</span>
                 </button>
@@ -514,10 +507,19 @@ export function ControlDock({
             type="button"
             aria-label="Randomize QR theme and background"
             onClick={onRandomize}
-            className="glass-panel flex w-16 shrink-0 flex-col items-center justify-center gap-1 rounded-3xl py-3 text-[10px] leading-none text-muted-foreground transition-colors duration-150 hover:text-foreground sm:w-18 sm:text-[11px]"
+            className="glass-panel flex w-13 shrink-0 flex-col items-center justify-center gap-1 rounded-3xl py-2.5 text-[9px] leading-none text-muted-foreground transition-colors duration-150 hover:text-foreground sm:w-18 sm:py-3 sm:text-[11px]"
           >
-            <SparkleIcon className="size-5" />
+            <SparkleIcon className="size-4 sm:size-5" />
             <span>Random</span>
+          </button>
+          <button
+            type="button"
+            aria-label="Reset all settings"
+            onClick={handleReset}
+            className="glass-panel flex w-13 shrink-0 flex-col items-center justify-center gap-1 rounded-3xl py-2.5 text-[9px] leading-none text-muted-foreground transition-colors duration-150 hover:text-foreground sm:w-18 sm:py-3 sm:text-[11px]"
+          >
+            <ArrowCounterClockwiseIcon className="size-4 sm:size-5" />
+            <span>Reset</span>
           </button>
         </div>
       </div>
