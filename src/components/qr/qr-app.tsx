@@ -166,10 +166,8 @@ function createRandomTheme(
       text: currentCaption.text,
       fontFamily: randomItem(CAPTION_FONT_FAMILIES),
       fontWeight: randomItem(CAPTION_FONT_WEIGHTS),
-      fontSize: randomInt(
-        CAPTION_FONT_SIZE_MIN / 2,
-        CAPTION_FONT_SIZE_MAX / 2,
-      ) * 2,
+      fontSize:
+        randomInt(CAPTION_FONT_SIZE_MIN / 2, CAPTION_FONT_SIZE_MAX / 2) * 2,
       color: hslToHex(accentHue, saturation, randomInt(10, 30)),
       align: randomItem(CAPTION_ALIGNS),
       position: randomItem(CAPTION_POSITIONS),

@@ -251,23 +251,25 @@ export function QrPreview({
             transition={{ duration: 0.26, ease: [0.21, 0.47, 0.32, 0.98] }}
           >
             <div
-                className="flex flex-col items-center"
-                style={{ gap: Math.round(caption.fontSize * 0.33) }}
-              >
-              {caption.enabled && caption.text.trim() && caption.position === "top" && (
-                <div
-                  style={{
-                    fontFamily: CAPTION_FONT_CSS[caption.fontFamily],
-                    fontWeight: CAPTION_FONT_WEIGHT_CSS[caption.fontWeight],
-                    fontSize: caption.fontSize,
-                    color: caption.color,
-                    textAlign: caption.align,
-                  }}
-                  className="w-[min(60vmin,400px)] leading-none"
-                >
-                  {caption.text}
-                </div>
-              )}
+              className="flex flex-col items-center"
+              style={{ gap: Math.round(caption.fontSize * 0.33) }}
+            >
+              {caption.enabled &&
+                caption.text.trim() &&
+                caption.position === "top" && (
+                  <div
+                    style={{
+                      fontFamily: CAPTION_FONT_CSS[caption.fontFamily],
+                      fontWeight: CAPTION_FONT_WEIGHT_CSS[caption.fontWeight],
+                      fontSize: caption.fontSize,
+                      color: caption.color,
+                      textAlign: caption.align,
+                    }}
+                    className="w-[min(60vmin,400px)] leading-none"
+                  >
+                    {caption.text}
+                  </div>
+                )}
               <motion.div
                 className={cn(
                   "glass-panel relative w-[min(60vmin,400px)] rounded-3xl",
@@ -337,20 +339,22 @@ export function QrPreview({
                   )}
                 </AnimatePresence>
               </motion.div>
-              {caption.enabled && caption.text.trim() && caption.position === "bottom" && (
-                <div
-                  style={{
-                    fontFamily: CAPTION_FONT_CSS[caption.fontFamily],
-                    fontWeight: CAPTION_FONT_WEIGHT_CSS[caption.fontWeight],
-                    fontSize: caption.fontSize,
-                    color: caption.color,
-                    textAlign: caption.align,
-                  }}
-                  className="w-[min(60vmin,400px)] leading-none"
-                >
-                  {caption.text}
-                </div>
-              )}
+              {caption.enabled &&
+                caption.text.trim() &&
+                caption.position === "bottom" && (
+                  <div
+                    style={{
+                      fontFamily: CAPTION_FONT_CSS[caption.fontFamily],
+                      fontWeight: CAPTION_FONT_WEIGHT_CSS[caption.fontWeight],
+                      fontSize: caption.fontSize,
+                      color: caption.color,
+                      textAlign: caption.align,
+                    }}
+                    className="w-[min(60vmin,400px)] leading-none"
+                  >
+                    {caption.text}
+                  </div>
+                )}
             </div>
           </motion.div>
         </div>
