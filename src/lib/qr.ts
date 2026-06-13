@@ -1,5 +1,10 @@
 export type QrType = "url" | "text" | "email" | "phone" | "wifi";
 
+export type CaptionFontFamily = "sans" | "serif" | "mono";
+export type CaptionFontWeight = "normal" | "medium" | "bold";
+export type CaptionAlign = "left" | "center" | "right";
+export type CaptionPosition = "top" | "bottom";
+
 export type EcLevel = "L" | "M" | "Q" | "H";
 
 export type WifiEncryption = "WPA" | "WEP" | "nopass";
@@ -38,6 +43,17 @@ export interface QrFields {
   };
 }
 
+export interface QrCaption {
+  enabled: boolean;
+  text: string;
+  fontFamily: CaptionFontFamily;
+  fontWeight: CaptionFontWeight;
+  fontSize: number;
+  color: string;
+  align: CaptionAlign;
+  position: CaptionPosition;
+}
+
 export interface PreviewBackground {
   color: string;
   pattern: PreviewBackgroundPattern;
@@ -62,6 +78,7 @@ export interface QrState {
   previewBackground: PreviewBackground;
   logoDataUrl: string | null;
   logoName: string | null;
+  caption: QrCaption;
 }
 
 export type ValidationResult =
@@ -81,6 +98,33 @@ export const EC_LEVEL_LABELS: Record<EcLevel, string> = {
   M: "Medium · 15%",
   Q: "Quartile · 25%",
   H: "High · 30%",
+};
+
+export const CAPTION_FONT_SIZE_MIN = 12;
+export const CAPTION_FONT_SIZE_MAX = 64;
+export const CAPTION_FONT_SIZE_STEP = 2;
+
+export const CAPTION_FONT_FAMILY_LABELS: Record<CaptionFontFamily, string> = {
+  sans: "Sans-serif",
+  serif: "Serif",
+  mono: "Monospace",
+};
+
+export const CAPTION_FONT_WEIGHT_LABELS: Record<CaptionFontWeight, string> = {
+  normal: "Normal",
+  medium: "Medium",
+  bold: "Bold",
+};
+
+export const CAPTION_ALIGN_LABELS: Record<CaptionAlign, string> = {
+  left: "Left",
+  center: "Center",
+  right: "Right",
+};
+
+export const CAPTION_POSITION_LABELS: Record<CaptionPosition, string> = {
+  top: "Top",
+  bottom: "Bottom",
 };
 
 export const EXPORT_SIZE_MIN = 256;
@@ -193,6 +237,16 @@ export function createDefaultState(): QrState {
     },
     logoDataUrl: null,
     logoName: null,
+    caption: {
+      enabled: false,
+      text: "",
+      fontFamily: "sans",
+      fontWeight: "normal",
+      fontSize: 24,
+      color: "#0a0a0a",
+      align: "center",
+      position: "bottom",
+    },
   };
 }
 

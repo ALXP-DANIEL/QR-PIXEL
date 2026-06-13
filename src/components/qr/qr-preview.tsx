@@ -8,6 +8,7 @@ import { createPortal } from "react-dom";
 import type {
   EcLevel,
   PreviewBackground,
+  QrCaption,
   QrCornerDotStyle,
   QrCornerSquareStyle,
   QrDotStyle,
@@ -19,6 +20,18 @@ import { cn } from "@/lib/utils";
 const PREVIEW_SIZE = 1024;
 
 export type PreviewStatus = "empty" | "invalid" | "ready";
+
+const CAPTION_FONT_WEIGHT_CSS: Record<QrCaption["fontWeight"], number> = {
+  normal: 400,
+  medium: 500,
+  bold: 700,
+};
+
+const CAPTION_FONT_CSS: Record<QrCaption["fontFamily"], string> = {
+  sans: "system-ui, -apple-system, Arial, sans-serif",
+  serif: "Georgia, 'Times New Roman', serif",
+  mono: "'Courier New', Courier, monospace",
+};
 
 interface QrPreviewProps {
   status: PreviewStatus;
@@ -34,6 +47,7 @@ interface QrPreviewProps {
   ecLevel: EcLevel;
   logoDataUrl: string | null;
   previewBackground: PreviewBackground;
+  caption: QrCaption;
   dockExpanded: boolean;
 }
 
@@ -103,6 +117,7 @@ export function QrPreview({
   ecLevel,
   logoDataUrl,
   previewBackground,
+  caption,
   dockExpanded,
 }: QrPreviewProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -235,75 +250,108 @@ export function QrPreview({
             animate={{ y: dockExpanded ? -dockShift : 0 }}
             transition={{ duration: 0.26, ease: [0.21, 0.47, 0.32, 0.98] }}
           >
-            <motion.div
-              className={cn(
-                "glass-panel relative w-[min(60vmin,400px)] rounded-3xl",
-                canExpand && "cursor-zoom-in",
+            <div
+                className="flex flex-col items-center"
+                style={{ gap: Math.round(caption.fontSize * 0.33) }}
+              >
+              {caption.enabled && caption.text.trim() && caption.position === "top" && (
+                <div
+                  style={{
+                    fontFamily: CAPTION_FONT_CSS[caption.fontFamily],
+                    fontWeight: CAPTION_FONT_WEIGHT_CSS[caption.fontWeight],
+                    fontSize: caption.fontSize,
+                    color: caption.color,
+                    textAlign: caption.align,
+                  }}
+                  className="w-[min(60vmin,400px)] leading-none"
+                >
+                  {caption.text}
+                </div>
               )}
-              style={{
-                padding: qrPadding,
-                backgroundColor: showCanvas ? cardColor : undefined,
-              }}
-              animate={qrCardControls}
-              whileHover={canExpand ? { scale: 1.04 } : undefined}
-              transition={{ type: "spring", stiffness: 340, damping: 28 }}
-              onClick={() => canExpand && setExpanded(true)}
-            >
-              <canvas
-                ref={canvasRef}
-                width={PREVIEW_SIZE}
-                height={PREVIEW_SIZE}
-                role="img"
-                aria-label="QR code preview"
+              <motion.div
                 className={cn(
-                  "aspect-square h-auto w-full rounded-[1.25rem]",
-                  !showCanvas && "invisible",
+                  "glass-panel relative w-[min(60vmin,400px)] rounded-3xl",
+                  canExpand && "cursor-zoom-in",
                 )}
-              />
-              <AnimatePresence>
-                {!showCanvas && (
-                  <motion.div
-                    key={status === "empty" ? "empty" : "error"}
-                    className="absolute inset-3 flex flex-col items-center justify-center gap-3 p-6 text-center sm:inset-4"
-                    initial={{ opacity: 0, scale: 0.98 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.98 }}
-                    transition={{ duration: 0.18 }}
-                  >
-                    {status === "empty" ? (
-                      <>
-                        <QrCodeIcon
-                          weight="duotone"
-                          className="size-12 text-muted-foreground"
-                          aria-hidden="true"
-                        />
-                        <p className="text-sm font-medium">
-                          Nothing to encode yet
-                        </p>
-                        <p className="text-xs/relaxed text-muted-foreground">
-                          Add content in the dock below — your QR code appears
-                          here live.
-                        </p>
-                      </>
-                    ) : (
-                      <>
-                        <WarningCircleIcon
-                          weight="duotone"
-                          className="size-12 text-destructive"
-                          aria-hidden="true"
-                        />
-                        <p className="text-sm font-medium">
-                          Can't generate QR code
-                        </p>
-                        <p className="text-xs/relaxed text-muted-foreground">
-                          {errorMessage}
-                        </p>
-                      </>
-                    )}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
+                style={{
+                  padding: qrPadding,
+                  backgroundColor: showCanvas ? cardColor : undefined,
+                }}
+                animate={qrCardControls}
+                whileHover={canExpand ? { scale: 1.04 } : undefined}
+                transition={{ type: "spring", stiffness: 340, damping: 28 }}
+                onClick={() => canExpand && setExpanded(true)}
+              >
+                <canvas
+                  ref={canvasRef}
+                  width={PREVIEW_SIZE}
+                  height={PREVIEW_SIZE}
+                  role="img"
+                  aria-label="QR code preview"
+                  className={cn(
+                    "aspect-square h-auto w-full rounded-[1.25rem]",
+                    !showCanvas && "invisible",
+                  )}
+                />
+                <AnimatePresence>
+                  {!showCanvas && (
+                    <motion.div
+                      key={status === "empty" ? "empty" : "error"}
+                      className="absolute inset-3 flex flex-col items-center justify-center gap-3 p-6 text-center sm:inset-4"
+                      initial={{ opacity: 0, scale: 0.98 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.98 }}
+                      transition={{ duration: 0.18 }}
+                    >
+                      {status === "empty" ? (
+                        <>
+                          <QrCodeIcon
+                            weight="duotone"
+                            className="size-12 text-muted-foreground"
+                            aria-hidden="true"
+                          />
+                          <p className="text-sm font-medium">
+                            Nothing to encode yet
+                          </p>
+                          <p className="text-xs/relaxed text-muted-foreground">
+                            Add content in the dock below — your QR code appears
+                            here live.
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <WarningCircleIcon
+                            weight="duotone"
+                            className="size-12 text-destructive"
+                            aria-hidden="true"
+                          />
+                          <p className="text-sm font-medium">
+                            Can't generate QR code
+                          </p>
+                          <p className="text-xs/relaxed text-muted-foreground">
+                            {errorMessage}
+                          </p>
+                        </>
+                      )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+              {caption.enabled && caption.text.trim() && caption.position === "bottom" && (
+                <div
+                  style={{
+                    fontFamily: CAPTION_FONT_CSS[caption.fontFamily],
+                    fontWeight: CAPTION_FONT_WEIGHT_CSS[caption.fontWeight],
+                    fontSize: caption.fontSize,
+                    color: caption.color,
+                    textAlign: caption.align,
+                  }}
+                  className="w-[min(60vmin,400px)] leading-none"
+                >
+                  {caption.text}
+                </div>
+              )}
+            </div>
           </motion.div>
         </div>
       </motion.div>

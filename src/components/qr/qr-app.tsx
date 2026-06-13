@@ -8,10 +8,17 @@ import { type PreviewStatus, QrPreview } from "@/components/qr/qr-preview";
 import { downloadBlob } from "@/lib/download";
 import {
   buildPayload,
+  CAPTION_FONT_SIZE_MAX,
+  CAPTION_FONT_SIZE_MIN,
+  type CaptionAlign,
+  type CaptionFontFamily,
+  type CaptionFontWeight,
+  type CaptionPosition,
   createDefaultState,
   type EcLevel,
   isContentEmpty,
   type PreviewBackgroundPattern,
+  type QrCaption,
   type QrCornerDotStyle,
   type QrCornerSquareStyle,
   type QrDotStyle,
@@ -46,6 +53,10 @@ const QR_CORNER_SQUARE_STYLES: QrCornerSquareStyle[] = [
   "extra-rounded",
 ];
 const QR_CORNER_DOT_STYLES: QrCornerDotStyle[] = ["square", "dot"];
+const CAPTION_FONT_FAMILIES: CaptionFontFamily[] = ["sans", "serif", "mono"];
+const CAPTION_FONT_WEIGHTS: CaptionFontWeight[] = ["normal", "medium", "bold"];
+const CAPTION_ALIGNS: CaptionAlign[] = ["left", "center", "right"];
+const CAPTION_POSITIONS: CaptionPosition[] = ["top", "bottom"];
 const FILENAME_ADJECTIVES = [
   "bright",
   "cosmic",
@@ -111,7 +122,9 @@ function randomEmoji(): string {
   return randomItem(SAFE_BACKGROUND_EMOJIS);
 }
 
-function createRandomTheme(): Pick<
+function createRandomTheme(
+  currentCaption: QrCaption,
+): Pick<
   QrState,
   | "bgColor"
   | "fgColor"
@@ -120,6 +133,7 @@ function createRandomTheme(): Pick<
   | "cornerSquareStyle"
   | "cornerDotStyle"
   | "previewBackground"
+  | "caption"
 > {
   const hue = randomInt(0, 359);
   const accentHue = hue + randomInt(-18, 18);
@@ -146,6 +160,19 @@ function createRandomTheme(): Pick<
       ),
       patternSize: randomInt(28, 112),
       emoji: randomEmoji(),
+    },
+    caption: {
+      enabled: currentCaption.enabled,
+      text: currentCaption.text,
+      fontFamily: randomItem(CAPTION_FONT_FAMILIES),
+      fontWeight: randomItem(CAPTION_FONT_WEIGHTS),
+      fontSize: randomInt(
+        CAPTION_FONT_SIZE_MIN / 2,
+        CAPTION_FONT_SIZE_MAX / 2,
+      ) * 2,
+      color: hslToHex(accentHue, saturation, randomInt(10, 30)),
+      align: randomItem(CAPTION_ALIGNS),
+      position: randomItem(CAPTION_POSITIONS),
     },
   };
 }
@@ -227,6 +254,7 @@ export function QrApp() {
         ecLevel: effectiveEcLevel,
         logoDataUrl: state.logoDataUrl,
         previewBackground: state.previewBackground,
+        caption: state.caption,
       });
       const blob = await new Promise<Blob | null>((resolve) =>
         canvas.toBlob(resolve, "image/png"),
@@ -261,6 +289,7 @@ export function QrApp() {
         ecLevel: effectiveEcLevel,
         logoDataUrl: state.logoDataUrl,
         previewBackground: state.previewBackground,
+        caption: state.caption,
       });
       const blob = new Blob([svg], { type: "image/svg+xml;charset=utf-8" });
       downloadBlob(blob, createDownloadFilename("svg"));
@@ -306,7 +335,7 @@ export function QrApp() {
   const handleLogoRemove = () => patch({ logoDataUrl: null, logoName: null });
 
   const handleRandomize = () => {
-    patch(createRandomTheme());
+    patch(createRandomTheme(state.caption));
   };
 
   return (
@@ -326,6 +355,7 @@ export function QrApp() {
           ecLevel={effectiveEcLevel}
           logoDataUrl={state.logoDataUrl}
           previewBackground={state.previewBackground}
+          caption={state.caption}
           dockExpanded={activePanel !== null}
         />
       </main>

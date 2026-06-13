@@ -2,6 +2,7 @@ import QRCodeStyling from "qr-code-styling";
 import type {
   EcLevel,
   PreviewBackground,
+  QrCaption,
   QrCornerDotStyle,
   QrCornerSquareStyle,
   QrDotStyle,
@@ -30,6 +31,62 @@ interface ExportFrameOptions extends QrRenderOptions {
   qrPadding: number;
   cardColor: string;
   previewBackground: PreviewBackground;
+  caption?: QrCaption;
+}
+
+const CAPTION_FONT_FAMILIES: Record<QrCaption["fontFamily"], string> = {
+  sans: "system-ui, -apple-system, Arial, sans-serif",
+  serif: "Georgia, 'Times New Roman', serif",
+  mono: "'Courier New', Courier, monospace",
+};
+
+const CAPTION_FONT_WEIGHTS: Record<QrCaption["fontWeight"], number> = {
+  normal: 400,
+  medium: 500,
+  bold: 700,
+};
+
+// Centers the card+caption group the same way the preview flex column does.
+function groupCenteredCardY(
+  height: number,
+  cardSize: number,
+  cap: QrCaption | undefined,
+  scale: number,
+): number {
+  if (cap?.enabled && cap.text.trim()) {
+    const fontSizePx = Math.round(cap.fontSize * scale);
+    const gap = Math.round(fontSizePx * 0.33);
+    const groupHeight = cardSize + gap + fontSizePx;
+    const groupY = Math.round((height - groupHeight) / 2);
+    // top caption sits above the card, so push card down by (fontSizePx + gap)
+    return cap.position === "top" ? groupY + fontSizePx + gap : groupY;
+  }
+  return Math.round((height - cardSize) / 2);
+}
+
+function captionGeometry(
+  caption: QrCaption,
+  cardX: number,
+  cardY: number,
+  cardSize: number,
+  canvasWidth: number,
+  scale: number,
+) {
+  const fontSizePx = Math.round(caption.fontSize * scale);
+  // 33 % of font height — mirrors preview's gap = fontSize * 0.33
+  const gap = Math.round(fontSizePx * 0.33);
+  // textY is the TOP of the text glyph (textBaseline="top" / dominant-baseline="hanging")
+  const textY =
+    caption.position === "bottom"
+      ? cardY + cardSize + gap
+      : cardY - gap - fontSizePx;
+  const textX =
+    caption.align === "left"
+      ? cardX
+      : caption.align === "right"
+        ? cardX + cardSize
+        : canvasWidth / 2;
+  return { fontSizePx, textX, textY };
 }
 
 const EXPORT_FRAME_RATIOS: Record<
@@ -277,12 +334,13 @@ export async function renderFramedQrCanvas(
 
   const minSide = Math.min(width, height);
   const cardSize = Math.round(minSide * 0.7);
+  const scale = cardSize / PREVIEW_CARD_REFERENCE_SIZE;
   const cardPad = Math.round(
     (options.qrPadding / PREVIEW_CARD_REFERENCE_SIZE) * cardSize,
   );
   const qrSize = Math.max(128, cardSize - cardPad * 2);
   const cardX = (width - cardSize) / 2;
-  const cardY = (height - cardSize) / 2;
+  const cardY = groupCenteredCardY(height, cardSize, options.caption, scale);
   const cardRadius = Math.round(cardSize * 0.06);
   const qrX = cardX + cardPad;
   const qrY = cardY + cardPad;
@@ -305,6 +363,25 @@ export async function renderFramedQrCanvas(
   ctx.drawImage(qr, qrX, qrY, qrSize, qrSize);
   ctx.restore();
 
+  const cap = options.caption;
+  if (cap?.enabled && cap.text.trim()) {
+    const { fontSizePx, textX, textY } = captionGeometry(
+      cap,
+      cardX,
+      cardY,
+      cardSize,
+      width,
+      scale,
+    );
+    ctx.save();
+    ctx.font = `${CAPTION_FONT_WEIGHTS[cap.fontWeight]} ${fontSizePx}px ${CAPTION_FONT_FAMILIES[cap.fontFamily]}`;
+    ctx.fillStyle = cap.color;
+    ctx.textAlign = cap.align;
+    ctx.textBaseline = "top";
+    ctx.fillText(cap.text, textX, textY);
+    ctx.restore();
+  }
+
   return canvas;
 }
 
@@ -314,12 +391,13 @@ export async function renderFramedQrSvg(
   const { width, height } = getFrameSize(options.frame, options.size);
   const minSide = Math.min(width, height);
   const cardSize = Math.round(minSide * 0.7);
+  const scale = cardSize / PREVIEW_CARD_REFERENCE_SIZE;
   const cardPad = Math.round(
     (options.qrPadding / PREVIEW_CARD_REFERENCE_SIZE) * cardSize,
   );
   const qrSize = Math.max(128, cardSize - cardPad * 2);
   const cardX = (width - cardSize) / 2;
-  const cardY = (height - cardSize) / 2;
+  const cardY = groupCenteredCardY(height, cardSize, options.caption, scale);
   const cardRadius = Math.round(cardSize * 0.06);
   const qrX = cardX + cardPad;
   const qrY = cardY + cardPad;
@@ -328,18 +406,40 @@ export async function renderFramedQrSvg(
       (PREVIEW_CARD_REFERENCE_SIZE - options.qrPadding * 2)) *
       qrSize,
   );
+  // Embed QR as a data URL image — avoids coordinate-system issues when
+  // splicing the QR library's raw SVG body into an outer SVG document.
   const qrSvg = await renderQrSvg({ ...options, size: qrSize });
-  const qrBody = qrSvg.replace(/^[\s\S]*?<svg[^>]*>/, "").replace("</svg>", "");
-  const vbMatch = qrSvg.match(/viewBox="0 0 (\d+(?:\.\d+)?)/);
-  const qrVb = vbMatch ? Number(vbMatch[1]) : qrSize;
-  const qrScale = qrVb > 0 ? qrSize / qrVb : 1;
+  const qrDataUrl = `data:image/svg+xml,${encodeURIComponent(qrSvg)}`;
+
+  let captionSvg = "";
+  const cap = options.caption;
+  if (cap?.enabled && cap.text.trim()) {
+    const { fontSizePx, textX, textY } = captionGeometry(
+      cap,
+      cardX,
+      cardY,
+      cardSize,
+      width,
+      scale,
+    );
+    const anchorMap: Record<QrCaption["align"], string> = {
+      left: "start",
+      center: "middle",
+      right: "end",
+    };
+    // textY is the glyph top (canvas textBaseline="top"). SVG dominant-baseline="middle"
+    // expects the glyph center, so shift down by half the font height.
+    const svgY = textY + fontSizePx / 2;
+    captionSvg = `<text x="${textX}" y="${svgY}" font-family="${escapeSvgAttribute(CAPTION_FONT_FAMILIES[cap.fontFamily])}" font-size="${fontSizePx}" font-weight="${CAPTION_FONT_WEIGHTS[cap.fontWeight]}" fill="${escapeSvgAttribute(cap.color)}" text-anchor="${anchorMap[cap.align]}" dominant-baseline="middle">${escapeSvgText(cap.text)}</text>`;
+  }
 
   return [
     `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">`,
     svgBackgroundMarkup(options.previewBackground),
     `<defs><clipPath id="qr-inner-clip"><rect x="${qrX}" y="${qrY}" width="${qrSize}" height="${qrSize}" rx="${qrRadius}" ry="${qrRadius}"/></clipPath></defs>`,
     `<path d="${roundedRectPath(cardX, cardY, cardSize, cardSize, cardRadius)}" fill="${escapeSvgAttribute(options.cardColor)}"/>`,
-    `<g clip-path="url(#qr-inner-clip)" transform="translate(${qrX} ${qrY}) scale(${qrScale})">${qrBody}</g>`,
+    `<image href="${qrDataUrl}" x="${qrX}" y="${qrY}" width="${qrSize}" height="${qrSize}" clip-path="url(#qr-inner-clip)"/>`,
+    captionSvg,
     "</svg>",
   ].join("");
 }

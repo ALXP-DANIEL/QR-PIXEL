@@ -33,11 +33,23 @@ import {
   BACKGROUND_PATTERN_SIZE_MAX,
   BACKGROUND_PATTERN_SIZE_MIN,
   BACKGROUND_PATTERN_SIZE_STEP,
+  CAPTION_ALIGN_LABELS,
+  CAPTION_FONT_FAMILY_LABELS,
+  CAPTION_FONT_SIZE_MAX,
+  CAPTION_FONT_SIZE_MIN,
+  CAPTION_FONT_SIZE_STEP,
+  CAPTION_FONT_WEIGHT_LABELS,
+  CAPTION_POSITION_LABELS,
   FALLBACK_EMOJI,
   PREVIEW_BACKGROUND_PATTERN_LABELS,
   type PreviewBackground,
   type PreviewBackgroundPattern,
   QR_EXPORT_FRAME_LABELS,
+  type CaptionAlign,
+  type CaptionFontFamily,
+  type CaptionFontWeight,
+  type CaptionPosition,
+  type QrCaption,
   type QrExportFrame,
   type QrFields,
   type QrState,
@@ -240,6 +252,195 @@ function BackgroundPanel({
   );
 }
 
+function CaptionPanel({
+  caption,
+  onPatch,
+}: {
+  caption: QrCaption;
+  onPatch: (patch: Partial<QrState>) => void;
+}) {
+  const patchCaption = (patch: Partial<QrCaption>) =>
+    onPatch({ caption: { ...caption, ...patch } });
+
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="flex items-center justify-between">
+        <div>
+          <h3 className="text-xs font-medium text-foreground">Caption</h3>
+          <p className="text-xs text-muted-foreground">
+            Text shown above or below the QR card.
+          </p>
+        </div>
+        <button
+          type="button"
+          role="switch"
+          aria-checked={caption.enabled}
+          onClick={() => patchCaption({ enabled: !caption.enabled })}
+          className={cn(
+            "relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors",
+            caption.enabled ? "bg-foreground" : "bg-input",
+          )}
+        >
+          <span
+            className={cn(
+              "pointer-events-none inline-block size-3.5 rounded-full bg-background shadow transition-transform",
+              caption.enabled ? "translate-x-4" : "translate-x-0",
+            )}
+          />
+        </button>
+      </div>
+
+      {caption.enabled && (
+        <>
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="caption-text">Caption text</Label>
+            <Input
+              id="caption-text"
+              value={caption.text}
+              placeholder="Scan me!"
+              onChange={(e) => patchCaption({ text: e.target.value })}
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="caption-font">Font</Label>
+              <Select
+                items={CAPTION_FONT_FAMILY_LABELS}
+                value={caption.fontFamily}
+                onValueChange={(v) =>
+                  patchCaption({ fontFamily: v as CaptionFontFamily })
+                }
+              >
+                <SelectTrigger id="caption-font" className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {Object.entries(CAPTION_FONT_FAMILY_LABELS).map(
+                    ([value, label]) => (
+                      <SelectItem key={value} value={value}>
+                        {label}
+                      </SelectItem>
+                    ),
+                  )}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <BackgroundColorField
+              id="caption-color"
+              label="Color"
+              value={caption.color}
+              onChange={(color) => patchCaption({ color })}
+            />
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <span className="text-xs font-medium leading-none">Weight</span>
+            <div className="flex gap-1">
+              {(
+                Object.entries(CAPTION_FONT_WEIGHT_LABELS) as [
+                  CaptionFontWeight,
+                  string,
+                ][]
+              ).map(([value, label]) => (
+                <button
+                  key={value}
+                  type="button"
+                  aria-pressed={caption.fontWeight === value}
+                  onClick={() => patchCaption({ fontWeight: value })}
+                  className={cn(
+                    "flex-1 border border-input bg-transparent py-1.5 text-xs transition-colors hover:bg-muted/60",
+                    caption.fontWeight === value &&
+                      "border-foreground bg-background text-foreground",
+                  )}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-2.5">
+            <div className="flex items-center justify-between">
+              <span className="text-xs leading-none select-none">
+                Font size
+              </span>
+              <span className="text-xs tabular-nums text-muted-foreground">
+                {caption.fontSize}px
+              </span>
+            </div>
+            <Slider
+              aria-label="Caption font size"
+              min={CAPTION_FONT_SIZE_MIN}
+              max={CAPTION_FONT_SIZE_MAX}
+              step={CAPTION_FONT_SIZE_STEP}
+              value={[caption.fontSize]}
+              onValueChange={(v) =>
+                patchCaption({ fontSize: Array.isArray(v) ? v[0] : v })
+              }
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="flex flex-col gap-1.5">
+              <span className="text-xs font-medium leading-none">Align</span>
+              <div className="flex gap-1">
+                {(
+                  Object.entries(CAPTION_ALIGN_LABELS) as [
+                    CaptionAlign,
+                    string,
+                  ][]
+                ).map(([value, label]) => (
+                  <button
+                    key={value}
+                    type="button"
+                    aria-pressed={caption.align === value}
+                    onClick={() => patchCaption({ align: value })}
+                    className={cn(
+                      "flex-1 border border-input bg-transparent py-1.5 text-xs transition-colors hover:bg-muted/60",
+                      caption.align === value &&
+                        "border-foreground bg-background text-foreground",
+                    )}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <span className="text-xs font-medium leading-none">Position</span>
+              <div className="flex gap-1">
+                {(
+                  Object.entries(CAPTION_POSITION_LABELS) as [
+                    CaptionPosition,
+                    string,
+                  ][]
+                ).map(([value, label]) => (
+                  <button
+                    key={value}
+                    type="button"
+                    aria-pressed={caption.position === value}
+                    onClick={() => patchCaption({ position: value })}
+                    className={cn(
+                      "flex-1 border border-input bg-transparent py-1.5 text-xs transition-colors hover:bg-muted/60",
+                      caption.position === value &&
+                        "border-foreground bg-background text-foreground",
+                    )}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
 function CustomizePanel({
   state,
   onPatch,
@@ -272,6 +473,8 @@ function CustomizePanel({
       />
       <div className="h-px bg-border/70" />
       <BackgroundPanel background={state.previewBackground} onPatch={onPatch} />
+      <div className="h-px bg-border/70" />
+      <CaptionPanel caption={state.caption} onPatch={onPatch} />
     </div>
   );
 }
