@@ -1,15 +1,627 @@
 {
   "directed": false,
   "multigraph": false,
-  "graph": {},
+  "graph": {
+    "hyperedges": [
+      {
+        "id": "pwa_assets_group",
+        "label": "PWA Asset Bundle (Icons + Splash Screens + Offline Page)",
+        "nodes": [
+          "icons_icon_svg",
+          "icons_maskable_icon_svg",
+          "splash_desktop_svg",
+          "splash_mobile_svg",
+          "offline_html_offline_page"
+        ],
+        "relation": "implement",
+        "confidence": "INFERRED",
+        "confidence_score": 0.85,
+        "source_file": "public/offline.html"
+      },
+      {
+        "id": "ci_cd_pipeline",
+        "label": "CI/CD Pipeline (CI Verify + Docker Publish + Docker Compose)",
+        "nodes": [
+          "ci_yml_workflow",
+          "docker_publish_yml_workflow",
+          "docker_compose_qr_pixel_service"
+        ],
+        "relation": "participate_in",
+        "confidence": "INFERRED",
+        "confidence_score": 0.85,
+        "source_file": ".github/workflows/ci.yml"
+      },
+      {
+        "id": "qr_customization_features",
+        "label": "QR Customization Feature Set (Styles + Backdrop + Randomizer)",
+        "nodes": [
+          "readme_qr_customization",
+          "readme_backdrop_styles",
+          "readme_randomizer",
+          "readme_live_preview"
+        ],
+        "relation": "implement",
+        "confidence": "INFERRED",
+        "confidence_score": 0.8,
+        "source_file": "README.md"
+      }
+    ]
+  },
   "nodes": [
+    {
+      "label": "settings.local.json",
+      "file_type": "code",
+      "source_file": ".claude/settings.local.json",
+      "source_location": "L1",
+      "id": "claude_settings_local",
+      "community": 17,
+      "norm_label": "settings.local.json"
+    },
+    {
+      "label": "permissions",
+      "file_type": "code",
+      "source_file": ".claude/settings.local.json",
+      "source_location": "L2",
+      "id": "claude_settings_local_permissions",
+      "community": 17,
+      "norm_label": "permissions"
+    },
+    {
+      "label": "allow",
+      "file_type": "code",
+      "source_file": ".claude/settings.local.json",
+      "source_location": "L3",
+      "id": "claude_settings_local_permissions_allow",
+      "community": 17,
+      "norm_label": "allow"
+    },
+    {
+      "label": ".verify-app.mjs",
+      "file_type": "code",
+      "source_file": ".verify-app.mjs",
+      "source_location": "L1",
+      "id": "verify_app",
+      "community": 13,
+      "norm_label": ".verify-app.mjs"
+    },
+    {
+      "label": "results",
+      "file_type": "code",
+      "source_file": ".verify-app.mjs",
+      "source_location": "L8",
+      "id": "verify_app_results",
+      "community": 13,
+      "norm_label": "results"
+    },
+    {
+      "label": "step()",
+      "file_type": "code",
+      "source_file": ".verify-app.mjs",
+      "source_location": "L9",
+      "id": "verify_app_step",
+      "community": 13,
+      "norm_label": "step()"
+    },
+    {
+      "label": "consoleErrors",
+      "file_type": "code",
+      "source_file": ".verify-app.mjs",
+      "source_location": "L19",
+      "id": "verify_app_consoleerrors",
+      "community": 13,
+      "norm_label": "consoleerrors"
+    },
+    {
+      "label": "toastVisible()",
+      "file_type": "code",
+      "source_file": ".verify-app.mjs",
+      "source_location": "L25",
+      "id": "verify_app_toastvisible",
+      "community": 13,
+      "norm_label": "toastvisible()"
+    },
+    {
+      "label": "pngDl",
+      "file_type": "code",
+      "source_file": ".verify-app.mjs",
+      "source_location": "L119",
+      "id": "verify_app_pngdl",
+      "community": 13,
+      "norm_label": "pngdl"
+    },
+    {
+      "label": "launch.json",
+      "file_type": "code",
+      "source_file": ".vscode/launch.json",
+      "source_location": "L1",
+      "id": "vscode_launch",
+      "community": 18,
+      "norm_label": "launch.json"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": ".vscode/launch.json",
+      "source_location": "L2",
+      "id": "vscode_launch_version",
+      "community": 18,
+      "norm_label": "version"
+    },
+    {
+      "label": "configurations",
+      "file_type": "code",
+      "source_file": ".vscode/launch.json",
+      "source_location": "L3",
+      "id": "vscode_launch_configurations",
+      "community": 18,
+      "norm_label": "configurations"
+    },
+    {
+      "label": "tasks.json",
+      "file_type": "code",
+      "source_file": ".vscode/tasks.json",
+      "source_location": "L1",
+      "id": "vscode_tasks",
+      "community": 19,
+      "norm_label": "tasks.json"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": ".vscode/tasks.json",
+      "source_location": "L2",
+      "id": "vscode_tasks_version",
+      "community": 19,
+      "norm_label": "version"
+    },
+    {
+      "label": "tasks",
+      "file_type": "code",
+      "source_file": ".vscode/tasks.json",
+      "source_location": "L3",
+      "id": "vscode_tasks_tasks",
+      "community": 19,
+      "norm_label": "tasks"
+    },
+    {
+      "label": "biome.json",
+      "file_type": "code",
+      "source_file": "biome.json",
+      "source_location": "L1",
+      "id": "biome",
+      "community": 5,
+      "norm_label": "biome.json"
+    },
+    {
+      "label": "$schema",
+      "file_type": "code",
+      "source_file": "biome.json",
+      "source_location": "L2",
+      "id": "biome_schema",
+      "community": 5,
+      "norm_label": "$schema"
+    },
+    {
+      "label": "vcs",
+      "file_type": "code",
+      "source_file": "biome.json",
+      "source_location": "L3",
+      "id": "biome_vcs",
+      "community": 5,
+      "norm_label": "vcs"
+    },
+    {
+      "label": "enabled",
+      "file_type": "code",
+      "source_file": "biome.json",
+      "source_location": "L4",
+      "id": "biome_vcs_enabled",
+      "community": 5,
+      "norm_label": "enabled"
+    },
+    {
+      "label": "clientKind",
+      "file_type": "code",
+      "source_file": "biome.json",
+      "source_location": "L5",
+      "id": "biome_vcs_clientkind",
+      "community": 5,
+      "norm_label": "clientkind"
+    },
+    {
+      "label": "useIgnoreFile",
+      "file_type": "code",
+      "source_file": "biome.json",
+      "source_location": "L6",
+      "id": "biome_vcs_useignorefile",
+      "community": 5,
+      "norm_label": "useignorefile"
+    },
+    {
+      "label": "files",
+      "file_type": "code",
+      "source_file": "biome.json",
+      "source_location": "L8",
+      "id": "biome_files",
+      "community": 5,
+      "norm_label": "files"
+    },
+    {
+      "label": "ignoreUnknown",
+      "file_type": "code",
+      "source_file": "biome.json",
+      "source_location": "L9",
+      "id": "biome_files_ignoreunknown",
+      "community": 5,
+      "norm_label": "ignoreunknown"
+    },
+    {
+      "label": "includes",
+      "file_type": "code",
+      "source_file": "biome.json",
+      "source_location": "L10",
+      "id": "biome_files_includes",
+      "community": 5,
+      "norm_label": "includes"
+    },
+    {
+      "label": "formatter",
+      "file_type": "code",
+      "source_file": "biome.json",
+      "source_location": "L21",
+      "id": "biome_formatter",
+      "community": 5,
+      "norm_label": "formatter"
+    },
+    {
+      "label": "enabled",
+      "file_type": "code",
+      "source_file": "biome.json",
+      "source_location": "L22",
+      "id": "biome_formatter_enabled",
+      "community": 5,
+      "norm_label": "enabled"
+    },
+    {
+      "label": "indentStyle",
+      "file_type": "code",
+      "source_file": "biome.json",
+      "source_location": "L23",
+      "id": "biome_formatter_indentstyle",
+      "community": 5,
+      "norm_label": "indentstyle"
+    },
+    {
+      "label": "indentWidth",
+      "file_type": "code",
+      "source_file": "biome.json",
+      "source_location": "L24",
+      "id": "biome_formatter_indentwidth",
+      "community": 5,
+      "norm_label": "indentwidth"
+    },
+    {
+      "label": "linter",
+      "file_type": "code",
+      "source_file": "biome.json",
+      "source_location": "L26",
+      "id": "biome_linter",
+      "community": 5,
+      "norm_label": "linter"
+    },
+    {
+      "label": "enabled",
+      "file_type": "code",
+      "source_file": "biome.json",
+      "source_location": "L27",
+      "id": "biome_linter_enabled",
+      "community": 5,
+      "norm_label": "enabled"
+    },
+    {
+      "label": "rules",
+      "file_type": "code",
+      "source_file": "biome.json",
+      "source_location": "L28",
+      "id": "biome_linter_rules",
+      "community": 5,
+      "norm_label": "rules"
+    },
+    {
+      "label": "recommended",
+      "file_type": "code",
+      "source_file": "biome.json",
+      "source_location": "L29",
+      "id": "biome_rules_recommended",
+      "community": 5,
+      "norm_label": "recommended"
+    },
+    {
+      "label": "suspicious",
+      "file_type": "code",
+      "source_file": "biome.json",
+      "source_location": "L30",
+      "id": "biome_rules_suspicious",
+      "community": 5,
+      "norm_label": "suspicious"
+    },
+    {
+      "label": "noUnknownAtRules",
+      "file_type": "code",
+      "source_file": "biome.json",
+      "source_location": "L31",
+      "id": "biome_suspicious_nounknownatrules",
+      "community": 5,
+      "norm_label": "nounknownatrules"
+    },
+    {
+      "label": "domains",
+      "file_type": "code",
+      "source_file": "biome.json",
+      "source_location": "L34",
+      "id": "biome_linter_domains",
+      "community": 5,
+      "norm_label": "domains"
+    },
+    {
+      "label": "next",
+      "file_type": "code",
+      "source_file": "biome.json",
+      "source_location": "L35",
+      "id": "biome_domains_next",
+      "community": 5,
+      "norm_label": "next"
+    },
+    {
+      "label": "react",
+      "file_type": "code",
+      "source_file": "biome.json",
+      "source_location": "L36",
+      "id": "biome_domains_react",
+      "community": 5,
+      "norm_label": "react"
+    },
+    {
+      "label": "assist",
+      "file_type": "code",
+      "source_file": "biome.json",
+      "source_location": "L39",
+      "id": "biome_assist",
+      "community": 5,
+      "norm_label": "assist"
+    },
+    {
+      "label": "actions",
+      "file_type": "code",
+      "source_file": "biome.json",
+      "source_location": "L40",
+      "id": "biome_assist_actions",
+      "community": 5,
+      "norm_label": "actions"
+    },
+    {
+      "label": "source",
+      "file_type": "code",
+      "source_file": "biome.json",
+      "source_location": "L41",
+      "id": "biome_actions_source",
+      "community": 5,
+      "norm_label": "source"
+    },
+    {
+      "label": "organizeImports",
+      "file_type": "code",
+      "source_file": "biome.json",
+      "source_location": "L42",
+      "id": "biome_source_organizeimports",
+      "community": 5,
+      "norm_label": "organizeimports"
+    },
+    {
+      "label": "components.json",
+      "file_type": "code",
+      "source_file": "components.json",
+      "source_location": "L1",
+      "id": "components",
+      "community": 8,
+      "norm_label": "components.json"
+    },
+    {
+      "label": "$schema",
+      "file_type": "code",
+      "source_file": "components.json",
+      "source_location": "L2",
+      "id": "components_schema",
+      "community": 8,
+      "norm_label": "$schema"
+    },
+    {
+      "label": "style",
+      "file_type": "code",
+      "source_file": "components.json",
+      "source_location": "L3",
+      "id": "components_style",
+      "community": 8,
+      "norm_label": "style"
+    },
+    {
+      "label": "rsc",
+      "file_type": "code",
+      "source_file": "components.json",
+      "source_location": "L4",
+      "id": "components_rsc",
+      "community": 8,
+      "norm_label": "rsc"
+    },
+    {
+      "label": "tsx",
+      "file_type": "code",
+      "source_file": "components.json",
+      "source_location": "L5",
+      "id": "components_tsx",
+      "community": 8,
+      "norm_label": "tsx"
+    },
+    {
+      "label": "tailwind",
+      "file_type": "code",
+      "source_file": "components.json",
+      "source_location": "L6",
+      "id": "components_tailwind",
+      "community": 8,
+      "norm_label": "tailwind"
+    },
+    {
+      "label": "config",
+      "file_type": "code",
+      "source_file": "components.json",
+      "source_location": "L7",
+      "id": "components_tailwind_config",
+      "community": 8,
+      "norm_label": "config"
+    },
+    {
+      "label": "css",
+      "file_type": "code",
+      "source_file": "components.json",
+      "source_location": "L8",
+      "id": "components_tailwind_css",
+      "community": 8,
+      "norm_label": "css"
+    },
+    {
+      "label": "baseColor",
+      "file_type": "code",
+      "source_file": "components.json",
+      "source_location": "L9",
+      "id": "components_tailwind_basecolor",
+      "community": 8,
+      "norm_label": "basecolor"
+    },
+    {
+      "label": "cssVariables",
+      "file_type": "code",
+      "source_file": "components.json",
+      "source_location": "L10",
+      "id": "components_tailwind_cssvariables",
+      "community": 8,
+      "norm_label": "cssvariables"
+    },
+    {
+      "label": "prefix",
+      "file_type": "code",
+      "source_file": "components.json",
+      "source_location": "L11",
+      "id": "components_tailwind_prefix",
+      "community": 8,
+      "norm_label": "prefix"
+    },
+    {
+      "label": "iconLibrary",
+      "file_type": "code",
+      "source_file": "components.json",
+      "source_location": "L13",
+      "id": "components_iconlibrary",
+      "community": 8,
+      "norm_label": "iconlibrary"
+    },
+    {
+      "label": "rtl",
+      "file_type": "code",
+      "source_file": "components.json",
+      "source_location": "L14",
+      "id": "components_rtl",
+      "community": 8,
+      "norm_label": "rtl"
+    },
+    {
+      "label": "aliases",
+      "file_type": "code",
+      "source_file": "components.json",
+      "source_location": "L15",
+      "id": "components_aliases",
+      "community": 8,
+      "norm_label": "aliases"
+    },
+    {
+      "label": "components",
+      "file_type": "code",
+      "source_file": "components.json",
+      "source_location": "L16",
+      "id": "components_aliases_components",
+      "community": 8,
+      "norm_label": "components"
+    },
+    {
+      "label": "utils",
+      "file_type": "code",
+      "source_file": "components.json",
+      "source_location": "L17",
+      "id": "components_aliases_utils",
+      "community": 8,
+      "norm_label": "utils"
+    },
+    {
+      "label": "ui",
+      "file_type": "code",
+      "source_file": "components.json",
+      "source_location": "L18",
+      "id": "components_aliases_ui",
+      "community": 8,
+      "norm_label": "ui"
+    },
+    {
+      "label": "lib",
+      "file_type": "code",
+      "source_file": "components.json",
+      "source_location": "L19",
+      "id": "components_aliases_lib",
+      "community": 8,
+      "norm_label": "lib"
+    },
+    {
+      "label": "hooks",
+      "file_type": "code",
+      "source_file": "components.json",
+      "source_location": "L20",
+      "id": "components_aliases_hooks",
+      "community": 8,
+      "norm_label": "hooks"
+    },
+    {
+      "label": "menuColor",
+      "file_type": "code",
+      "source_file": "components.json",
+      "source_location": "L22",
+      "id": "components_menucolor",
+      "community": 8,
+      "norm_label": "menucolor"
+    },
+    {
+      "label": "menuAccent",
+      "file_type": "code",
+      "source_file": "components.json",
+      "source_location": "L23",
+      "id": "components_menuaccent",
+      "community": 8,
+      "norm_label": "menuaccent"
+    },
+    {
+      "label": "registries",
+      "file_type": "code",
+      "source_file": "components.json",
+      "source_location": "L24",
+      "id": "components_registries",
+      "community": 8,
+      "norm_label": "registries"
+    },
     {
       "label": "next.config.ts",
       "file_type": "code",
       "source_file": "next.config.ts",
       "source_location": "L1",
       "id": "next_config",
-      "community": 10,
+      "community": 21,
       "norm_label": "next.config.ts"
     },
     {
@@ -18,7 +630,7 @@
       "source_file": "next.config.ts",
       "source_location": "L3",
       "id": "next_config_nextconfig",
-      "community": 10,
+      "community": 21,
       "norm_label": "nextconfig"
     },
     {
@@ -27,7 +639,7 @@
       "source_file": "package.json",
       "source_location": "L1",
       "id": "package",
-      "community": 3,
+      "community": 4,
       "norm_label": "package.json"
     },
     {
@@ -36,7 +648,7 @@
       "source_file": "package.json",
       "source_location": "L2",
       "id": "package_name",
-      "community": 3,
+      "community": 4,
       "norm_label": "name"
     },
     {
@@ -45,7 +657,7 @@
       "source_file": "package.json",
       "source_location": "L3",
       "id": "package_version",
-      "community": 3,
+      "community": 4,
       "norm_label": "version"
     },
     {
@@ -54,7 +666,7 @@
       "source_file": "package.json",
       "source_location": "L4",
       "id": "package_private",
-      "community": 3,
+      "community": 4,
       "norm_label": "private"
     },
     {
@@ -63,7 +675,7 @@
       "source_file": "package.json",
       "source_location": "L5",
       "id": "package_scripts",
-      "community": 3,
+      "community": 4,
       "norm_label": "scripts"
     },
     {
@@ -72,7 +684,7 @@
       "source_file": "package.json",
       "source_location": "L6",
       "id": "package_scripts_dev",
-      "community": 3,
+      "community": 4,
       "norm_label": "dev"
     },
     {
@@ -81,7 +693,7 @@
       "source_file": "package.json",
       "source_location": "L7",
       "id": "package_scripts_build",
-      "community": 3,
+      "community": 4,
       "norm_label": "build"
     },
     {
@@ -90,7 +702,7 @@
       "source_file": "package.json",
       "source_location": "L8",
       "id": "package_scripts_start",
-      "community": 3,
+      "community": 4,
       "norm_label": "start"
     },
     {
@@ -99,7 +711,7 @@
       "source_file": "package.json",
       "source_location": "L9",
       "id": "package_scripts_lint",
-      "community": 3,
+      "community": 4,
       "norm_label": "lint"
     },
     {
@@ -108,7 +720,7 @@
       "source_file": "package.json",
       "source_location": "L10",
       "id": "package_scripts_format",
-      "community": 3,
+      "community": 4,
       "norm_label": "format"
     },
     {
@@ -117,7 +729,7 @@
       "source_file": "package.json",
       "source_location": "L11",
       "id": "package_scripts_typecheck",
-      "community": 3,
+      "community": 4,
       "norm_label": "typecheck"
     },
     {
@@ -126,7 +738,7 @@
       "source_file": "package.json",
       "source_location": "L12",
       "id": "package_scripts_test",
-      "community": 3,
+      "community": 4,
       "norm_label": "test"
     },
     {
@@ -135,7 +747,7 @@
       "source_file": "package.json",
       "source_location": "L13",
       "id": "package_scripts_test_watch",
-      "community": 3,
+      "community": 4,
       "norm_label": "test:watch"
     },
     {
@@ -144,7 +756,7 @@
       "source_file": "package.json",
       "source_location": "L14",
       "id": "package_scripts_test_e2e",
-      "community": 3,
+      "community": 4,
       "norm_label": "test:e2e"
     },
     {
@@ -153,7 +765,7 @@
       "source_file": "package.json",
       "source_location": "L15",
       "id": "package_scripts_test_e2e_ui",
-      "community": 3,
+      "community": 4,
       "norm_label": "test:e2e:ui"
     },
     {
@@ -162,7 +774,7 @@
       "source_file": "package.json",
       "source_location": "L16",
       "id": "package_scripts_verify",
-      "community": 3,
+      "community": 4,
       "norm_label": "verify"
     },
     {
@@ -171,7 +783,7 @@
       "source_file": "package.json",
       "source_location": "L17",
       "id": "package_scripts_docker_build",
-      "community": 3,
+      "community": 4,
       "norm_label": "docker:build"
     },
     {
@@ -180,7 +792,7 @@
       "source_file": "package.json",
       "source_location": "L18",
       "id": "package_scripts_docker_run",
-      "community": 3,
+      "community": 4,
       "norm_label": "docker:run"
     },
     {
@@ -189,7 +801,7 @@
       "source_file": "package.json",
       "source_location": "L19",
       "id": "package_scripts_graphify_update",
-      "community": 3,
+      "community": 4,
       "norm_label": "graphify:update"
     },
     {
@@ -198,7 +810,7 @@
       "source_file": "package.json",
       "source_location": "L21",
       "id": "package_dependencies",
-      "community": 7,
+      "community": 10,
       "norm_label": "dependencies"
     },
     {
@@ -207,7 +819,7 @@
       "source_file": "package.json",
       "source_location": "L22",
       "id": "package_dependencies_base_ui_react",
-      "community": 7,
+      "community": 10,
       "norm_label": "@base-ui/react"
     },
     {
@@ -216,7 +828,7 @@
       "source_file": "package.json",
       "source_location": "L23",
       "id": "package_dependencies_hookform_resolvers",
-      "community": 7,
+      "community": 10,
       "norm_label": "@hookform/resolvers"
     },
     {
@@ -225,7 +837,7 @@
       "source_file": "package.json",
       "source_location": "L24",
       "id": "package_dependencies_phosphor_icons_react",
-      "community": 7,
+      "community": 10,
       "norm_label": "@phosphor-icons/react"
     },
     {
@@ -234,7 +846,7 @@
       "source_file": "package.json",
       "source_location": "L25",
       "id": "package_dependencies_class_variance_authority",
-      "community": 7,
+      "community": 10,
       "norm_label": "class-variance-authority"
     },
     {
@@ -243,7 +855,7 @@
       "source_file": "package.json",
       "source_location": "L26",
       "id": "package_dependencies_clsx",
-      "community": 7,
+      "community": 10,
       "norm_label": "clsx"
     },
     {
@@ -252,7 +864,7 @@
       "source_file": "package.json",
       "source_location": "L27",
       "id": "package_dependencies_graphql",
-      "community": 7,
+      "community": 10,
       "norm_label": "graphql"
     },
     {
@@ -261,7 +873,7 @@
       "source_file": "package.json",
       "source_location": "L28",
       "id": "package_dependencies_motion",
-      "community": 7,
+      "community": 10,
       "norm_label": "motion"
     },
     {
@@ -270,7 +882,7 @@
       "source_file": "package.json",
       "source_location": "L29",
       "id": "package_dependencies_next",
-      "community": 7,
+      "community": 10,
       "norm_label": "next"
     },
     {
@@ -279,7 +891,7 @@
       "source_file": "package.json",
       "source_location": "L30",
       "id": "package_dependencies_next_themes",
-      "community": 7,
+      "community": 10,
       "norm_label": "next-themes"
     },
     {
@@ -288,7 +900,7 @@
       "source_file": "package.json",
       "source_location": "L31",
       "id": "package_dependencies_qr_code_styling",
-      "community": 7,
+      "community": 10,
       "norm_label": "qr-code-styling"
     },
     {
@@ -297,7 +909,7 @@
       "source_file": "package.json",
       "source_location": "L32",
       "id": "package_dependencies_react",
-      "community": 7,
+      "community": 10,
       "norm_label": "react"
     },
     {
@@ -306,7 +918,7 @@
       "source_file": "package.json",
       "source_location": "L33",
       "id": "package_dependencies_react_dom",
-      "community": 7,
+      "community": 10,
       "norm_label": "react-dom"
     },
     {
@@ -315,7 +927,7 @@
       "source_file": "package.json",
       "source_location": "L34",
       "id": "package_dependencies_react_hook_form",
-      "community": 7,
+      "community": 10,
       "norm_label": "react-hook-form"
     },
     {
@@ -324,7 +936,7 @@
       "source_file": "package.json",
       "source_location": "L35",
       "id": "package_dependencies_shadcn",
-      "community": 7,
+      "community": 10,
       "norm_label": "shadcn"
     },
     {
@@ -333,7 +945,7 @@
       "source_file": "package.json",
       "source_location": "L36",
       "id": "package_dependencies_sonner",
-      "community": 7,
+      "community": 10,
       "norm_label": "sonner"
     },
     {
@@ -342,7 +954,7 @@
       "source_file": "package.json",
       "source_location": "L37",
       "id": "package_dependencies_tailwind_merge",
-      "community": 7,
+      "community": 10,
       "norm_label": "tailwind-merge"
     },
     {
@@ -351,7 +963,7 @@
       "source_file": "package.json",
       "source_location": "L38",
       "id": "package_dependencies_tw_animate_css",
-      "community": 7,
+      "community": 10,
       "norm_label": "tw-animate-css"
     },
     {
@@ -360,7 +972,7 @@
       "source_file": "package.json",
       "source_location": "L39",
       "id": "package_dependencies_zod",
-      "community": 7,
+      "community": 10,
       "norm_label": "zod"
     },
     {
@@ -369,7 +981,7 @@
       "source_file": "package.json",
       "source_location": "L41",
       "id": "package_devdependencies",
-      "community": 3,
+      "community": 4,
       "norm_label": "devdependencies"
     },
     {
@@ -378,7 +990,7 @@
       "source_file": "package.json",
       "source_location": "L42",
       "id": "package_devdependencies_biomejs_biome",
-      "community": 3,
+      "community": 4,
       "norm_label": "@biomejs/biome"
     },
     {
@@ -387,7 +999,7 @@
       "source_file": "package.json",
       "source_location": "L43",
       "id": "package_devdependencies_playwright_test",
-      "community": 3,
+      "community": 4,
       "norm_label": "@playwright/test"
     },
     {
@@ -396,7 +1008,7 @@
       "source_file": "package.json",
       "source_location": "L44",
       "id": "package_devdependencies_tailwindcss_postcss",
-      "community": 3,
+      "community": 4,
       "norm_label": "@tailwindcss/postcss"
     },
     {
@@ -405,7 +1017,7 @@
       "source_file": "package.json",
       "source_location": "L45",
       "id": "package_devdependencies_types_node",
-      "community": 3,
+      "community": 4,
       "norm_label": "@types/node"
     },
     {
@@ -414,7 +1026,7 @@
       "source_file": "package.json",
       "source_location": "L46",
       "id": "package_devdependencies_types_qrcode",
-      "community": 3,
+      "community": 4,
       "norm_label": "@types/qrcode"
     },
     {
@@ -423,7 +1035,7 @@
       "source_file": "package.json",
       "source_location": "L47",
       "id": "package_devdependencies_types_react",
-      "community": 3,
+      "community": 4,
       "norm_label": "@types/react"
     },
     {
@@ -432,7 +1044,7 @@
       "source_file": "package.json",
       "source_location": "L48",
       "id": "package_devdependencies_types_react_dom",
-      "community": 3,
+      "community": 4,
       "norm_label": "@types/react-dom"
     },
     {
@@ -441,7 +1053,7 @@
       "source_file": "package.json",
       "source_location": "L49",
       "id": "package_devdependencies_babel_plugin_react_compiler",
-      "community": 3,
+      "community": 4,
       "norm_label": "babel-plugin-react-compiler"
     },
     {
@@ -450,7 +1062,7 @@
       "source_file": "package.json",
       "source_location": "L50",
       "id": "package_devdependencies_start_server_and_test",
-      "community": 3,
+      "community": 4,
       "norm_label": "start-server-and-test"
     },
     {
@@ -459,7 +1071,7 @@
       "source_file": "package.json",
       "source_location": "L51",
       "id": "package_devdependencies_tailwindcss",
-      "community": 3,
+      "community": 4,
       "norm_label": "tailwindcss"
     },
     {
@@ -468,7 +1080,7 @@
       "source_file": "package.json",
       "source_location": "L52",
       "id": "package_devdependencies_typescript",
-      "community": 3,
+      "community": 4,
       "norm_label": "typescript"
     },
     {
@@ -477,7 +1089,7 @@
       "source_file": "package.json",
       "source_location": "L53",
       "id": "package_devdependencies_vitest",
-      "community": 3,
+      "community": 4,
       "norm_label": "vitest"
     },
     {
@@ -486,8 +1098,44 @@
       "source_file": "playwright.config.ts",
       "source_location": "L1",
       "id": "playwright_config",
-      "community": 11,
+      "community": 25,
       "norm_label": "playwright.config.ts"
+    },
+    {
+      "label": "postcss.config.mjs",
+      "file_type": "code",
+      "source_file": "postcss.config.mjs",
+      "source_location": "L1",
+      "id": "postcss_config",
+      "community": 22,
+      "norm_label": "postcss.config.mjs"
+    },
+    {
+      "label": "config",
+      "file_type": "code",
+      "source_file": "postcss.config.mjs",
+      "source_location": "L1",
+      "id": "postcss_config_config",
+      "community": 22,
+      "norm_label": "config"
+    },
+    {
+      "label": "sw.js",
+      "file_type": "code",
+      "source_file": "public/sw.js",
+      "source_location": "L1",
+      "id": "public_sw",
+      "community": 23,
+      "norm_label": "sw.js"
+    },
+    {
+      "label": "APP_SHELL",
+      "file_type": "code",
+      "source_file": "public/sw.js",
+      "source_location": "L2",
+      "id": "public_sw_app_shell",
+      "community": 23,
+      "norm_label": "app_shell"
     },
     {
       "label": "route.ts",
@@ -495,7 +1143,7 @@
       "source_file": "src/app/api/graphql/route.ts",
       "source_location": "L1",
       "id": "graphql_route",
-      "community": 4,
+      "community": 6,
       "norm_label": "route.ts"
     },
     {
@@ -504,7 +1152,7 @@
       "source_file": "src/app/api/graphql/route.ts",
       "source_location": "L5",
       "id": "graphql_route_graphqlrequestbody",
-      "community": 4,
+      "community": 6,
       "norm_label": "graphqlrequestbody"
     },
     {
@@ -513,7 +1161,7 @@
       "source_file": "src/app/api/graphql/route.ts",
       "source_location": "L11",
       "id": "graphql_route_json",
-      "community": 4,
+      "community": 6,
       "norm_label": "json()"
     },
     {
@@ -522,7 +1170,7 @@
       "source_file": "src/app/api/graphql/route.ts",
       "source_location": "L20",
       "id": "graphql_route_isvariables",
-      "community": 4,
+      "community": 6,
       "norm_label": "isvariables()"
     },
     {
@@ -531,7 +1179,7 @@
       "source_file": "src/app/api/graphql/route.ts",
       "source_location": "L24",
       "id": "graphql_route_get",
-      "community": 4,
+      "community": 6,
       "norm_label": "get()"
     },
     {
@@ -540,7 +1188,7 @@
       "source_file": "src/app/api/graphql/route.ts",
       "source_location": "L37",
       "id": "graphql_route_post",
-      "community": 4,
+      "community": 6,
       "norm_label": "post()"
     },
     {
@@ -549,7 +1197,7 @@
       "source_file": "src/app/api/og/route.tsx",
       "source_location": "L1",
       "id": "og_route",
-      "community": 1,
+      "community": 2,
       "norm_label": "route.tsx"
     },
     {
@@ -558,7 +1206,7 @@
       "source_file": "src/app/api/og/route.tsx",
       "source_location": "L7",
       "id": "og_route_get",
-      "community": 1,
+      "community": 2,
       "norm_label": "get()"
     },
     {
@@ -567,7 +1215,7 @@
       "source_file": "src/app/layout.tsx",
       "source_location": "L1",
       "id": "app_layout",
-      "community": 1,
+      "community": 2,
       "norm_label": "layout.tsx"
     },
     {
@@ -576,7 +1224,7 @@
       "source_file": "src/app/layout.tsx",
       "source_location": "L14",
       "id": "app_layout_jetbrainsmono",
-      "community": 1,
+      "community": 2,
       "norm_label": "jetbrainsmono"
     },
     {
@@ -585,7 +1233,7 @@
       "source_file": "src/app/layout.tsx",
       "source_location": "L19",
       "id": "app_layout_geistsans",
-      "community": 1,
+      "community": 2,
       "norm_label": "geistsans"
     },
     {
@@ -594,7 +1242,7 @@
       "source_file": "src/app/layout.tsx",
       "source_location": "L24",
       "id": "app_layout_geistmono",
-      "community": 1,
+      "community": 2,
       "norm_label": "geistmono"
     },
     {
@@ -603,7 +1251,7 @@
       "source_file": "src/app/layout.tsx",
       "source_location": "L29",
       "id": "app_layout_metadata",
-      "community": 1,
+      "community": 2,
       "norm_label": "metadata"
     },
     {
@@ -612,7 +1260,7 @@
       "source_file": "src/app/layout.tsx",
       "source_location": "L106",
       "id": "app_layout_viewport",
-      "community": 1,
+      "community": 2,
       "norm_label": "viewport"
     },
     {
@@ -621,7 +1269,7 @@
       "source_file": "src/app/layout.tsx",
       "source_location": "L116",
       "id": "app_layout_rootlayout",
-      "community": 1,
+      "community": 2,
       "norm_label": "rootlayout()"
     },
     {
@@ -630,7 +1278,7 @@
       "source_file": "src/app/page.tsx",
       "source_location": "L1",
       "id": "app_page",
-      "community": 1,
+      "community": 2,
       "norm_label": "page.tsx"
     },
     {
@@ -639,7 +1287,7 @@
       "source_file": "src/app/page.tsx",
       "source_location": "L13",
       "id": "app_page_home",
-      "community": 1,
+      "community": 2,
       "norm_label": "home()"
     },
     {
@@ -648,7 +1296,7 @@
       "source_file": "src/components/animation/fade-in.tsx",
       "source_location": "L1",
       "id": "animation_fade_in",
-      "community": 1,
+      "community": 2,
       "norm_label": "fade-in.tsx"
     },
     {
@@ -657,7 +1305,7 @@
       "source_file": "src/components/animation/fade-in.tsx",
       "source_location": "L6",
       "id": "animation_fade_in_fadein",
-      "community": 1,
+      "community": 2,
       "norm_label": "fadein()"
     },
     {
@@ -666,7 +1314,7 @@
       "source_file": "src/components/debug/debug-info.tsx",
       "source_location": "L1",
       "id": "debug_debug_info",
-      "community": 1,
+      "community": 2,
       "norm_label": "debug-info.tsx"
     },
     {
@@ -675,7 +1323,7 @@
       "source_file": "src/components/debug/debug-info.tsx",
       "source_location": "L9",
       "id": "debug_debug_info_useviewportlabel",
-      "community": 1,
+      "community": 2,
       "norm_label": "useviewportlabel()"
     },
     {
@@ -684,7 +1332,7 @@
       "source_file": "src/components/debug/debug-info.tsx",
       "source_location": "L38",
       "id": "debug_debug_info_debuginfo",
-      "community": 1,
+      "community": 2,
       "norm_label": "debuginfo()"
     },
     {
@@ -693,7 +1341,7 @@
       "source_file": "src/components/layouts/header/theme-toggle.tsx",
       "source_location": "L1",
       "id": "header_theme_toggle",
-      "community": 1,
+      "community": 2,
       "norm_label": "theme-toggle.tsx"
     },
     {
@@ -702,7 +1350,7 @@
       "source_file": "src/components/layouts/header/theme-toggle.tsx",
       "source_location": "L8",
       "id": "header_theme_toggle_themetoggle",
-      "community": 1,
+      "community": 2,
       "norm_label": "themetoggle()"
     },
     {
@@ -711,7 +1359,7 @@
       "source_file": "src/components/layouts/maintenance/maintenance.tsx",
       "source_location": "L1",
       "id": "maintenance_maintenance",
-      "community": 1,
+      "community": 2,
       "norm_label": "maintenance.tsx"
     },
     {
@@ -720,7 +1368,7 @@
       "source_file": "src/components/layouts/maintenance/maintenance.tsx",
       "source_location": "L3",
       "id": "maintenance_maintenance_maintenance",
-      "community": 1,
+      "community": 2,
       "norm_label": "maintenance()"
     },
     {
@@ -729,7 +1377,7 @@
       "source_file": "src/components/layouts/wrapper/loader.tsx",
       "source_location": "L1",
       "id": "wrapper_loader",
-      "community": 1,
+      "community": 2,
       "norm_label": "loader.tsx"
     },
     {
@@ -738,7 +1386,7 @@
       "source_file": "src/components/layouts/wrapper/loader.tsx",
       "source_location": "L7",
       "id": "wrapper_loader_loader",
-      "community": 1,
+      "community": 2,
       "norm_label": "loader()"
     },
     {
@@ -747,7 +1395,7 @@
       "source_file": "src/components/layouts/wrapper/wrapper-loader.tsx",
       "source_location": "L1",
       "id": "wrapper_wrapper_loader",
-      "community": 1,
+      "community": 2,
       "norm_label": "wrapper-loader.tsx"
     },
     {
@@ -756,7 +1404,7 @@
       "source_file": "src/components/layouts/wrapper/wrapper-loader.tsx",
       "source_location": "L12",
       "id": "wrapper_wrapper_loader_wrapperloader",
-      "community": 1,
+      "community": 2,
       "norm_label": "wrapperloader()"
     },
     {
@@ -765,7 +1413,7 @@
       "source_file": "src/components/providers/motion-provider.tsx",
       "source_location": "L1",
       "id": "providers_motion_provider",
-      "community": 1,
+      "community": 2,
       "norm_label": "motion-provider.tsx"
     },
     {
@@ -774,7 +1422,7 @@
       "source_file": "src/components/providers/motion-provider.tsx",
       "source_location": "L6",
       "id": "providers_motion_provider_motionprovider",
-      "community": 1,
+      "community": 2,
       "norm_label": "motionprovider()"
     },
     {
@@ -783,7 +1431,7 @@
       "source_file": "src/components/providers/theme-provider.tsx",
       "source_location": "L1",
       "id": "providers_theme_provider",
-      "community": 1,
+      "community": 2,
       "norm_label": "theme-provider.tsx"
     },
     {
@@ -792,7 +1440,7 @@
       "source_file": "src/components/providers/theme-provider.tsx",
       "source_location": "L6",
       "id": "providers_theme_provider_themeprovider",
-      "community": 1,
+      "community": 2,
       "norm_label": "themeprovider()"
     },
     {
@@ -801,7 +1449,7 @@
       "source_file": "src/components/pwa/pwa-register.tsx",
       "source_location": "L1",
       "id": "pwa_pwa_register",
-      "community": 1,
+      "community": 2,
       "norm_label": "pwa-register.tsx"
     },
     {
@@ -810,7 +1458,7 @@
       "source_file": "src/components/pwa/pwa-register.tsx",
       "source_location": "L5",
       "id": "pwa_pwa_register_pwaregister",
-      "community": 1,
+      "community": 2,
       "norm_label": "pwaregister()"
     },
     {
@@ -864,7 +1512,7 @@
       "source_file": "src/components/qr/content-form.tsx",
       "source_location": "L74",
       "id": "qr_content_form_contentformprops",
-      "community": 4,
+      "community": 1,
       "norm_label": "contentformprops"
     },
     {
@@ -873,7 +1521,7 @@
       "source_file": "src/components/qr/content-form.tsx",
       "source_location": "L85",
       "id": "qr_content_form_contentform",
-      "community": 0,
+      "community": 1,
       "norm_label": "contentform()"
     },
     {
@@ -882,97 +1530,106 @@
       "source_file": "src/components/qr/control-dock.tsx",
       "source_location": "L1",
       "id": "qr_control_dock",
-      "community": 0,
+      "community": 1,
       "norm_label": "control-dock.tsx"
     },
     {
       "label": "ActivePanel",
       "file_type": "code",
       "source_file": "src/components/qr/control-dock.tsx",
-      "source_location": "L50",
+      "source_location": "L62",
       "id": "qr_control_dock_activepanel",
-      "community": 5,
+      "community": 7,
       "norm_label": "activepanel"
     },
     {
       "label": "ControlDockProps",
       "file_type": "code",
       "source_file": "src/components/qr/control-dock.tsx",
-      "source_location": "L52",
+      "source_location": "L64",
       "id": "qr_control_dock_controldockprops",
-      "community": 4,
+      "community": 1,
       "norm_label": "controldockprops"
     },
     {
       "label": "BackgroundColorField()",
       "file_type": "code",
       "source_file": "src/components/qr/control-dock.tsx",
-      "source_location": "L71",
+      "source_location": "L83",
       "id": "qr_control_dock_backgroundcolorfield",
-      "community": 0,
+      "community": 1,
       "norm_label": "backgroundcolorfield()"
     },
     {
       "label": "normalizeSafeEmoji()",
       "file_type": "code",
       "source_file": "src/components/qr/control-dock.tsx",
-      "source_location": "L99",
+      "source_location": "L111",
       "id": "qr_control_dock_normalizesafeemoji",
-      "community": 0,
+      "community": 1,
       "norm_label": "normalizesafeemoji()"
     },
     {
       "label": "BackgroundPanel()",
       "file_type": "code",
       "source_file": "src/components/qr/control-dock.tsx",
-      "source_location": "L116",
+      "source_location": "L128",
       "id": "qr_control_dock_backgroundpanel",
-      "community": 0,
+      "community": 1,
       "norm_label": "backgroundpanel()"
+    },
+    {
+      "label": "CaptionPanel()",
+      "file_type": "code",
+      "source_file": "src/components/qr/control-dock.tsx",
+      "source_location": "L255",
+      "id": "qr_control_dock_captionpanel",
+      "community": 1,
+      "norm_label": "captionpanel()"
     },
     {
       "label": "CustomizePanel()",
       "file_type": "code",
       "source_file": "src/components/qr/control-dock.tsx",
-      "source_location": "L243",
+      "source_location": "L444",
       "id": "qr_control_dock_customizepanel",
-      "community": 0,
+      "community": 1,
       "norm_label": "customizepanel()"
     },
     {
       "label": "ImagePanel()",
       "file_type": "code",
       "source_file": "src/components/qr/control-dock.tsx",
-      "source_location": "L279",
+      "source_location": "L482",
       "id": "qr_control_dock_imagepanel",
-      "community": 0,
+      "community": 1,
       "norm_label": "imagepanel()"
     },
     {
       "label": "DownloadPanel()",
       "file_type": "code",
       "source_file": "src/components/qr/control-dock.tsx",
-      "source_location": "L357",
+      "source_location": "L560",
       "id": "qr_control_dock_downloadpanel",
-      "community": 0,
+      "community": 1,
       "norm_label": "downloadpanel()"
     },
     {
       "label": "DOCK_ITEMS",
       "file_type": "code",
       "source_file": "src/components/qr/control-dock.tsx",
-      "source_location": "L450",
+      "source_location": "L653",
       "id": "qr_control_dock_dock_items",
-      "community": 0,
+      "community": 1,
       "norm_label": "dock_items"
     },
     {
       "label": "ControlDock()",
       "file_type": "code",
       "source_file": "src/components/qr/control-dock.tsx",
-      "source_location": "L461",
+      "source_location": "L664",
       "id": "qr_control_dock_controldock",
-      "community": 0,
+      "community": 7,
       "norm_label": "controldock()"
     },
     {
@@ -981,7 +1638,7 @@
       "source_file": "src/components/qr/pixel-mark.tsx",
       "source_location": "L1",
       "id": "qr_pixel_mark",
-      "community": 1,
+      "community": 2,
       "norm_label": "pixel-mark.tsx"
     },
     {
@@ -990,7 +1647,7 @@
       "source_file": "src/components/qr/pixel-mark.tsx",
       "source_location": "L3",
       "id": "qr_pixel_mark_pixelmark",
-      "community": 1,
+      "community": 2,
       "norm_label": "pixelmark()"
     },
     {
@@ -999,133 +1656,169 @@
       "source_file": "src/components/qr/qr-app.tsx",
       "source_location": "L1",
       "id": "qr_qr_app",
-      "community": 5,
+      "community": 7,
       "norm_label": "qr-app.tsx"
     },
     {
       "label": "BACKGROUND_PATTERNS",
       "file_type": "code",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L29",
+      "source_location": "L36",
       "id": "qr_qr_app_background_patterns",
-      "community": 5,
+      "community": 7,
       "norm_label": "background_patterns"
     },
     {
       "label": "QR_DOT_STYLES",
       "file_type": "code",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L35",
+      "source_location": "L42",
       "id": "qr_qr_app_qr_dot_styles",
-      "community": 5,
+      "community": 7,
       "norm_label": "qr_dot_styles"
     },
     {
       "label": "QR_CORNER_SQUARE_STYLES",
       "file_type": "code",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L43",
+      "source_location": "L50",
       "id": "qr_qr_app_qr_corner_square_styles",
-      "community": 5,
+      "community": 7,
       "norm_label": "qr_corner_square_styles"
     },
     {
       "label": "QR_CORNER_DOT_STYLES",
       "file_type": "code",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L48",
+      "source_location": "L55",
       "id": "qr_qr_app_qr_corner_dot_styles",
-      "community": 5,
+      "community": 7,
       "norm_label": "qr_corner_dot_styles"
+    },
+    {
+      "label": "CAPTION_FONT_FAMILIES",
+      "file_type": "code",
+      "source_file": "src/components/qr/qr-app.tsx",
+      "source_location": "L56",
+      "id": "qr_qr_app_caption_font_families",
+      "community": 7,
+      "norm_label": "caption_font_families"
+    },
+    {
+      "label": "CAPTION_FONT_WEIGHTS",
+      "file_type": "code",
+      "source_file": "src/components/qr/qr-app.tsx",
+      "source_location": "L57",
+      "id": "qr_qr_app_caption_font_weights",
+      "community": 7,
+      "norm_label": "caption_font_weights"
+    },
+    {
+      "label": "CAPTION_ALIGNS",
+      "file_type": "code",
+      "source_file": "src/components/qr/qr-app.tsx",
+      "source_location": "L58",
+      "id": "qr_qr_app_caption_aligns",
+      "community": 7,
+      "norm_label": "caption_aligns"
+    },
+    {
+      "label": "CAPTION_POSITIONS",
+      "file_type": "code",
+      "source_file": "src/components/qr/qr-app.tsx",
+      "source_location": "L59",
+      "id": "qr_qr_app_caption_positions",
+      "community": 7,
+      "norm_label": "caption_positions"
     },
     {
       "label": "FILENAME_ADJECTIVES",
       "file_type": "code",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L49",
+      "source_location": "L60",
       "id": "qr_qr_app_filename_adjectives",
-      "community": 5,
+      "community": 7,
       "norm_label": "filename_adjectives"
     },
     {
       "label": "FILENAME_NOUNS",
       "file_type": "code",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L61",
+      "source_location": "L72",
       "id": "qr_qr_app_filename_nouns",
-      "community": 5,
+      "community": 7,
       "norm_label": "filename_nouns"
     },
     {
       "label": "randomItem()",
       "file_type": "code",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L74",
+      "source_location": "L85",
       "id": "qr_qr_app_randomitem",
-      "community": 5,
+      "community": 7,
       "norm_label": "randomitem()"
     },
     {
       "label": "randomInt()",
       "file_type": "code",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L78",
+      "source_location": "L89",
       "id": "qr_qr_app_randomint",
-      "community": 5,
+      "community": 7,
       "norm_label": "randomint()"
     },
     {
       "label": "hslToHex()",
       "file_type": "code",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L82",
+      "source_location": "L93",
       "id": "qr_qr_app_hsltohex",
-      "community": 5,
+      "community": 7,
       "norm_label": "hsltohex()"
     },
     {
       "label": "randomEmoji()",
       "file_type": "code",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L110",
+      "source_location": "L121",
       "id": "qr_qr_app_randomemoji",
-      "community": 5,
+      "community": 7,
       "norm_label": "randomemoji()"
     },
     {
       "label": "createRandomTheme()",
       "file_type": "code",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L114",
+      "source_location": "L125",
       "id": "qr_qr_app_createrandomtheme",
-      "community": 5,
+      "community": 7,
       "norm_label": "createrandomtheme()"
     },
     {
       "label": "exportErrorMessage()",
       "file_type": "code",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L153",
+      "source_location": "L180",
       "id": "qr_qr_app_exporterrormessage",
-      "community": 5,
+      "community": 7,
       "norm_label": "exporterrormessage()"
     },
     {
       "label": "createDownloadFilename()",
       "file_type": "code",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L160",
+      "source_location": "L187",
       "id": "qr_qr_app_createdownloadfilename",
-      "community": 5,
+      "community": 7,
       "norm_label": "createdownloadfilename()"
     },
     {
       "label": "QrApp()",
       "file_type": "code",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L167",
+      "source_location": "L194",
       "id": "qr_qr_app_qrapp",
-      "community": 4,
+      "community": 6,
       "norm_label": "qrapp()"
     },
     {
@@ -1134,61 +1827,79 @@
       "source_file": "src/components/qr/qr-preview.tsx",
       "source_location": "L1",
       "id": "qr_qr_preview",
-      "community": 2,
+      "community": 3,
       "norm_label": "qr-preview.tsx"
     },
     {
       "label": "PreviewStatus",
       "file_type": "code",
       "source_file": "src/components/qr/qr-preview.tsx",
-      "source_location": "L21",
+      "source_location": "L22",
       "id": "qr_qr_preview_previewstatus",
-      "community": 5,
+      "community": 3,
       "norm_label": "previewstatus"
+    },
+    {
+      "label": "CAPTION_FONT_WEIGHT_CSS",
+      "file_type": "code",
+      "source_file": "src/components/qr/qr-preview.tsx",
+      "source_location": "L24",
+      "id": "qr_qr_preview_caption_font_weight_css",
+      "community": 3,
+      "norm_label": "caption_font_weight_css"
+    },
+    {
+      "label": "CAPTION_FONT_CSS",
+      "file_type": "code",
+      "source_file": "src/components/qr/qr-preview.tsx",
+      "source_location": "L30",
+      "id": "qr_qr_preview_caption_font_css",
+      "community": 3,
+      "norm_label": "caption_font_css"
     },
     {
       "label": "QrPreviewProps",
       "file_type": "code",
       "source_file": "src/components/qr/qr-preview.tsx",
-      "source_location": "L23",
+      "source_location": "L36",
       "id": "qr_qr_preview_qrpreviewprops",
-      "community": 2,
+      "community": 3,
       "norm_label": "qrpreviewprops"
     },
     {
       "label": "escapeSvgText()",
       "file_type": "code",
       "source_file": "src/components/qr/qr-preview.tsx",
-      "source_location": "L40",
+      "source_location": "L54",
       "id": "qr_qr_preview_escapesvgtext",
-      "community": 2,
+      "community": 3,
       "norm_label": "escapesvgtext()"
     },
     {
       "label": "emojiPatternDataUrl()",
       "file_type": "code",
       "source_file": "src/components/qr/qr-preview.tsx",
-      "source_location": "L47",
+      "source_location": "L61",
       "id": "qr_qr_preview_emojipatterndataurl",
-      "community": 2,
+      "community": 3,
       "norm_label": "emojipatterndataurl()"
     },
     {
       "label": "getPreviewBackgroundStyle()",
       "file_type": "code",
       "source_file": "src/components/qr/qr-preview.tsx",
-      "source_location": "L55",
+      "source_location": "L69",
       "id": "qr_qr_preview_getpreviewbackgroundstyle",
-      "community": 2,
+      "community": 3,
       "norm_label": "getpreviewbackgroundstyle()"
     },
     {
       "label": "QrPreview()",
       "file_type": "code",
       "source_file": "src/components/qr/qr-preview.tsx",
-      "source_location": "L92",
+      "source_location": "L106",
       "id": "qr_qr_preview_qrpreview",
-      "community": 2,
+      "community": 3,
       "norm_label": "qrpreview()"
     },
     {
@@ -1197,7 +1908,7 @@
       "source_file": "src/components/qr/style-controls.tsx",
       "source_location": "L1",
       "id": "qr_style_controls",
-      "community": 2,
+      "community": 1,
       "norm_label": "style-controls.tsx"
     },
     {
@@ -1206,7 +1917,7 @@
       "source_file": "src/components/qr/style-controls.tsx",
       "source_location": "L35",
       "id": "qr_style_controls_stylecontrolsprops",
-      "community": 2,
+      "community": 3,
       "norm_label": "stylecontrolsprops"
     },
     {
@@ -1215,7 +1926,7 @@
       "source_file": "src/components/qr/style-controls.tsx",
       "source_location": "L53",
       "id": "qr_style_controls_controlsection",
-      "community": 2,
+      "community": 1,
       "norm_label": "controlsection()"
     },
     {
@@ -1224,7 +1935,7 @@
       "source_file": "src/components/qr/style-controls.tsx",
       "source_location": "L68",
       "id": "qr_style_controls_colorfield",
-      "community": 2,
+      "community": 1,
       "norm_label": "colorfield()"
     },
     {
@@ -1233,7 +1944,7 @@
       "source_file": "src/components/qr/style-controls.tsx",
       "source_location": "L96",
       "id": "qr_style_controls_dotpreview",
-      "community": 2,
+      "community": 1,
       "norm_label": "dotpreview()"
     },
     {
@@ -1242,7 +1953,7 @@
       "source_file": "src/components/qr/style-controls.tsx",
       "source_location": "L123",
       "id": "qr_style_controls_stylecontrols",
-      "community": 0,
+      "community": 1,
       "norm_label": "stylecontrols()"
     },
     {
@@ -1251,7 +1962,7 @@
       "source_file": "src/components/ui/button.tsx",
       "source_location": "L1",
       "id": "ui_button",
-      "community": 1,
+      "community": 2,
       "norm_label": "button.tsx"
     },
     {
@@ -1260,7 +1971,7 @@
       "source_file": "src/components/ui/button.tsx",
       "source_location": "L6",
       "id": "ui_button_buttonvariants",
-      "community": 1,
+      "community": 2,
       "norm_label": "buttonvariants"
     },
     {
@@ -1269,7 +1980,7 @@
       "source_file": "src/components/ui/button.tsx",
       "source_location": "L41",
       "id": "ui_button_button",
-      "community": 1,
+      "community": 2,
       "norm_label": "button()"
     },
     {
@@ -1458,7 +2169,7 @@
       "source_file": "src/components/ui/input.tsx",
       "source_location": "L1",
       "id": "ui_input",
-      "community": 0,
+      "community": 1,
       "norm_label": "input.tsx"
     },
     {
@@ -1467,7 +2178,7 @@
       "source_file": "src/components/ui/input.tsx",
       "source_location": "L5",
       "id": "ui_input_input",
-      "community": 0,
+      "community": 1,
       "norm_label": "input()"
     },
     {
@@ -1602,7 +2313,7 @@
       "source_file": "src/components/ui/slider.tsx",
       "source_location": "L1",
       "id": "ui_slider",
-      "community": 0,
+      "community": 1,
       "norm_label": "slider.tsx"
     },
     {
@@ -1611,7 +2322,7 @@
       "source_file": "src/components/ui/slider.tsx",
       "source_location": "L5",
       "id": "ui_slider_slider",
-      "community": 0,
+      "community": 1,
       "norm_label": "slider()"
     },
     {
@@ -1620,7 +2331,7 @@
       "source_file": "src/components/ui/sonner.tsx",
       "source_location": "L1",
       "id": "ui_sonner",
-      "community": 1,
+      "community": 2,
       "norm_label": "sonner.tsx"
     },
     {
@@ -1629,7 +2340,7 @@
       "source_file": "src/components/ui/sonner.tsx",
       "source_location": "L13",
       "id": "ui_sonner_toaster",
-      "community": 1,
+      "community": 2,
       "norm_label": "toaster()"
     },
     {
@@ -1728,7 +2439,7 @@
       "source_file": "src/config/site.ts",
       "source_location": "L1",
       "id": "config_site",
-      "community": 1,
+      "community": 2,
       "norm_label": "site.ts"
     },
     {
@@ -1737,7 +2448,7 @@
       "source_file": "src/config/site.ts",
       "source_location": "L1",
       "id": "config_site_siteconfig",
-      "community": 1,
+      "community": 2,
       "norm_label": "siteconfig"
     },
     {
@@ -1746,7 +2457,7 @@
       "source_file": "src/lib/download.ts",
       "source_location": "L1",
       "id": "lib_download",
-      "community": 5,
+      "community": 7,
       "norm_label": "download.ts"
     },
     {
@@ -1755,7 +2466,7 @@
       "source_file": "src/lib/download.ts",
       "source_location": "L1",
       "id": "lib_download_downloadblob",
-      "community": 5,
+      "community": 7,
       "norm_label": "downloadblob()"
     },
     {
@@ -1764,7 +2475,7 @@
       "source_file": "src/lib/graphql/schema.test.ts",
       "source_location": "L1",
       "id": "graphql_schema_test",
-      "community": 4,
+      "community": 6,
       "norm_label": "schema.test.ts"
     },
     {
@@ -1773,7 +2484,7 @@
       "source_file": "src/lib/graphql/schema.ts",
       "source_location": "L1",
       "id": "graphql_schema",
-      "community": 4,
+      "community": 6,
       "norm_label": "schema.ts"
     },
     {
@@ -1782,7 +2493,7 @@
       "source_file": "src/lib/graphql/schema.ts",
       "source_location": "L14",
       "id": "graphql_schema_qrpixelschema",
-      "community": 4,
+      "community": 6,
       "norm_label": "qrpixelschema"
     },
     {
@@ -1791,7 +2502,7 @@
       "source_file": "src/lib/graphql/schema.ts",
       "source_location": "L97",
       "id": "graphql_schema_graphqlqrinput",
-      "community": 4,
+      "community": 1,
       "norm_label": "graphqlqrinput"
     },
     {
@@ -1800,7 +2511,7 @@
       "source_file": "src/lib/graphql/schema.ts",
       "source_location": "L106",
       "id": "graphql_schema_payloadresult",
-      "community": 4,
+      "community": 1,
       "norm_label": "payloadresult"
     },
     {
@@ -1809,7 +2520,7 @@
       "source_file": "src/lib/graphql/schema.ts",
       "source_location": "L113",
       "id": "graphql_schema_fieldsfrominput",
-      "community": 4,
+      "community": 6,
       "norm_label": "fieldsfrominput()"
     },
     {
@@ -1818,7 +2529,7 @@
       "source_file": "src/lib/graphql/schema.ts",
       "source_location": "L124",
       "id": "graphql_schema_isgraphqlinputempty",
-      "community": 4,
+      "community": 6,
       "norm_label": "isgraphqlinputempty()"
     },
     {
@@ -1827,7 +2538,7 @@
       "source_file": "src/lib/graphql/schema.ts",
       "source_location": "L139",
       "id": "graphql_schema_resolvepayload",
-      "community": 4,
+      "community": 6,
       "norm_label": "resolvepayload()"
     },
     {
@@ -1836,7 +2547,7 @@
       "source_file": "src/lib/graphql/schema.ts",
       "source_location": "L154",
       "id": "graphql_schema_qrpixelroot",
-      "community": 4,
+      "community": 6,
       "norm_label": "qrpixelroot"
     },
     {
@@ -1845,7 +2556,7 @@
       "source_file": "src/lib/graphql/schema.ts",
       "source_location": "L166",
       "id": "graphql_schema_executeqrpixelgraphql",
-      "community": 4,
+      "community": 6,
       "norm_label": "executeqrpixelgraphql()"
     },
     {
@@ -1854,133 +2565,169 @@
       "source_file": "src/lib/qr-render.ts",
       "source_location": "L1",
       "id": "lib_qr_render",
-      "community": 2,
+      "community": 3,
       "norm_label": "qr-render.ts"
     },
     {
       "label": "QrRenderOptions",
       "file_type": "code",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L12",
+      "source_location": "L13",
       "id": "lib_qr_render_qrrenderoptions",
-      "community": 2,
+      "community": 3,
       "norm_label": "qrrenderoptions"
     },
     {
       "label": "ExportFrameOptions",
       "file_type": "code",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L28",
+      "source_location": "L29",
       "id": "lib_qr_render_exportframeoptions",
-      "community": 2,
+      "community": 3,
       "norm_label": "exportframeoptions"
+    },
+    {
+      "label": "CAPTION_FONT_FAMILIES",
+      "file_type": "code",
+      "source_file": "src/lib/qr-render.ts",
+      "source_location": "L37",
+      "id": "lib_qr_render_caption_font_families",
+      "community": 3,
+      "norm_label": "caption_font_families"
+    },
+    {
+      "label": "CAPTION_FONT_WEIGHTS",
+      "file_type": "code",
+      "source_file": "src/lib/qr-render.ts",
+      "source_location": "L43",
+      "id": "lib_qr_render_caption_font_weights",
+      "community": 3,
+      "norm_label": "caption_font_weights"
+    },
+    {
+      "label": "groupCenteredCardY()",
+      "file_type": "code",
+      "source_file": "src/lib/qr-render.ts",
+      "source_location": "L50",
+      "id": "lib_qr_render_groupcenteredcardy",
+      "community": 3,
+      "norm_label": "groupcenteredcardy()"
+    },
+    {
+      "label": "captionGeometry()",
+      "file_type": "code",
+      "source_file": "src/lib/qr-render.ts",
+      "source_location": "L67",
+      "id": "lib_qr_render_captiongeometry",
+      "community": 3,
+      "norm_label": "captiongeometry()"
     },
     {
       "label": "EXPORT_FRAME_RATIOS",
       "file_type": "code",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L35",
+      "source_location": "L92",
       "id": "lib_qr_render_export_frame_ratios",
-      "community": 2,
+      "community": 3,
       "norm_label": "export_frame_ratios"
     },
     {
       "label": "getFrameSize()",
       "file_type": "code",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L44",
+      "source_location": "L101",
       "id": "lib_qr_render_getframesize",
-      "community": 2,
+      "community": 3,
       "norm_label": "getframesize()"
     },
     {
       "label": "createStyledQr()",
       "file_type": "code",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L66",
+      "source_location": "L123",
       "id": "lib_qr_render_createstyledqr",
-      "community": 2,
+      "community": 3,
       "norm_label": "createstyledqr()"
     },
     {
       "label": "escapeSvgText()",
       "file_type": "code",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L101",
+      "source_location": "L158",
       "id": "lib_qr_render_escapesvgtext",
-      "community": 2,
+      "community": 3,
       "norm_label": "escapesvgtext()"
     },
     {
       "label": "escapeSvgAttribute()",
       "file_type": "code",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L108",
+      "source_location": "L165",
       "id": "lib_qr_render_escapesvgattribute",
-      "community": 2,
+      "community": 3,
       "norm_label": "escapesvgattribute()"
     },
     {
       "label": "roundedRectPath()",
       "file_type": "code",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L112",
+      "source_location": "L169",
       "id": "lib_qr_render_roundedrectpath",
-      "community": 2,
+      "community": 3,
       "norm_label": "roundedrectpath()"
     },
     {
       "label": "fillCanvasBackground()",
       "file_type": "code",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L135",
+      "source_location": "L192",
       "id": "lib_qr_render_fillcanvasbackground",
-      "community": 2,
+      "community": 3,
       "norm_label": "fillcanvasbackground()"
     },
     {
       "label": "svgBackgroundMarkup()",
       "file_type": "code",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L209",
+      "source_location": "L266",
       "id": "lib_qr_render_svgbackgroundmarkup",
-      "community": 2,
+      "community": 3,
       "norm_label": "svgbackgroundmarkup()"
     },
     {
       "label": "renderQrCanvas()",
       "file_type": "code",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L236",
+      "source_location": "L293",
       "id": "lib_qr_render_renderqrcanvas",
-      "community": 2,
+      "community": 3,
       "norm_label": "renderqrcanvas()"
     },
     {
       "label": "renderQrSvg()",
       "file_type": "code",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L255",
+      "source_location": "L312",
       "id": "lib_qr_render_renderqrsvg",
-      "community": 2,
+      "community": 3,
       "norm_label": "renderqrsvg()"
     },
     {
       "label": "renderFramedQrCanvas()",
       "file_type": "code",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L263",
+      "source_location": "L320",
       "id": "lib_qr_render_renderframedqrcanvas",
-      "community": 2,
+      "community": 3,
       "norm_label": "renderframedqrcanvas()"
     },
     {
       "label": "renderFramedQrSvg()",
       "file_type": "code",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L311",
+      "source_location": "L388",
       "id": "lib_qr_render_renderframedqrsvg",
-      "community": 2,
+      "community": 3,
       "norm_label": "renderframedqrsvg()"
     },
     {
@@ -1989,7 +2736,7 @@
       "source_file": "src/lib/qr.test.ts",
       "source_location": "L1",
       "id": "lib_qr_test",
-      "community": 4,
+      "community": 6,
       "norm_label": "qr.test.ts"
     },
     {
@@ -1998,7 +2745,7 @@
       "source_file": "src/lib/qr.ts",
       "source_location": "L1",
       "id": "lib_qr",
-      "community": 2,
+      "community": 1,
       "norm_label": "qr.ts"
     },
     {
@@ -2007,241 +2754,322 @@
       "source_file": "src/lib/qr.ts",
       "source_location": "L1",
       "id": "lib_qr_qrtype",
-      "community": 4,
+      "community": 1,
       "norm_label": "qrtype"
+    },
+    {
+      "label": "CaptionFontFamily",
+      "file_type": "code",
+      "source_file": "src/lib/qr.ts",
+      "source_location": "L3",
+      "id": "lib_qr_captionfontfamily",
+      "community": 7,
+      "norm_label": "captionfontfamily"
+    },
+    {
+      "label": "CaptionFontWeight",
+      "file_type": "code",
+      "source_file": "src/lib/qr.ts",
+      "source_location": "L4",
+      "id": "lib_qr_captionfontweight",
+      "community": 1,
+      "norm_label": "captionfontweight"
+    },
+    {
+      "label": "CaptionAlign",
+      "file_type": "code",
+      "source_file": "src/lib/qr.ts",
+      "source_location": "L5",
+      "id": "lib_qr_captionalign",
+      "community": 1,
+      "norm_label": "captionalign"
+    },
+    {
+      "label": "CaptionPosition",
+      "file_type": "code",
+      "source_file": "src/lib/qr.ts",
+      "source_location": "L6",
+      "id": "lib_qr_captionposition",
+      "community": 7,
+      "norm_label": "captionposition"
     },
     {
       "label": "EcLevel",
       "file_type": "code",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L3",
+      "source_location": "L8",
       "id": "lib_qr_eclevel",
-      "community": 2,
+      "community": 3,
       "norm_label": "eclevel"
     },
     {
       "label": "WifiEncryption",
       "file_type": "code",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L5",
+      "source_location": "L10",
       "id": "lib_qr_wifiencryption",
-      "community": 2,
+      "community": 1,
       "norm_label": "wifiencryption"
     },
     {
       "label": "PreviewBackgroundPattern",
       "file_type": "code",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L7",
+      "source_location": "L12",
       "id": "lib_qr_previewbackgroundpattern",
-      "community": 5,
+      "community": 1,
       "norm_label": "previewbackgroundpattern"
     },
     {
       "label": "QrExportFrame",
       "file_type": "code",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L14",
+      "source_location": "L19",
       "id": "lib_qr_qrexportframe",
-      "community": 2,
+      "community": 3,
       "norm_label": "qrexportframe"
     },
     {
       "label": "QrDotStyle",
       "file_type": "code",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L16",
+      "source_location": "L21",
       "id": "lib_qr_qrdotstyle",
-      "community": 2,
+      "community": 3,
       "norm_label": "qrdotstyle"
     },
     {
       "label": "QrCornerSquareStyle",
       "file_type": "code",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L24",
+      "source_location": "L29",
       "id": "lib_qr_qrcornersquarestyle",
-      "community": 2,
+      "community": 3,
       "norm_label": "qrcornersquarestyle"
     },
     {
       "label": "QrCornerDotStyle",
       "file_type": "code",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L26",
+      "source_location": "L31",
       "id": "lib_qr_qrcornerdotstyle",
-      "community": 2,
+      "community": 3,
       "norm_label": "qrcornerdotstyle"
     },
     {
       "label": "QrFields",
       "file_type": "code",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L28",
+      "source_location": "L33",
       "id": "lib_qr_qrfields",
-      "community": 4,
+      "community": 1,
       "norm_label": "qrfields"
+    },
+    {
+      "label": "QrCaption",
+      "file_type": "code",
+      "source_file": "src/lib/qr.ts",
+      "source_location": "L46",
+      "id": "lib_qr_qrcaption",
+      "community": 3,
+      "norm_label": "qrcaption"
     },
     {
       "label": "PreviewBackground",
       "file_type": "code",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L41",
+      "source_location": "L57",
       "id": "lib_qr_previewbackground",
-      "community": 2,
+      "community": 3,
       "norm_label": "previewbackground"
     },
     {
       "label": "QrState",
       "file_type": "code",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L49",
+      "source_location": "L65",
       "id": "lib_qr_qrstate",
-      "community": 2,
+      "community": 1,
       "norm_label": "qrstate"
     },
     {
       "label": "ValidationResult",
       "file_type": "code",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L67",
+      "source_location": "L84",
       "id": "lib_qr_validationresult",
-      "community": 4,
+      "community": 1,
       "norm_label": "validationresult"
     },
     {
       "label": "QR_TYPE_LABELS",
       "file_type": "code",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L71",
+      "source_location": "L88",
       "id": "lib_qr_qr_type_labels",
-      "community": 4,
+      "community": 6,
       "norm_label": "qr_type_labels"
     },
     {
       "label": "EC_LEVEL_LABELS",
       "file_type": "code",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L79",
+      "source_location": "L96",
       "id": "lib_qr_ec_level_labels",
-      "community": 2,
+      "community": 1,
       "norm_label": "ec_level_labels"
+    },
+    {
+      "label": "CAPTION_FONT_FAMILY_LABELS",
+      "file_type": "code",
+      "source_file": "src/lib/qr.ts",
+      "source_location": "L107",
+      "id": "lib_qr_caption_font_family_labels",
+      "community": 1,
+      "norm_label": "caption_font_family_labels"
+    },
+    {
+      "label": "CAPTION_FONT_WEIGHT_LABELS",
+      "file_type": "code",
+      "source_file": "src/lib/qr.ts",
+      "source_location": "L113",
+      "id": "lib_qr_caption_font_weight_labels",
+      "community": 1,
+      "norm_label": "caption_font_weight_labels"
+    },
+    {
+      "label": "CAPTION_ALIGN_LABELS",
+      "file_type": "code",
+      "source_file": "src/lib/qr.ts",
+      "source_location": "L119",
+      "id": "lib_qr_caption_align_labels",
+      "community": 1,
+      "norm_label": "caption_align_labels"
+    },
+    {
+      "label": "CAPTION_POSITION_LABELS",
+      "file_type": "code",
+      "source_file": "src/lib/qr.ts",
+      "source_location": "L125",
+      "id": "lib_qr_caption_position_labels",
+      "community": 1,
+      "norm_label": "caption_position_labels"
     },
     {
       "label": "SAFE_BACKGROUND_EMOJIS",
       "file_type": "code",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L96",
+      "source_location": "L140",
       "id": "lib_qr_safe_background_emojis",
-      "community": 5,
+      "community": 1,
       "norm_label": "safe_background_emojis"
     },
     {
       "label": "PREVIEW_BACKGROUND_PATTERN_LABELS",
       "file_type": "code",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L127",
+      "source_location": "L171",
       "id": "lib_qr_preview_background_pattern_labels",
-      "community": 0,
+      "community": 1,
       "norm_label": "preview_background_pattern_labels"
     },
     {
       "label": "QR_EXPORT_FRAME_LABELS",
       "file_type": "code",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L138",
+      "source_location": "L182",
       "id": "lib_qr_qr_export_frame_labels",
-      "community": 0,
+      "community": 1,
       "norm_label": "qr_export_frame_labels"
     },
     {
       "label": "QR_DOT_STYLE_LABELS",
       "file_type": "code",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L144",
+      "source_location": "L188",
       "id": "lib_qr_qr_dot_style_labels",
-      "community": 2,
+      "community": 1,
       "norm_label": "qr_dot_style_labels"
     },
     {
       "label": "QR_CORNER_SQUARE_STYLE_LABELS",
       "file_type": "code",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L153",
+      "source_location": "L197",
       "id": "lib_qr_qr_corner_square_style_labels",
-      "community": 2,
+      "community": 1,
       "norm_label": "qr_corner_square_style_labels"
     },
     {
       "label": "QR_CORNER_DOT_STYLE_LABELS",
       "file_type": "code",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L162",
+      "source_location": "L206",
       "id": "lib_qr_qr_corner_dot_style_labels",
-      "community": 2,
+      "community": 1,
       "norm_label": "qr_corner_dot_style_labels"
     },
     {
       "label": "createDefaultState()",
       "file_type": "code",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L167",
+      "source_location": "L211",
       "id": "lib_qr_createdefaultstate",
-      "community": 4,
+      "community": 6,
       "norm_label": "createdefaultstate()"
     },
     {
       "label": "createEmptyFields()",
       "file_type": "code",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L199",
+      "source_location": "L253",
       "id": "lib_qr_createemptyfields",
-      "community": 4,
+      "community": 6,
       "norm_label": "createemptyfields()"
     },
     {
       "label": "isContentEmpty()",
       "file_type": "code",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L203",
+      "source_location": "L257",
       "id": "lib_qr_iscontentempty",
-      "community": 4,
+      "community": 6,
       "norm_label": "iscontentempty()"
     },
     {
       "label": "normalizeUrl()",
       "file_type": "code",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L222",
+      "source_location": "L276",
       "id": "lib_qr_normalizeurl",
-      "community": 4,
+      "community": 6,
       "norm_label": "normalizeurl()"
     },
     {
       "label": "validate()",
       "file_type": "code",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L227",
+      "source_location": "L281",
       "id": "lib_qr_validate",
-      "community": 4,
+      "community": 6,
       "norm_label": "validate()"
     },
     {
       "label": "escapeWifi()",
       "file_type": "code",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L297",
+      "source_location": "L351",
       "id": "lib_qr_escapewifi",
-      "community": 4,
+      "community": 6,
       "norm_label": "escapewifi()"
     },
     {
       "label": "buildPayload()",
       "file_type": "code",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L301",
+      "source_location": "L355",
       "id": "lib_qr_buildpayload",
-      "community": 4,
+      "community": 6,
       "norm_label": "buildpayload()"
     },
     {
@@ -2268,7 +3096,7 @@
       "source_file": "tests/e2e/qr-pixel.spec.ts",
       "source_location": "L1",
       "id": "e2e_qr_pixel_spec",
-      "community": 9,
+      "community": 20,
       "norm_label": "qr-pixel.spec.ts"
     },
     {
@@ -2277,8 +3105,60 @@
       "source_file": "tests/e2e/qr-pixel.spec.ts",
       "source_location": "L3",
       "id": "e2e_qr_pixel_spec_gotoready",
-      "community": 9,
+      "community": 20,
       "norm_label": "gotoready()"
+    },
+    {
+      "label": "update-codebase-graphify.sh",
+      "file_type": "code",
+      "source_file": "tools/graphify/update-codebase-graphify.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "id": "graphify_update_codebase_graphify",
+      "community": 15,
+      "norm_label": "update-codebase-graphify.sh"
+    },
+    {
+      "label": "update-codebase-graphify.sh script",
+      "file_type": "code",
+      "source_file": "tools/graphify/update-codebase-graphify.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "id": "users_alif_developer_projects_web_next_js_qr_pixel_tools_graphify_update_codebase_graphify_sh__entry",
+      "community": 15,
+      "norm_label": "update-codebase-graphify.sh script"
+    },
+    {
+      "label": "copy_if_exists()",
+      "file_type": "code",
+      "source_file": "tools/graphify/update-codebase-graphify.sh",
+      "source_location": "L13",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "id": "graphify_update_codebase_graphify_copy_if_exists",
+      "community": 15,
+      "norm_label": "copy_if_exists()"
+    },
+    {
+      "label": "run_graphify()",
+      "file_type": "code",
+      "source_file": "tools/graphify/update-codebase-graphify.sh",
+      "source_location": "L34",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "id": "graphify_update_codebase_graphify_run_graphify",
+      "community": 15,
+      "norm_label": "run_graphify()"
     },
     {
       "label": "tsconfig.json",
@@ -2286,7 +3166,7 @@
       "source_file": "tsconfig.json",
       "source_location": "L1",
       "id": "tsconfig",
-      "community": 6,
+      "community": 9,
       "norm_label": "tsconfig.json"
     },
     {
@@ -2295,7 +3175,7 @@
       "source_file": "tsconfig.json",
       "source_location": "L2",
       "id": "tsconfig_compileroptions",
-      "community": 6,
+      "community": 9,
       "norm_label": "compileroptions"
     },
     {
@@ -2304,7 +3184,7 @@
       "source_file": "tsconfig.json",
       "source_location": "L3",
       "id": "tsconfig_compileroptions_target",
-      "community": 6,
+      "community": 9,
       "norm_label": "target"
     },
     {
@@ -2313,7 +3193,7 @@
       "source_file": "tsconfig.json",
       "source_location": "L4",
       "id": "tsconfig_compileroptions_lib",
-      "community": 6,
+      "community": 9,
       "norm_label": "lib"
     },
     {
@@ -2322,7 +3202,7 @@
       "source_file": "tsconfig.json",
       "source_location": "L5",
       "id": "tsconfig_compileroptions_allowjs",
-      "community": 6,
+      "community": 9,
       "norm_label": "allowjs"
     },
     {
@@ -2331,7 +3211,7 @@
       "source_file": "tsconfig.json",
       "source_location": "L6",
       "id": "tsconfig_compileroptions_skiplibcheck",
-      "community": 6,
+      "community": 9,
       "norm_label": "skiplibcheck"
     },
     {
@@ -2340,7 +3220,7 @@
       "source_file": "tsconfig.json",
       "source_location": "L7",
       "id": "tsconfig_compileroptions_strict",
-      "community": 6,
+      "community": 9,
       "norm_label": "strict"
     },
     {
@@ -2349,7 +3229,7 @@
       "source_file": "tsconfig.json",
       "source_location": "L8",
       "id": "tsconfig_compileroptions_noemit",
-      "community": 6,
+      "community": 9,
       "norm_label": "noemit"
     },
     {
@@ -2358,7 +3238,7 @@
       "source_file": "tsconfig.json",
       "source_location": "L9",
       "id": "tsconfig_compileroptions_esmoduleinterop",
-      "community": 6,
+      "community": 9,
       "norm_label": "esmoduleinterop"
     },
     {
@@ -2367,7 +3247,7 @@
       "source_file": "tsconfig.json",
       "source_location": "L10",
       "id": "tsconfig_compileroptions_module",
-      "community": 6,
+      "community": 9,
       "norm_label": "module"
     },
     {
@@ -2376,7 +3256,7 @@
       "source_file": "tsconfig.json",
       "source_location": "L11",
       "id": "tsconfig_compileroptions_moduleresolution",
-      "community": 6,
+      "community": 9,
       "norm_label": "moduleresolution"
     },
     {
@@ -2385,7 +3265,7 @@
       "source_file": "tsconfig.json",
       "source_location": "L12",
       "id": "tsconfig_compileroptions_resolvejsonmodule",
-      "community": 6,
+      "community": 9,
       "norm_label": "resolvejsonmodule"
     },
     {
@@ -2394,7 +3274,7 @@
       "source_file": "tsconfig.json",
       "source_location": "L13",
       "id": "tsconfig_compileroptions_isolatedmodules",
-      "community": 6,
+      "community": 9,
       "norm_label": "isolatedmodules"
     },
     {
@@ -2403,7 +3283,7 @@
       "source_file": "tsconfig.json",
       "source_location": "L14",
       "id": "tsconfig_compileroptions_jsx",
-      "community": 6,
+      "community": 9,
       "norm_label": "jsx"
     },
     {
@@ -2412,7 +3292,7 @@
       "source_file": "tsconfig.json",
       "source_location": "L15",
       "id": "tsconfig_compileroptions_incremental",
-      "community": 6,
+      "community": 9,
       "norm_label": "incremental"
     },
     {
@@ -2421,7 +3301,7 @@
       "source_file": "tsconfig.json",
       "source_location": "L16",
       "id": "tsconfig_compileroptions_plugins",
-      "community": 6,
+      "community": 9,
       "norm_label": "plugins"
     },
     {
@@ -2430,7 +3310,7 @@
       "source_file": "tsconfig.json",
       "source_location": "L21",
       "id": "tsconfig_compileroptions_paths",
-      "community": 6,
+      "community": 9,
       "norm_label": "paths"
     },
     {
@@ -2439,7 +3319,7 @@
       "source_file": "tsconfig.json",
       "source_location": "L22",
       "id": "tsconfig_paths",
-      "community": 6,
+      "community": 9,
       "norm_label": "@/*"
     },
     {
@@ -2448,7 +3328,7 @@
       "source_file": "tsconfig.json",
       "source_location": "L25",
       "id": "tsconfig_include",
-      "community": 6,
+      "community": 9,
       "norm_label": "include"
     },
     {
@@ -2457,7 +3337,7 @@
       "source_file": "tsconfig.json",
       "source_location": "L33",
       "id": "tsconfig_exclude",
-      "community": 6,
+      "community": 9,
       "norm_label": "exclude"
     },
     {
@@ -2466,119 +3346,984 @@
       "source_file": "vitest.config.ts",
       "source_location": "L1",
       "id": "vitest_config",
-      "community": 12,
+      "community": 31,
       "norm_label": "vitest.config.ts"
     },
     {
-      "label": "README.md",
-      "file_type": "document",
-      "source_file": "README.md",
-      "source_location": "L1",
-      "id": "readme",
-      "community": 8,
-      "norm_label": "readme.md"
+      "label": "CI Verify Job",
+      "file_type": "code",
+      "source_file": ".github/workflows/ci.yml",
+      "source_location": "line 12",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "ci_yml_verify_job",
+      "community": 12,
+      "norm_label": "ci verify job"
     },
     {
-      "label": "QR Pixel",
-      "file_type": "document",
-      "source_file": "README.md",
-      "source_location": "L1",
-      "id": "readme_qr_pixel",
-      "community": 8,
-      "norm_label": "qr pixel"
+      "label": "CI Workflow",
+      "file_type": "code",
+      "source_file": ".github/workflows/ci.yml",
+      "source_location": "line 1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "ci_yml_workflow",
+      "community": 12,
+      "norm_label": "ci workflow"
     },
     {
-      "label": "Preview",
-      "file_type": "document",
-      "source_file": "README.md",
-      "source_location": "L11",
-      "id": "readme_preview",
-      "community": 8,
-      "norm_label": "preview"
+      "label": "Docker Publish Workflow",
+      "file_type": "code",
+      "source_file": ".github/workflows/docker-publish.yml",
+      "source_location": "line 1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "docker_publish_yml_workflow",
+      "community": 12,
+      "norm_label": "docker publish workflow"
     },
     {
-      "label": "Features",
+      "label": "Docker Publish Job",
+      "file_type": "code",
+      "source_file": ".github/workflows/docker-publish.yml",
+      "source_location": "line 17",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "docker_publish_yml_publish_job",
+      "community": 12,
+      "norm_label": "docker publish job"
+    },
+    {
+      "label": "Docker Compose qr-pixel Service",
+      "file_type": "code",
+      "source_file": "docker-compose.yml",
+      "source_location": "line 2",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "docker_compose_qr_pixel_service",
+      "community": 12,
+      "norm_label": "docker compose qr-pixel service"
+    },
+    {
+      "label": "Serena Project Configuration",
+      "file_type": "document",
+      "source_file": ".serena/project.yml",
+      "source_location": "line 1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "serena_project_yml_config",
+      "community": 24,
+      "norm_label": "serena project configuration"
+    },
+    {
+      "label": "Serena Project Local Overrides",
+      "file_type": "document",
+      "source_file": ".serena/project.local.yml",
+      "source_location": "line 1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "serena_project_local_yml_config",
+      "community": 24,
+      "norm_label": "serena project local overrides"
+    },
+    {
+      "label": "Next.js Agent Rules",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "line 1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "agents_md_nextjs_rules",
+      "community": 16,
+      "norm_label": "next.js agent rules"
+    },
+    {
+      "label": "Claude Project Instructions",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "line 1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "claude_md_project_instructions",
+      "community": 16,
+      "norm_label": "claude project instructions"
+    },
+    {
+      "label": "QR Pixel App Overview",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L25",
-      "id": "readme_features",
-      "community": 8,
-      "norm_label": "features"
+      "source_location": "line 1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "readme_qr_pixel_overview",
+      "community": 11,
+      "norm_label": "qr pixel app overview"
     },
     {
       "label": "QR Content Types",
-      "file_type": "document",
+      "file_type": "concept",
       "source_file": "README.md",
-      "source_location": "L27",
+      "source_location": "line 28",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
       "id": "readme_qr_content_types",
-      "community": 8,
+      "community": 11,
       "norm_label": "qr content types"
     },
     {
-      "label": "Live QR Preview",
-      "file_type": "document",
+      "label": "QR Customization Options",
+      "file_type": "concept",
       "source_file": "README.md",
-      "source_location": "L41",
-      "id": "readme_live_qr_preview",
-      "community": 8,
-      "norm_label": "live qr preview"
-    },
-    {
-      "label": "QR Customization",
-      "file_type": "document",
-      "source_file": "README.md",
-      "source_location": "L57",
+      "source_location": "line 58",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
       "id": "readme_qr_customization",
-      "community": 8,
-      "norm_label": "qr customization"
+      "community": 11,
+      "norm_label": "qr customization options"
     },
     {
       "label": "Backdrop Styles",
-      "file_type": "document",
+      "file_type": "concept",
       "source_file": "README.md",
-      "source_location": "L82",
+      "source_location": "line 83",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
       "id": "readme_backdrop_styles",
-      "community": 8,
+      "community": 11,
       "norm_label": "backdrop styles"
     },
     {
-      "label": "Logo Upload",
-      "file_type": "document",
+      "label": "Export Options (PNG/SVG)",
+      "file_type": "concept",
       "source_file": "README.md",
-      "source_location": "L96",
-      "id": "readme_logo_upload",
-      "community": 8,
-      "norm_label": "logo upload"
-    },
-    {
-      "label": "Export Options",
-      "file_type": "document",
-      "source_file": "README.md",
-      "source_location": "L106",
+      "source_location": "line 108",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
       "id": "readme_export_options",
-      "community": 8,
-      "norm_label": "export options"
+      "community": 11,
+      "norm_label": "export options (png/svg)"
     },
     {
-      "label": "Randomizer",
-      "file_type": "document",
+      "label": "QR Style Randomizer",
+      "file_type": "concept",
       "source_file": "README.md",
-      "source_location": "L130",
+      "source_location": "line 131",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
       "id": "readme_randomizer",
-      "community": 8,
-      "norm_label": "randomizer"
+      "community": 11,
+      "norm_label": "qr style randomizer"
     },
     {
-      "label": "GraphQL Payload Builder",
-      "file_type": "document",
+      "label": "GraphQL Payload Builder Endpoint",
+      "file_type": "concept",
       "source_file": "README.md",
-      "source_location": "L138",
-      "id": "readme_graphql_payload_builder",
-      "community": 8,
-      "norm_label": "graphql payload builder"
+      "source_location": "line 139",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "readme_graphql_endpoint",
+      "community": 11,
+      "norm_label": "graphql payload builder endpoint"
+    },
+    {
+      "label": "Logo Upload Feature",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "source_location": "line 98",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "readme_logo_upload",
+      "community": 11,
+      "norm_label": "logo upload feature"
+    },
+    {
+      "label": "Live QR Preview",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "source_location": "line 43",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "readme_live_preview",
+      "community": 11,
+      "norm_label": "live qr preview"
+    },
+    {
+      "label": "PWA Offline Fallback Page",
+      "file_type": "code",
+      "source_file": "public/offline.html",
+      "source_location": "line 1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "offline_html_offline_page",
+      "community": 14,
+      "norm_label": "pwa offline fallback page"
+    },
+    {
+      "label": "File Icon SVG",
+      "file_type": "image",
+      "source_file": "public/file.svg",
+      "source_location": "line 1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "public_file_svg",
+      "community": 26,
+      "norm_label": "file icon svg"
+    },
+    {
+      "label": "Globe Icon SVG",
+      "file_type": "image",
+      "source_file": "public/globe.svg",
+      "source_location": "line 1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "public_globe_svg",
+      "community": 27,
+      "norm_label": "globe icon svg"
+    },
+    {
+      "label": "Next.js Wordmark SVG",
+      "file_type": "image",
+      "source_file": "public/next.svg",
+      "source_location": "line 1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "public_next_svg",
+      "community": 28,
+      "norm_label": "next.js wordmark svg"
+    },
+    {
+      "label": "Vercel Logo SVG (Triangle)",
+      "file_type": "image",
+      "source_file": "public/vercel.svg",
+      "source_location": "line 1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "public_vercel_svg",
+      "community": 29,
+      "norm_label": "vercel logo svg (triangle)"
+    },
+    {
+      "label": "Window/Browser Icon SVG",
+      "file_type": "image",
+      "source_file": "public/window.svg",
+      "source_location": "line 1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "public_window_svg",
+      "community": 30,
+      "norm_label": "window/browser icon svg"
+    },
+    {
+      "label": "App Icon SVG (QR Pattern, Rounded)",
+      "file_type": "image",
+      "source_file": "public/icons/icon.svg",
+      "source_location": "line 1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "icons_icon_svg",
+      "community": 11,
+      "norm_label": "app icon svg (qr pattern, rounded)"
+    },
+    {
+      "label": "Maskable App Icon SVG (QR Pattern, Full Bleed)",
+      "file_type": "image",
+      "source_file": "public/icons/maskable-icon.svg",
+      "source_location": "line 1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "icons_maskable_icon_svg",
+      "community": 11,
+      "norm_label": "maskable app icon svg (qr pattern, full bleed)"
+    },
+    {
+      "label": "Desktop Splash Screen SVG",
+      "file_type": "image",
+      "source_file": "public/splash/desktop.svg",
+      "source_location": "line 1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "splash_desktop_svg",
+      "community": 14,
+      "norm_label": "desktop splash screen svg"
+    },
+    {
+      "label": "Mobile Splash Screen SVG",
+      "file_type": "image",
+      "source_file": "public/splash/mobile.svg",
+      "source_location": "line 1",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "splash_mobile_svg",
+      "community": 14,
+      "norm_label": "mobile splash screen svg"
+    },
+    {
+      "label": "PWA Offline Support Strategy",
+      "file_type": "rationale",
+      "source_file": "public/offline.html",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "concept_pwa_offline_support",
+      "community": 14,
+      "norm_label": "pwa offline support strategy"
+    },
+    {
+      "label": "GHCR Docker Image Publishing",
+      "file_type": "concept",
+      "source_file": ".github/workflows/docker-publish.yml",
+      "source_location": "line 14",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "concept_ghcr_docker_image",
+      "community": 12,
+      "norm_label": "ghcr docker image publishing"
+    },
+    {
+      "label": "Next.js Breaking Changes Warning",
+      "file_type": "rationale",
+      "source_file": "AGENTS.md",
+      "source_location": "line 3",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "concept_nextjs_version_warning",
+      "community": 16,
+      "norm_label": "next.js breaking changes warning"
     }
   ],
   "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/settings.local.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "claude_settings_local",
+      "target": "claude_settings_local_permissions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/settings.local.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "claude_settings_local_permissions",
+      "target": "claude_settings_local_permissions_allow",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".verify-app.mjs",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "verify_app",
+      "target": "verify_app_consoleerrors",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".verify-app.mjs",
+      "source_location": "L119",
+      "weight": 1.0,
+      "source": "verify_app",
+      "target": "verify_app_pngdl",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".verify-app.mjs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "verify_app",
+      "target": "verify_app_results",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".verify-app.mjs",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "verify_app",
+      "target": "verify_app_step",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".verify-app.mjs",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "verify_app",
+      "target": "verify_app_toastvisible",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".vscode/launch.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "vscode_launch",
+      "target": "vscode_launch_configurations",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".vscode/launch.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "vscode_launch",
+      "target": "vscode_launch_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".vscode/tasks.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "vscode_tasks",
+      "target": "vscode_tasks_tasks",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".vscode/tasks.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "vscode_tasks",
+      "target": "vscode_tasks_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "biome.json",
+      "source_location": "L39",
+      "weight": 1.0,
+      "source": "biome",
+      "target": "biome_assist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "biome.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "biome",
+      "target": "biome_files",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "biome.json",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "biome",
+      "target": "biome_formatter",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "biome.json",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "biome",
+      "target": "biome_linter",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "biome.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "biome",
+      "target": "biome_schema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "biome.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "biome",
+      "target": "biome_vcs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "biome.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "biome_vcs",
+      "target": "biome_vcs_clientkind",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "biome.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "biome_vcs",
+      "target": "biome_vcs_enabled",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "biome.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "biome_vcs",
+      "target": "biome_vcs_useignorefile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "biome.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "biome_files",
+      "target": "biome_files_ignoreunknown",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "biome.json",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "biome_files",
+      "target": "biome_files_includes",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "biome.json",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "biome_formatter",
+      "target": "biome_formatter_enabled",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "biome.json",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "biome_formatter",
+      "target": "biome_formatter_indentstyle",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "biome.json",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "biome_formatter",
+      "target": "biome_formatter_indentwidth",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "biome.json",
+      "source_location": "L34",
+      "weight": 1.0,
+      "source": "biome_linter",
+      "target": "biome_linter_domains",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "biome.json",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "biome_linter",
+      "target": "biome_linter_enabled",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "biome.json",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "biome_linter",
+      "target": "biome_linter_rules",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "biome.json",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "biome_linter_rules",
+      "target": "biome_rules_recommended",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "biome.json",
+      "source_location": "L30",
+      "weight": 1.0,
+      "source": "biome_linter_rules",
+      "target": "biome_rules_suspicious",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "biome.json",
+      "source_location": "L31",
+      "weight": 1.0,
+      "source": "biome_rules_suspicious",
+      "target": "biome_suspicious_nounknownatrules",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "biome.json",
+      "source_location": "L35",
+      "weight": 1.0,
+      "source": "biome_linter_domains",
+      "target": "biome_domains_next",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "biome.json",
+      "source_location": "L36",
+      "weight": 1.0,
+      "source": "biome_linter_domains",
+      "target": "biome_domains_react",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "biome.json",
+      "source_location": "L40",
+      "weight": 1.0,
+      "source": "biome_assist",
+      "target": "biome_assist_actions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "biome.json",
+      "source_location": "L41",
+      "weight": 1.0,
+      "source": "biome_assist_actions",
+      "target": "biome_actions_source",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "biome.json",
+      "source_location": "L42",
+      "weight": 1.0,
+      "source": "biome_actions_source",
+      "target": "biome_source_organizeimports",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components.json",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "components",
+      "target": "components_aliases",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components.json",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "components",
+      "target": "components_iconlibrary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components.json",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "components",
+      "target": "components_menuaccent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components.json",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "components",
+      "target": "components_menucolor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components.json",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "components",
+      "target": "components_registries",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "components",
+      "target": "components_rsc",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components.json",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "components",
+      "target": "components_rtl",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "components",
+      "target": "components_schema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "components",
+      "target": "components_style",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "components",
+      "target": "components_tailwind",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "components",
+      "target": "components_tsx",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "components_tailwind",
+      "target": "components_tailwind_basecolor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "components_tailwind",
+      "target": "components_tailwind_config",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "components_tailwind",
+      "target": "components_tailwind_css",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components.json",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "components_tailwind",
+      "target": "components_tailwind_cssvariables",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components.json",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "components_tailwind",
+      "target": "components_tailwind_prefix",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components.json",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "components_aliases",
+      "target": "components_aliases_components",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components.json",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "components_aliases",
+      "target": "components_aliases_hooks",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components.json",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "components_aliases",
+      "target": "components_aliases_lib",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "components_aliases",
+      "target": "components_aliases_ui",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "components_aliases",
+      "target": "components_aliases_utils",
+      "confidence_score": 1.0
+    },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
@@ -3087,6 +4832,26 @@
       "weight": 1.0,
       "source": "package_devdependencies",
       "target": "package_devdependencies_vitest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "postcss.config.mjs",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "postcss_config",
+      "target": "postcss_config_config",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/sw.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "public_sw",
+      "target": "public_sw_app_shell",
       "confidence_score": 1.0
     },
     {
@@ -4300,6 +6065,94 @@
       "source_location": "L32",
       "weight": 1.0,
       "source": "qr_control_dock",
+      "target": "lib_qr_caption_align_labels",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/qr/control-dock.tsx",
+      "source_location": "L32",
+      "weight": 1.0,
+      "source": "qr_control_dock",
+      "target": "lib_qr_caption_font_family_labels",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/qr/control-dock.tsx",
+      "source_location": "L32",
+      "weight": 1.0,
+      "source": "qr_control_dock",
+      "target": "lib_qr_caption_font_weight_labels",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/qr/control-dock.tsx",
+      "source_location": "L32",
+      "weight": 1.0,
+      "source": "qr_control_dock",
+      "target": "lib_qr_caption_position_labels",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/qr/control-dock.tsx",
+      "source_location": "L32",
+      "weight": 1.0,
+      "source": "qr_control_dock",
+      "target": "lib_qr_captionalign",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/qr/control-dock.tsx",
+      "source_location": "L32",
+      "weight": 1.0,
+      "source": "qr_control_dock",
+      "target": "lib_qr_captionfontfamily",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/qr/control-dock.tsx",
+      "source_location": "L32",
+      "weight": 1.0,
+      "source": "qr_control_dock",
+      "target": "lib_qr_captionfontweight",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/qr/control-dock.tsx",
+      "source_location": "L32",
+      "weight": 1.0,
+      "source": "qr_control_dock",
+      "target": "lib_qr_captionposition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/qr/control-dock.tsx",
+      "source_location": "L32",
+      "weight": 1.0,
+      "source": "qr_control_dock",
       "target": "lib_qr_preview_background_pattern_labels",
       "confidence_score": 1.0
     },
@@ -4334,6 +6187,17 @@
       "weight": 1.0,
       "source": "qr_control_dock",
       "target": "lib_qr_qr_export_frame_labels",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/qr/control-dock.tsx",
+      "source_location": "L32",
+      "weight": 1.0,
+      "source": "qr_control_dock",
+      "target": "lib_qr_qrcaption",
       "confidence_score": 1.0
     },
     {
@@ -4407,7 +6271,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/control-dock.tsx",
-      "source_location": "L48",
+      "source_location": "L60",
       "weight": 1.0,
       "source": "qr_control_dock",
       "target": "lib_utils",
@@ -4418,7 +6282,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/control-dock.tsx",
-      "source_location": "L48",
+      "source_location": "L60",
       "weight": 1.0,
       "source": "qr_control_dock",
       "target": "lib_utils_cn",
@@ -4428,7 +6292,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/control-dock.tsx",
-      "source_location": "L50",
+      "source_location": "L62",
       "weight": 1.0,
       "source": "qr_control_dock",
       "target": "qr_control_dock_activepanel",
@@ -4438,7 +6302,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/control-dock.tsx",
-      "source_location": "L71",
+      "source_location": "L83",
       "weight": 1.0,
       "source": "qr_control_dock",
       "target": "qr_control_dock_backgroundcolorfield",
@@ -4448,7 +6312,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/control-dock.tsx",
-      "source_location": "L116",
+      "source_location": "L128",
       "weight": 1.0,
       "source": "qr_control_dock",
       "target": "qr_control_dock_backgroundpanel",
@@ -4458,7 +6322,17 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/control-dock.tsx",
-      "source_location": "L461",
+      "source_location": "L255",
+      "weight": 1.0,
+      "source": "qr_control_dock",
+      "target": "qr_control_dock_captionpanel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/qr/control-dock.tsx",
+      "source_location": "L664",
       "weight": 1.0,
       "source": "qr_control_dock",
       "target": "qr_control_dock_controldock",
@@ -4468,7 +6342,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/control-dock.tsx",
-      "source_location": "L52",
+      "source_location": "L64",
       "weight": 1.0,
       "source": "qr_control_dock",
       "target": "qr_control_dock_controldockprops",
@@ -4478,7 +6352,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/control-dock.tsx",
-      "source_location": "L243",
+      "source_location": "L444",
       "weight": 1.0,
       "source": "qr_control_dock",
       "target": "qr_control_dock_customizepanel",
@@ -4488,7 +6362,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/control-dock.tsx",
-      "source_location": "L450",
+      "source_location": "L653",
       "weight": 1.0,
       "source": "qr_control_dock",
       "target": "qr_control_dock_dock_items",
@@ -4498,7 +6372,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/control-dock.tsx",
-      "source_location": "L357",
+      "source_location": "L560",
       "weight": 1.0,
       "source": "qr_control_dock",
       "target": "qr_control_dock_downloadpanel",
@@ -4508,7 +6382,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/control-dock.tsx",
-      "source_location": "L279",
+      "source_location": "L482",
       "weight": 1.0,
       "source": "qr_control_dock",
       "target": "qr_control_dock_imagepanel",
@@ -4518,7 +6392,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/control-dock.tsx",
-      "source_location": "L99",
+      "source_location": "L111",
       "weight": 1.0,
       "source": "qr_control_dock",
       "target": "qr_control_dock_normalizesafeemoji",
@@ -4716,7 +6590,7 @@
       "context": "generic_arg",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/control-dock.tsx",
-      "source_location": "L56",
+      "source_location": "L68",
       "weight": 1.0,
       "source": "qr_control_dock_controldockprops",
       "target": "lib_qr_qrfields",
@@ -4727,7 +6601,7 @@
       "context": "generic_arg",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/control-dock.tsx",
-      "source_location": "L60",
+      "source_location": "L72",
       "weight": 1.0,
       "source": "qr_control_dock_controldockprops",
       "target": "lib_qr_qrstate",
@@ -4738,7 +6612,7 @@
       "context": "field",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/control-dock.tsx",
-      "source_location": "L55",
+      "source_location": "L67",
       "weight": 1.0,
       "source": "qr_control_dock_controldockprops",
       "target": "lib_qr_qrtype",
@@ -4749,7 +6623,7 @@
       "context": "field",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/control-dock.tsx",
-      "source_location": "L54",
+      "source_location": "L66",
       "weight": 1.0,
       "source": "qr_control_dock_controldockprops",
       "target": "lib_qr_validationresult",
@@ -4761,7 +6635,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/qr/control-dock.tsx",
-      "source_location": "L317",
+      "source_location": "L279",
+      "weight": 1.0,
+      "source": "qr_control_dock_captionpanel",
+      "target": "lib_utils_cn"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/qr/control-dock.tsx",
+      "source_location": "L520",
       "weight": 1.0,
       "source": "qr_control_dock_imagepanel",
       "target": "lib_utils_cn"
@@ -4872,6 +6757,50 @@
       "source_location": "L9",
       "weight": 1.0,
       "source": "qr_qr_app",
+      "target": "lib_qr_captionalign",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/qr/qr-app.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "qr_qr_app",
+      "target": "lib_qr_captionfontfamily",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/qr/qr-app.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "qr_qr_app",
+      "target": "lib_qr_captionfontweight",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/qr/qr-app.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "qr_qr_app",
+      "target": "lib_qr_captionposition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/qr/qr-app.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "qr_qr_app",
       "target": "lib_qr_createdefaultstate",
       "confidence_score": 1.0
     },
@@ -4906,6 +6835,17 @@
       "weight": 1.0,
       "source": "qr_qr_app",
       "target": "lib_qr_previewbackgroundpattern",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/qr/qr-app.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "qr_qr_app",
+      "target": "lib_qr_qrcaption",
       "confidence_score": 1.0
     },
     {
@@ -4979,7 +6919,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L25",
+      "source_location": "L32",
       "weight": 1.0,
       "source": "qr_qr_app",
       "target": "lib_qr_render",
@@ -4990,7 +6930,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L25",
+      "source_location": "L32",
       "weight": 1.0,
       "source": "qr_qr_app",
       "target": "lib_qr_render_renderframedqrcanvas",
@@ -5001,7 +6941,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L25",
+      "source_location": "L32",
       "weight": 1.0,
       "source": "qr_qr_app",
       "target": "lib_qr_render_renderframedqrsvg",
@@ -5044,7 +6984,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L29",
+      "source_location": "L36",
       "weight": 1.0,
       "source": "qr_qr_app",
       "target": "qr_qr_app_background_patterns",
@@ -5054,7 +6994,47 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L160",
+      "source_location": "L58",
+      "weight": 1.0,
+      "source": "qr_qr_app",
+      "target": "qr_qr_app_caption_aligns",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/qr/qr-app.tsx",
+      "source_location": "L56",
+      "weight": 1.0,
+      "source": "qr_qr_app",
+      "target": "qr_qr_app_caption_font_families",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/qr/qr-app.tsx",
+      "source_location": "L57",
+      "weight": 1.0,
+      "source": "qr_qr_app",
+      "target": "qr_qr_app_caption_font_weights",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/qr/qr-app.tsx",
+      "source_location": "L59",
+      "weight": 1.0,
+      "source": "qr_qr_app",
+      "target": "qr_qr_app_caption_positions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/qr/qr-app.tsx",
+      "source_location": "L187",
       "weight": 1.0,
       "source": "qr_qr_app",
       "target": "qr_qr_app_createdownloadfilename",
@@ -5064,7 +7044,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L114",
+      "source_location": "L125",
       "weight": 1.0,
       "source": "qr_qr_app",
       "target": "qr_qr_app_createrandomtheme",
@@ -5074,7 +7054,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L153",
+      "source_location": "L180",
       "weight": 1.0,
       "source": "qr_qr_app",
       "target": "qr_qr_app_exporterrormessage",
@@ -5084,7 +7064,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L49",
+      "source_location": "L60",
       "weight": 1.0,
       "source": "qr_qr_app",
       "target": "qr_qr_app_filename_adjectives",
@@ -5094,7 +7074,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L61",
+      "source_location": "L72",
       "weight": 1.0,
       "source": "qr_qr_app",
       "target": "qr_qr_app_filename_nouns",
@@ -5104,7 +7084,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L82",
+      "source_location": "L93",
       "weight": 1.0,
       "source": "qr_qr_app",
       "target": "qr_qr_app_hsltohex",
@@ -5114,7 +7094,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L48",
+      "source_location": "L55",
       "weight": 1.0,
       "source": "qr_qr_app",
       "target": "qr_qr_app_qr_corner_dot_styles",
@@ -5124,7 +7104,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L43",
+      "source_location": "L50",
       "weight": 1.0,
       "source": "qr_qr_app",
       "target": "qr_qr_app_qr_corner_square_styles",
@@ -5134,7 +7114,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L35",
+      "source_location": "L42",
       "weight": 1.0,
       "source": "qr_qr_app",
       "target": "qr_qr_app_qr_dot_styles",
@@ -5144,7 +7124,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L167",
+      "source_location": "L194",
       "weight": 1.0,
       "source": "qr_qr_app",
       "target": "qr_qr_app_qrapp",
@@ -5154,7 +7134,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L110",
+      "source_location": "L121",
       "weight": 1.0,
       "source": "qr_qr_app",
       "target": "qr_qr_app_randomemoji",
@@ -5164,7 +7144,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L78",
+      "source_location": "L89",
       "weight": 1.0,
       "source": "qr_qr_app",
       "target": "qr_qr_app_randomint",
@@ -5174,7 +7154,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L74",
+      "source_location": "L85",
       "weight": 1.0,
       "source": "qr_qr_app",
       "target": "qr_qr_app_randomitem",
@@ -5218,7 +7198,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L161",
+      "source_location": "L188",
       "weight": 1.0,
       "source": "qr_qr_app_createdownloadfilename",
       "target": "qr_qr_app_randomitem",
@@ -5229,7 +7209,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L132",
+      "source_location": "L146",
       "weight": 1.0,
       "source": "qr_qr_app_createrandomtheme",
       "target": "qr_qr_app_randomitem",
@@ -5240,7 +7220,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L111",
+      "source_location": "L122",
       "weight": 1.0,
       "source": "qr_qr_app_randomemoji",
       "target": "qr_qr_app_randomitem",
@@ -5251,7 +7231,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L163",
+      "source_location": "L190",
       "weight": 1.0,
       "source": "qr_qr_app_createdownloadfilename",
       "target": "qr_qr_app_randomint",
@@ -5262,7 +7242,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L124",
+      "source_location": "L138",
       "weight": 1.0,
       "source": "qr_qr_app_createrandomtheme",
       "target": "qr_qr_app_randomint",
@@ -5273,7 +7253,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L129",
+      "source_location": "L143",
       "weight": 1.0,
       "source": "qr_qr_app_createrandomtheme",
       "target": "qr_qr_app_hsltohex",
@@ -5284,7 +7264,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L148",
+      "source_location": "L162",
       "weight": 1.0,
       "source": "qr_qr_app_createrandomtheme",
       "target": "qr_qr_app_randomemoji",
@@ -5296,7 +7276,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L177",
+      "source_location": "L204",
       "weight": 1.0,
       "source": "qr_qr_app_qrapp",
       "target": "lib_qr_buildpayload"
@@ -5307,7 +7287,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L171",
+      "source_location": "L198",
       "weight": 1.0,
       "source": "qr_qr_app_qrapp",
       "target": "lib_qr_iscontentempty"
@@ -5318,7 +7298,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/qr/qr-app.tsx",
-      "source_location": "L174",
+      "source_location": "L201",
       "weight": 1.0,
       "source": "qr_qr_app_qrapp",
       "target": "lib_qr_validate"
@@ -5328,7 +7308,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-preview.tsx",
-      "source_location": "L15",
+      "source_location": "L16",
       "weight": 1.0,
       "source": "qr_qr_preview",
       "target": "lib_qr",
@@ -5364,6 +7344,17 @@
       "source_location": "L8",
       "weight": 1.0,
       "source": "qr_qr_preview",
+      "target": "lib_qr_qrcaption",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/qr/qr-preview.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "qr_qr_preview",
       "target": "lib_qr_qrcornerdotstyle",
       "confidence_score": 1.0
     },
@@ -5394,7 +7385,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-preview.tsx",
-      "source_location": "L16",
+      "source_location": "L17",
       "weight": 1.0,
       "source": "qr_qr_preview",
       "target": "lib_qr_render",
@@ -5405,7 +7396,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-preview.tsx",
-      "source_location": "L16",
+      "source_location": "L17",
       "weight": 1.0,
       "source": "qr_qr_preview",
       "target": "lib_qr_render_renderqrcanvas",
@@ -5416,7 +7407,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-preview.tsx",
-      "source_location": "L17",
+      "source_location": "L18",
       "weight": 1.0,
       "source": "qr_qr_preview",
       "target": "lib_utils",
@@ -5427,7 +7418,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-preview.tsx",
-      "source_location": "L17",
+      "source_location": "L18",
       "weight": 1.0,
       "source": "qr_qr_preview",
       "target": "lib_utils_cn",
@@ -5437,7 +7428,27 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-preview.tsx",
-      "source_location": "L47",
+      "source_location": "L30",
+      "weight": 1.0,
+      "source": "qr_qr_preview",
+      "target": "qr_qr_preview_caption_font_css",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/qr/qr-preview.tsx",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "qr_qr_preview",
+      "target": "qr_qr_preview_caption_font_weight_css",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/qr/qr-preview.tsx",
+      "source_location": "L61",
       "weight": 1.0,
       "source": "qr_qr_preview",
       "target": "qr_qr_preview_emojipatterndataurl",
@@ -5447,7 +7458,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-preview.tsx",
-      "source_location": "L40",
+      "source_location": "L54",
       "weight": 1.0,
       "source": "qr_qr_preview",
       "target": "qr_qr_preview_escapesvgtext",
@@ -5457,7 +7468,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-preview.tsx",
-      "source_location": "L55",
+      "source_location": "L69",
       "weight": 1.0,
       "source": "qr_qr_preview",
       "target": "qr_qr_preview_getpreviewbackgroundstyle",
@@ -5467,7 +7478,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-preview.tsx",
-      "source_location": "L21",
+      "source_location": "L22",
       "weight": 1.0,
       "source": "qr_qr_preview",
       "target": "qr_qr_preview_previewstatus",
@@ -5477,7 +7488,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-preview.tsx",
-      "source_location": "L92",
+      "source_location": "L106",
       "weight": 1.0,
       "source": "qr_qr_preview",
       "target": "qr_qr_preview_qrpreview",
@@ -5487,7 +7498,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-preview.tsx",
-      "source_location": "L23",
+      "source_location": "L36",
       "weight": 1.0,
       "source": "qr_qr_preview",
       "target": "qr_qr_preview_qrpreviewprops",
@@ -5498,7 +7509,7 @@
       "context": "field",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-preview.tsx",
-      "source_location": "L34",
+      "source_location": "L47",
       "weight": 1.0,
       "source": "qr_qr_preview_qrpreviewprops",
       "target": "lib_qr_eclevel",
@@ -5509,7 +7520,7 @@
       "context": "field",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-preview.tsx",
-      "source_location": "L36",
+      "source_location": "L49",
       "weight": 1.0,
       "source": "qr_qr_preview_qrpreviewprops",
       "target": "lib_qr_previewbackground",
@@ -5520,7 +7531,18 @@
       "context": "field",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-preview.tsx",
-      "source_location": "L32",
+      "source_location": "L50",
+      "weight": 1.0,
+      "source": "qr_qr_preview_qrpreviewprops",
+      "target": "lib_qr_qrcaption",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "field",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/qr/qr-preview.tsx",
+      "source_location": "L45",
       "weight": 1.0,
       "source": "qr_qr_preview_qrpreviewprops",
       "target": "lib_qr_qrcornerdotstyle",
@@ -5531,7 +7553,7 @@
       "context": "field",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-preview.tsx",
-      "source_location": "L31",
+      "source_location": "L44",
       "weight": 1.0,
       "source": "qr_qr_preview_qrpreviewprops",
       "target": "lib_qr_qrcornersquarestyle",
@@ -5542,7 +7564,7 @@
       "context": "field",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-preview.tsx",
-      "source_location": "L30",
+      "source_location": "L43",
       "weight": 1.0,
       "source": "qr_qr_preview_qrpreviewprops",
       "target": "lib_qr_qrdotstyle",
@@ -5553,7 +7575,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-preview.tsx",
-      "source_location": "L51",
+      "source_location": "L65",
       "weight": 1.0,
       "source": "qr_qr_preview_emojipatterndataurl",
       "target": "qr_qr_preview_escapesvgtext",
@@ -5564,7 +7586,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-preview.tsx",
-      "source_location": "L82",
+      "source_location": "L96",
       "weight": 1.0,
       "source": "qr_qr_preview_getpreviewbackgroundstyle",
       "target": "qr_qr_preview_emojipatterndataurl",
@@ -5575,7 +7597,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/qr/qr-preview.tsx",
-      "source_location": "L223",
+      "source_location": "L238",
       "weight": 1.0,
       "source": "qr_qr_preview_qrpreview",
       "target": "qr_qr_preview_getpreviewbackgroundstyle",
@@ -5587,7 +7609,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/qr/qr-preview.tsx",
-      "source_location": "L239",
+      "source_location": "L272",
       "weight": 1.0,
       "source": "qr_qr_preview_qrpreview",
       "target": "lib_utils_cn"
@@ -7422,7 +9444,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L10",
+      "source_location": "L11",
       "weight": 1.0,
       "source": "lib_qr_render",
       "target": "lib_qr",
@@ -7458,6 +9480,17 @@
       "source_location": "L2",
       "weight": 1.0,
       "source": "lib_qr_render",
+      "target": "lib_qr_qrcaption",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/qr-render.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "lib_qr_render",
       "target": "lib_qr_qrcornerdotstyle",
       "confidence_score": 1.0
     },
@@ -7498,7 +9531,37 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L66",
+      "source_location": "L37",
+      "weight": 1.0,
+      "source": "lib_qr_render",
+      "target": "lib_qr_render_caption_font_families",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/qr-render.ts",
+      "source_location": "L43",
+      "weight": 1.0,
+      "source": "lib_qr_render",
+      "target": "lib_qr_render_caption_font_weights",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/qr-render.ts",
+      "source_location": "L67",
+      "weight": 1.0,
+      "source": "lib_qr_render",
+      "target": "lib_qr_render_captiongeometry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/qr-render.ts",
+      "source_location": "L123",
       "weight": 1.0,
       "source": "lib_qr_render",
       "target": "lib_qr_render_createstyledqr",
@@ -7508,7 +9571,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L108",
+      "source_location": "L165",
       "weight": 1.0,
       "source": "lib_qr_render",
       "target": "lib_qr_render_escapesvgattribute",
@@ -7518,7 +9581,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L101",
+      "source_location": "L158",
       "weight": 1.0,
       "source": "lib_qr_render",
       "target": "lib_qr_render_escapesvgtext",
@@ -7528,7 +9591,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L35",
+      "source_location": "L92",
       "weight": 1.0,
       "source": "lib_qr_render",
       "target": "lib_qr_render_export_frame_ratios",
@@ -7538,7 +9601,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L28",
+      "source_location": "L29",
       "weight": 1.0,
       "source": "lib_qr_render",
       "target": "lib_qr_render_exportframeoptions",
@@ -7548,7 +9611,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L135",
+      "source_location": "L192",
       "weight": 1.0,
       "source": "lib_qr_render",
       "target": "lib_qr_render_fillcanvasbackground",
@@ -7558,7 +9621,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L44",
+      "source_location": "L101",
       "weight": 1.0,
       "source": "lib_qr_render",
       "target": "lib_qr_render_getframesize",
@@ -7568,7 +9631,17 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L12",
+      "source_location": "L50",
+      "weight": 1.0,
+      "source": "lib_qr_render",
+      "target": "lib_qr_render_groupcenteredcardy",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/qr-render.ts",
+      "source_location": "L13",
       "weight": 1.0,
       "source": "lib_qr_render",
       "target": "lib_qr_render_qrrenderoptions",
@@ -7578,7 +9651,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L263",
+      "source_location": "L320",
       "weight": 1.0,
       "source": "lib_qr_render",
       "target": "lib_qr_render_renderframedqrcanvas",
@@ -7588,7 +9661,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L311",
+      "source_location": "L388",
       "weight": 1.0,
       "source": "lib_qr_render",
       "target": "lib_qr_render_renderframedqrsvg",
@@ -7598,7 +9671,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L236",
+      "source_location": "L293",
       "weight": 1.0,
       "source": "lib_qr_render",
       "target": "lib_qr_render_renderqrcanvas",
@@ -7608,7 +9681,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L255",
+      "source_location": "L312",
       "weight": 1.0,
       "source": "lib_qr_render",
       "target": "lib_qr_render_renderqrsvg",
@@ -7618,7 +9691,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L112",
+      "source_location": "L169",
       "weight": 1.0,
       "source": "lib_qr_render",
       "target": "lib_qr_render_roundedrectpath",
@@ -7628,7 +9701,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L209",
+      "source_location": "L266",
       "weight": 1.0,
       "source": "lib_qr_render",
       "target": "lib_qr_render_svgbackgroundmarkup",
@@ -7639,7 +9712,7 @@
       "context": "type",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L28",
+      "source_location": "L29",
       "weight": 1.0,
       "source": "lib_qr_render_exportframeoptions",
       "target": "lib_qr_render_qrrenderoptions",
@@ -7650,7 +9723,7 @@
       "context": "field",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L20",
+      "source_location": "L21",
       "weight": 1.0,
       "source": "lib_qr_render_qrrenderoptions",
       "target": "lib_qr_eclevel",
@@ -7661,7 +9734,7 @@
       "context": "field",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L19",
+      "source_location": "L20",
       "weight": 1.0,
       "source": "lib_qr_render_qrrenderoptions",
       "target": "lib_qr_qrcornerdotstyle",
@@ -7672,7 +9745,7 @@
       "context": "field",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L18",
+      "source_location": "L19",
       "weight": 1.0,
       "source": "lib_qr_render_qrrenderoptions",
       "target": "lib_qr_qrcornersquarestyle",
@@ -7683,7 +9756,7 @@
       "context": "field",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L17",
+      "source_location": "L18",
       "weight": 1.0,
       "source": "lib_qr_render_qrrenderoptions",
       "target": "lib_qr_qrdotstyle",
@@ -7694,7 +9767,7 @@
       "context": "field",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L32",
+      "source_location": "L33",
       "weight": 1.0,
       "source": "lib_qr_render_exportframeoptions",
       "target": "lib_qr_previewbackground",
@@ -7705,7 +9778,18 @@
       "context": "field",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L29",
+      "source_location": "L34",
+      "weight": 1.0,
+      "source": "lib_qr_render_exportframeoptions",
+      "target": "lib_qr_qrcaption",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "field",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/qr-render.ts",
+      "source_location": "L30",
       "weight": 1.0,
       "source": "lib_qr_render_exportframeoptions",
       "target": "lib_qr_qrexportframe",
@@ -7716,7 +9800,51 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L266",
+      "source_location": "L343",
+      "weight": 1.0,
+      "source": "lib_qr_render_renderframedqrcanvas",
+      "target": "lib_qr_render_groupcenteredcardy",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/qr-render.ts",
+      "source_location": "L400",
+      "weight": 1.0,
+      "source": "lib_qr_render_renderframedqrsvg",
+      "target": "lib_qr_render_groupcenteredcardy",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/qr-render.ts",
+      "source_location": "L368",
+      "weight": 1.0,
+      "source": "lib_qr_render_renderframedqrcanvas",
+      "target": "lib_qr_render_captiongeometry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/qr-render.ts",
+      "source_location": "L417",
+      "weight": 1.0,
+      "source": "lib_qr_render_renderframedqrsvg",
+      "target": "lib_qr_render_captiongeometry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/qr-render.ts",
+      "source_location": "L323",
       "weight": 1.0,
       "source": "lib_qr_render_renderframedqrcanvas",
       "target": "lib_qr_render_getframesize",
@@ -7727,7 +9855,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L314",
+      "source_location": "L391",
       "weight": 1.0,
       "source": "lib_qr_render_renderframedqrsvg",
       "target": "lib_qr_render_getframesize",
@@ -7738,7 +9866,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L239",
+      "source_location": "L296",
       "weight": 1.0,
       "source": "lib_qr_render_renderqrcanvas",
       "target": "lib_qr_render_createstyledqr",
@@ -7749,7 +9877,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L256",
+      "source_location": "L313",
       "weight": 1.0,
       "source": "lib_qr_render_renderqrsvg",
       "target": "lib_qr_render_createstyledqr",
@@ -7760,7 +9888,18 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L232",
+      "source_location": "L433",
+      "weight": 1.0,
+      "source": "lib_qr_render_renderframedqrsvg",
+      "target": "lib_qr_render_escapesvgtext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/qr-render.ts",
+      "source_location": "L289",
       "weight": 1.0,
       "source": "lib_qr_render_svgbackgroundmarkup",
       "target": "lib_qr_render_escapesvgtext",
@@ -7771,7 +9910,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L341",
+      "source_location": "L433",
       "weight": 1.0,
       "source": "lib_qr_render_renderframedqrsvg",
       "target": "lib_qr_render_escapesvgattribute",
@@ -7782,7 +9921,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L210",
+      "source_location": "L267",
       "weight": 1.0,
       "source": "lib_qr_render_svgbackgroundmarkup",
       "target": "lib_qr_render_escapesvgattribute",
@@ -7793,7 +9932,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L341",
+      "source_location": "L440",
       "weight": 1.0,
       "source": "lib_qr_render_renderframedqrsvg",
       "target": "lib_qr_render_roundedrectpath",
@@ -7804,7 +9943,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L276",
+      "source_location": "L333",
       "weight": 1.0,
       "source": "lib_qr_render_renderframedqrcanvas",
       "target": "lib_qr_render_fillcanvasbackground",
@@ -7815,7 +9954,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L339",
+      "source_location": "L438",
       "weight": 1.0,
       "source": "lib_qr_render_renderframedqrsvg",
       "target": "lib_qr_render_svgbackgroundmarkup",
@@ -7826,7 +9965,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L300",
+      "source_location": "L358",
       "weight": 1.0,
       "source": "lib_qr_render_renderframedqrcanvas",
       "target": "lib_qr_render_renderqrcanvas",
@@ -7837,7 +9976,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr-render.ts",
-      "source_location": "L331",
+      "source_location": "L411",
       "weight": 1.0,
       "source": "lib_qr_render_renderframedqrsvg",
       "target": "lib_qr_render_renderqrsvg",
@@ -7902,7 +10041,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L301",
+      "source_location": "L355",
       "weight": 1.0,
       "source": "lib_qr",
       "target": "lib_qr_buildpayload",
@@ -7912,30 +10051,50 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L167",
+      "source_location": "L119",
       "weight": 1.0,
       "source": "lib_qr",
-      "target": "lib_qr_createdefaultstate",
+      "target": "lib_qr_caption_align_labels",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L199",
+      "source_location": "L107",
       "weight": 1.0,
       "source": "lib_qr",
-      "target": "lib_qr_createemptyfields",
+      "target": "lib_qr_caption_font_family_labels",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L79",
+      "source_location": "L113",
       "weight": 1.0,
       "source": "lib_qr",
-      "target": "lib_qr_ec_level_labels",
+      "target": "lib_qr_caption_font_weight_labels",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/qr.ts",
+      "source_location": "L125",
+      "weight": 1.0,
+      "source": "lib_qr",
+      "target": "lib_qr_caption_position_labels",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/qr.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "lib_qr",
+      "target": "lib_qr_captionalign",
       "confidence_score": 1.0
     },
     {
@@ -7945,6 +10104,66 @@
       "source_location": "L3",
       "weight": 1.0,
       "source": "lib_qr",
+      "target": "lib_qr_captionfontfamily",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/qr.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "lib_qr",
+      "target": "lib_qr_captionfontweight",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/qr.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "lib_qr",
+      "target": "lib_qr_captionposition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/qr.ts",
+      "source_location": "L211",
+      "weight": 1.0,
+      "source": "lib_qr",
+      "target": "lib_qr_createdefaultstate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/qr.ts",
+      "source_location": "L253",
+      "weight": 1.0,
+      "source": "lib_qr",
+      "target": "lib_qr_createemptyfields",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/qr.ts",
+      "source_location": "L96",
+      "weight": 1.0,
+      "source": "lib_qr",
+      "target": "lib_qr_ec_level_labels",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/qr.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "lib_qr",
       "target": "lib_qr_eclevel",
       "confidence_score": 1.0
     },
@@ -7952,7 +10171,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L297",
+      "source_location": "L351",
       "weight": 1.0,
       "source": "lib_qr",
       "target": "lib_qr_escapewifi",
@@ -7962,7 +10181,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L203",
+      "source_location": "L257",
       "weight": 1.0,
       "source": "lib_qr",
       "target": "lib_qr_iscontentempty",
@@ -7972,7 +10191,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L222",
+      "source_location": "L276",
       "weight": 1.0,
       "source": "lib_qr",
       "target": "lib_qr_normalizeurl",
@@ -7982,7 +10201,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L127",
+      "source_location": "L171",
       "weight": 1.0,
       "source": "lib_qr",
       "target": "lib_qr_preview_background_pattern_labels",
@@ -7992,7 +10211,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L41",
+      "source_location": "L57",
       "weight": 1.0,
       "source": "lib_qr",
       "target": "lib_qr_previewbackground",
@@ -8002,7 +10221,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L7",
+      "source_location": "L12",
       "weight": 1.0,
       "source": "lib_qr",
       "target": "lib_qr_previewbackgroundpattern",
@@ -8012,7 +10231,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L162",
+      "source_location": "L206",
       "weight": 1.0,
       "source": "lib_qr",
       "target": "lib_qr_qr_corner_dot_style_labels",
@@ -8022,7 +10241,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L153",
+      "source_location": "L197",
       "weight": 1.0,
       "source": "lib_qr",
       "target": "lib_qr_qr_corner_square_style_labels",
@@ -8032,7 +10251,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L144",
+      "source_location": "L188",
       "weight": 1.0,
       "source": "lib_qr",
       "target": "lib_qr_qr_dot_style_labels",
@@ -8042,7 +10261,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L138",
+      "source_location": "L182",
       "weight": 1.0,
       "source": "lib_qr",
       "target": "lib_qr_qr_export_frame_labels",
@@ -8052,7 +10271,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L71",
+      "source_location": "L88",
       "weight": 1.0,
       "source": "lib_qr",
       "target": "lib_qr_qr_type_labels",
@@ -8062,7 +10281,17 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L26",
+      "source_location": "L46",
+      "weight": 1.0,
+      "source": "lib_qr",
+      "target": "lib_qr_qrcaption",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/qr.ts",
+      "source_location": "L31",
       "weight": 1.0,
       "source": "lib_qr",
       "target": "lib_qr_qrcornerdotstyle",
@@ -8072,7 +10301,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L24",
+      "source_location": "L29",
       "weight": 1.0,
       "source": "lib_qr",
       "target": "lib_qr_qrcornersquarestyle",
@@ -8082,7 +10311,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L16",
+      "source_location": "L21",
       "weight": 1.0,
       "source": "lib_qr",
       "target": "lib_qr_qrdotstyle",
@@ -8092,7 +10321,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L14",
+      "source_location": "L19",
       "weight": 1.0,
       "source": "lib_qr",
       "target": "lib_qr_qrexportframe",
@@ -8102,7 +10331,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L28",
+      "source_location": "L33",
       "weight": 1.0,
       "source": "lib_qr",
       "target": "lib_qr_qrfields",
@@ -8112,7 +10341,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L49",
+      "source_location": "L65",
       "weight": 1.0,
       "source": "lib_qr",
       "target": "lib_qr_qrstate",
@@ -8132,7 +10361,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L96",
+      "source_location": "L140",
       "weight": 1.0,
       "source": "lib_qr",
       "target": "lib_qr_safe_background_emojis",
@@ -8142,7 +10371,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L227",
+      "source_location": "L281",
       "weight": 1.0,
       "source": "lib_qr",
       "target": "lib_qr_validate",
@@ -8152,7 +10381,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L67",
+      "source_location": "L84",
       "weight": 1.0,
       "source": "lib_qr",
       "target": "lib_qr_validationresult",
@@ -8162,7 +10391,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L5",
+      "source_location": "L10",
       "weight": 1.0,
       "source": "lib_qr",
       "target": "lib_qr_wifiencryption",
@@ -8173,7 +10402,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L200",
+      "source_location": "L254",
       "weight": 1.0,
       "source": "lib_qr_createemptyfields",
       "target": "lib_qr_createdefaultstate",
@@ -8184,7 +10413,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L304",
+      "source_location": "L358",
       "weight": 1.0,
       "source": "lib_qr_buildpayload",
       "target": "lib_qr_normalizeurl",
@@ -8195,7 +10424,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L230",
+      "source_location": "L284",
       "weight": 1.0,
       "source": "lib_qr_validate",
       "target": "lib_qr_normalizeurl",
@@ -8206,7 +10435,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/lib/qr.ts",
-      "source_location": "L319",
+      "source_location": "L373",
       "weight": 1.0,
       "source": "lib_qr_buildpayload",
       "target": "lib_qr_escapewifi",
@@ -8230,6 +10459,58 @@
       "weight": 1.0,
       "source": "e2e_qr_pixel_spec",
       "target": "e2e_qr_pixel_spec_gotoready",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "tools/graphify/update-codebase-graphify.sh",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "graphify_update_codebase_graphify",
+      "target": "graphify_update_codebase_graphify_copy_if_exists",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "tools/graphify/update-codebase-graphify.sh",
+      "source_location": "L34",
+      "weight": 1.0,
+      "source": "graphify_update_codebase_graphify",
+      "target": "graphify_update_codebase_graphify_run_graphify",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tools/graphify/update-codebase-graphify.sh",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "graphify_update_codebase_graphify",
+      "target": "users_alif_developer_projects_web_next_js_qr_pixel_tools_graphify_update_codebase_graphify_sh__entry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "tools/graphify/update-codebase-graphify.sh",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "call",
+      "source": "users_alif_developer_projects_web_next_js_qr_pixel_tools_graphify_update_codebase_graphify_sh__entry",
+      "target": "graphify_update_codebase_graphify_copy_if_exists",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "tools/graphify/update-codebase-graphify.sh",
+      "source_location": "L44",
+      "weight": 1.0,
+      "context": "call",
+      "source": "users_alif_developer_projects_web_next_js_qr_pixel_tools_graphify_update_codebase_graphify_sh__entry",
+      "target": "graphify_update_codebase_graphify_run_graphify",
       "confidence_score": 1.0
     },
     {
@@ -8423,116 +10704,309 @@
       "confidence_score": 1.0
     },
     {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "README.md",
-      "source_location": "L1",
-      "weight": 1.0,
-      "source": "readme",
-      "target": "readme_qr_pixel",
-      "confidence_score": 1.0
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": ".github/workflows/ci.yml",
+      "source_location": null,
+      "weight": 0.75,
+      "source": "ci_yml_verify_job",
+      "target": "docker_publish_yml_publish_job"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "README.md",
-      "source_location": "L25",
+      "confidence_score": 1.0,
+      "source_file": ".github/workflows/ci.yml",
+      "source_location": "line 12",
       "weight": 1.0,
-      "source": "readme_qr_pixel",
-      "target": "readme_features",
-      "confidence_score": 1.0
+      "source": "ci_yml_workflow",
+      "target": "ci_yml_verify_job"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "README.md",
-      "source_location": "L11",
+      "confidence_score": 1.0,
+      "source_file": ".github/workflows/docker-publish.yml",
+      "source_location": "line 17",
       "weight": 1.0,
-      "source": "readme_qr_pixel",
-      "target": "readme_preview",
-      "confidence_score": 1.0
+      "source": "docker_publish_yml_workflow",
+      "target": "docker_publish_yml_publish_job"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "README.md",
-      "source_location": "L82",
+      "confidence_score": 1.0,
+      "source_file": ".github/workflows/docker-publish.yml",
+      "source_location": "line 14",
       "weight": 1.0,
-      "source": "readme_features",
-      "target": "readme_backdrop_styles",
-      "confidence_score": 1.0
+      "source": "docker_publish_yml_publish_job",
+      "target": "concept_ghcr_docker_image"
     },
     {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "README.md",
-      "source_location": "L106",
-      "weight": 1.0,
-      "source": "readme_features",
-      "target": "readme_export_options",
-      "confidence_score": 1.0
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "docker-compose.yml",
+      "source_location": null,
+      "weight": 0.85,
+      "source": "docker_compose_qr_pixel_service",
+      "target": "concept_ghcr_docker_image"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "README.md",
-      "source_location": "L138",
+      "confidence_score": 1.0,
+      "source_file": ".serena/project.local.yml",
+      "source_location": "line 1",
       "weight": 1.0,
-      "source": "readme_features",
-      "target": "readme_graphql_payload_builder",
-      "confidence_score": 1.0
+      "source": "serena_project_local_yml_config",
+      "target": "serena_project_yml_config"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "README.md",
-      "source_location": "L41",
+      "confidence_score": 1.0,
+      "source_file": "AGENTS.md",
+      "source_location": "line 3",
       "weight": 1.0,
-      "source": "readme_features",
-      "target": "readme_live_qr_preview",
-      "confidence_score": 1.0
+      "source": "agents_md_nextjs_rules",
+      "target": "concept_nextjs_version_warning"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
-      "source_file": "README.md",
-      "source_location": "L96",
+      "confidence_score": 1.0,
+      "source_file": "CLAUDE.md",
+      "source_location": "line 1",
       "weight": 1.0,
-      "source": "readme_features",
-      "target": "readme_logo_upload",
-      "confidence_score": 1.0
+      "source": "claude_md_project_instructions",
+      "target": "agents_md_nextjs_rules"
     },
     {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "README.md",
-      "source_location": "L27",
-      "weight": 1.0,
-      "source": "readme_features",
-      "target": "readme_qr_content_types",
-      "confidence_score": 1.0
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "public/icons/icon.svg",
+      "source_location": null,
+      "weight": 0.75,
+      "source": "icons_icon_svg",
+      "target": "readme_qr_pixel_overview"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L57",
+      "source_location": "line 83",
       "weight": 1.0,
-      "source": "readme_features",
-      "target": "readme_qr_customization",
-      "confidence_score": 1.0
+      "source": "readme_qr_pixel_overview",
+      "target": "readme_backdrop_styles"
     },
     {
-      "relation": "contains",
+      "relation": "references",
       "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L130",
+      "source_location": "line 108",
       "weight": 1.0,
-      "source": "readme_features",
-      "target": "readme_randomizer",
-      "confidence_score": 1.0
+      "source": "readme_qr_pixel_overview",
+      "target": "readme_export_options"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": "line 139",
+      "weight": 1.0,
+      "source": "readme_qr_pixel_overview",
+      "target": "readme_graphql_endpoint"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": "line 43",
+      "weight": 1.0,
+      "source": "readme_qr_pixel_overview",
+      "target": "readme_live_preview"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": "line 98",
+      "weight": 1.0,
+      "source": "readme_qr_pixel_overview",
+      "target": "readme_logo_upload"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": "line 28",
+      "weight": 1.0,
+      "source": "readme_qr_pixel_overview",
+      "target": "readme_qr_content_types"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": "line 58",
+      "weight": 1.0,
+      "source": "readme_qr_pixel_overview",
+      "target": "readme_qr_customization"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": "line 131",
+      "weight": 1.0,
+      "source": "readme_qr_pixel_overview",
+      "target": "readme_randomizer"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 0.85,
+      "source": "readme_backdrop_styles",
+      "target": "readme_qr_customization"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 0.85,
+      "source": "readme_live_preview",
+      "target": "readme_qr_customization"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 0.8,
+      "source": "readme_logo_upload",
+      "target": "readme_qr_customization"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 0.85,
+      "source": "readme_randomizer",
+      "target": "readme_qr_customization"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/offline.html",
+      "source_location": "line 1",
+      "weight": 1.0,
+      "source": "offline_html_offline_page",
+      "target": "concept_pwa_offline_support"
+    },
+    {
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "public/icons/icon.svg",
+      "source_location": null,
+      "weight": 0.85,
+      "source": "icons_icon_svg",
+      "target": "icons_maskable_icon_svg"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "public/splash/desktop.svg",
+      "source_location": null,
+      "weight": 0.75,
+      "source": "splash_desktop_svg",
+      "target": "concept_pwa_offline_support"
+    },
+    {
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "public/splash/desktop.svg",
+      "source_location": null,
+      "weight": 0.9,
+      "source": "splash_desktop_svg",
+      "target": "splash_mobile_svg"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "public/splash/mobile.svg",
+      "source_location": null,
+      "weight": 0.75,
+      "source": "splash_mobile_svg",
+      "target": "concept_pwa_offline_support"
     }
   ],
-  "hyperedges": [],
-  "built_at_commit": "01e722471716664cd165f426fb881cec5373659e"
+  "hyperedges": [
+    {
+      "id": "pwa_assets_group",
+      "label": "PWA Asset Bundle (Icons + Splash Screens + Offline Page)",
+      "nodes": [
+        "icons_icon_svg",
+        "icons_maskable_icon_svg",
+        "splash_desktop_svg",
+        "splash_mobile_svg",
+        "offline_html_offline_page"
+      ],
+      "relation": "implement",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "public/offline.html"
+    },
+    {
+      "id": "ci_cd_pipeline",
+      "label": "CI/CD Pipeline (CI Verify + Docker Publish + Docker Compose)",
+      "nodes": [
+        "ci_yml_workflow",
+        "docker_publish_yml_workflow",
+        "docker_compose_qr_pixel_service"
+      ],
+      "relation": "participate_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": ".github/workflows/ci.yml"
+    },
+    {
+      "id": "qr_customization_features",
+      "label": "QR Customization Feature Set (Styles + Backdrop + Randomizer)",
+      "nodes": [
+        "readme_qr_customization",
+        "readme_backdrop_styles",
+        "readme_randomizer",
+        "readme_live_preview"
+      ],
+      "relation": "implement",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "README.md"
+    }
+  ],
+  "built_at_commit": "1cf7de15399a271d816a808dc9ccb3d3a9d881c6"
 }
