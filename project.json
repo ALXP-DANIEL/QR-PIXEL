@@ -1,0 +1,60 @@
+{
+  "slug": "qr-pixel",
+  "title": "QR Pixel",
+  "type": "Full-Stack Web App",
+  "category": "QR Code Generator",
+  "summary": "A modern single-page QR code generator with a glass-style studio — create, customize, preview, and export pixel-perfect QR codes instantly.",
+  "overview": "QR Pixel is a premium QR studio built with Next.js 16 and React 19. It supports multiple content types (URL, text, email, phone, Wi-Fi) with shared validation, a live customizable preview (colors, dot and corner styles, padding, logo upload, error correction, and backdrop patterns), and PNG/SVG export in multiple framed layouts. A GraphQL endpoint reuses the same validation and payload-builder logic as the UI.",
+  "year": "2026",
+  "spotlight": true,
+  "thumbnail": "https://picsum.photos/seed/qr-pixel-cover/1400/900",
+  "spotlightImage": "https://picsum.photos/seed/qr-pixel-hero/1800/1100",
+  "techStack": [
+    "Next.js 16",
+    "React 19",
+    "TypeScript",
+    "Tailwind CSS 4",
+    "Base UI",
+    "Motion",
+    "qr-code-styling",
+    "React Hook Form",
+    "Zod",
+    "GraphQL",
+    "Vitest",
+    "Playwright",
+    "Biome",
+    "Vercel"
+  ],
+  "highlights": [
+    "Single-page QR studio with a glass-style interface for creating, customizing, previewing, and exporting QR codes.",
+    "Multiple content types — URL, text, email, phone, and Wi-Fi — with shared validation and payload generation.",
+    "Live preview with custom foreground, background, and card colors, dot and corner styles, padding, logo upload, error correction, and backdrop patterns.",
+    "PNG and SVG export with framed output and multiple layouts (square, portrait, desktop).",
+    "GraphQL endpoint for QR payload preview and generation, reusing the frontend's validation and payload builder.",
+    "Reliable DX and testing via Vitest, Playwright, Biome, and strict type checking."
+  ],
+  "previewImages": [
+    {
+      "src": "https://picsum.photos/seed/qr-pixel-1/1400/900",
+      "title": "QR Studio",
+      "caption": "The full-screen glass studio with a centered live preview.",
+      "alt": "QR Pixel studio interface"
+    },
+    {
+      "src": "https://picsum.photos/seed/qr-pixel-2/1400/900",
+      "title": "Customization",
+      "caption": "Color, dot, corner, padding, and backdrop controls.",
+      "alt": "QR Pixel customization controls"
+    },
+    {
+      "src": "https://picsum.photos/seed/qr-pixel-3/1400/900",
+      "title": "Export",
+      "caption": "Framed PNG and SVG export in multiple layouts.",
+      "alt": "QR Pixel export options"
+    }
+  ],
+  "actions": {
+    "open": "https://qr-pixel.alifdaniel.dpdns.org",
+    "github": "https://github.com/ALXP-DANIEL/qr-pixel"
+  }
+}
