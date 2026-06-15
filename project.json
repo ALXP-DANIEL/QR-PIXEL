@@ -7,8 +7,8 @@
   "overview": "QR Pixel is a premium QR studio built with Next.js 16 and React 19. It supports multiple content types (URL, text, email, phone, Wi-Fi) with shared validation, a live customizable preview (colors, dot and corner styles, padding, logo upload, error correction, and backdrop patterns), and PNG/SVG export in multiple framed layouts. A GraphQL endpoint reuses the same validation and payload-builder logic as the UI.",
   "year": "2026",
   "spotlight": true,
-  "thumbnail": "https://picsum.photos/seed/qr-pixel-cover/1400/900",
-  "spotlightImage": "https://picsum.photos/seed/qr-pixel-hero/1800/1100",
+  "thumbnail": "./metadata/picture/thumbnail.jpeg",
+  "spotlightImage": "",
   "techStack": [
     "Next.js 16",
     "React 19",
@@ -35,22 +35,16 @@
   ],
   "previewImages": [
     {
-      "src": "https://picsum.photos/seed/qr-pixel-1/1400/900",
+      "src": "./metadata/picture/preview-1.jpeg",
       "title": "QR Studio",
       "caption": "The full-screen glass studio with a centered live preview.",
       "alt": "QR Pixel studio interface"
     },
     {
-      "src": "https://picsum.photos/seed/qr-pixel-2/1400/900",
+      "src": "./metadata/picture/preview-2.jpeg",
       "title": "Customization",
       "caption": "Color, dot, corner, padding, and backdrop controls.",
       "alt": "QR Pixel customization controls"
-    },
-    {
-      "src": "https://picsum.photos/seed/qr-pixel-3/1400/900",
-      "title": "Export",
-      "caption": "Framed PNG and SVG export in multiple layouts.",
-      "alt": "QR Pixel export options"
     }
   ],
   "actions": {
