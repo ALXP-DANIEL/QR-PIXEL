@@ -14,8 +14,11 @@ const nextConfig: NextConfig = {
             value: "nosniff",
           },
           {
-            key: "X-Frame-Options",
-            value: "DENY",
+            // Only the portfolio may frame the app (it embeds live projects
+            // in its own shell). X-Frame-Options can't express an allow-list,
+            // so framing is governed by CSP alone.
+            key: "Content-Security-Policy",
+            value: "frame-ancestors 'self' https://alifdaniel.dpdns.org",
           },
           {
             key: "Referrer-Policy",
