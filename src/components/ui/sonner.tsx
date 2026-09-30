@@ -26,15 +26,23 @@ const Toaster = ({ ...props }: ToasterProps) => {
       }}
       style={
         {
-          "--normal-bg": "var(--popover)",
-          "--normal-text": "var(--popover-foreground)",
+          // Match the glass header and dock panels.
+          "--normal-bg":
+            "color-mix(in oklab, var(--background) 65%, transparent)",
+          "--normal-text": "var(--foreground)",
           "--normal-border": "var(--border)",
-          "--border-radius": "var(--radius)",
+          "--border-radius": "var(--radius-3xl)",
         } as React.CSSProperties
       }
       toastOptions={{
         classNames: {
-          toast: "cn-toast",
+          toast:
+            "cn-toast glass-panel font-mono backdrop-blur-2xl shadow-[inset_0_1px_0_0_oklch(1_0_0/0.15),0_25px_50px_-12px_oklch(0_0_0/0.25)]!",
+          title: "text-xs font-semibold",
+          description: "text-xs text-muted-foreground!",
+          actionButton:
+            "rounded-2xl! bg-foreground! px-3! text-background! font-mono transition-opacity hover:opacity-80",
+          cancelButton: "rounded-2xl! font-mono",
         },
       }}
       {...props}

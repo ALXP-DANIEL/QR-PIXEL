@@ -43,13 +43,11 @@ export default function Home() {
                     href={siteConfig.links.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label="View on LinkedIn"
-                  >
-                    <span className="sr-only">View on LinkedIn</span>
-                  </a>
+                  />
                 }
               >
                 <LinkedinLogoIcon weight="bold" />
+                <span className="sr-only">View on LinkedIn</span>
               </Button>
               <Button
                 variant="outline"
@@ -62,13 +60,11 @@ export default function Home() {
                     href={siteConfig.links.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label="View on GitHub"
-                  >
-                    <span className="sr-only">View on GitHub</span>
-                  </a>
+                  />
                 }
               >
                 <GithubLogoIcon weight="bold" />
+                <span className="sr-only">View on GitHub</span>
               </Button>
               <ThemeToggle />
             </div>

@@ -1,3 +1,5 @@
+import type { ThemeGenome } from "@/lib/engine/genome";
+
 export type QrType = "url" | "text" | "email" | "phone" | "wifi";
 
 export type CaptionFontFamily = "sans" | "serif" | "mono";
@@ -14,7 +16,17 @@ export type PreviewBackgroundPattern =
   | "dots"
   | "grid"
   | "diagonal"
-  | "emoji";
+  | "emoji"
+  | "confetti"
+  | "aurora";
+
+export type EmojiLayout =
+  | "sprinkle"
+  | "burst"
+  | "spiral"
+  | "wave"
+  | "mosaic"
+  | "grid";
 
 export type QrExportFrame = "square" | "portrait" | "desktop";
 
@@ -59,7 +71,10 @@ export interface PreviewBackground {
   pattern: PreviewBackgroundPattern;
   patternColor: string;
   patternSize: number;
-  emoji: string;
+  emojis: string[];
+  emojiLayout: EmojiLayout;
+  /** Drives every procedural layout; same seed, same wallpaper. */
+  seed: number;
 }
 
 export interface QrState {
@@ -79,6 +94,8 @@ export interface QrState {
   logoDataUrl: string | null;
   logoName: string | null;
   caption: QrCaption;
+  /** Genome of the last generated theme, used by Evolve. */
+  genome: ThemeGenome | null;
 }
 
 export type ValidationResult =
@@ -137,36 +154,27 @@ export const BACKGROUND_PATTERN_SIZE_MIN = 24;
 export const BACKGROUND_PATTERN_SIZE_MAX = 120;
 export const BACKGROUND_PATTERN_SIZE_STEP = 4;
 export const FALLBACK_EMOJI = "✨";
-export const SAFE_BACKGROUND_EMOJIS = [
-  "😀",
-  "😎",
-  "😍",
-  "🥳",
-  "🔥",
-  "✨",
-  "⭐",
-  "🌙",
-  "☀️",
-  "🌈",
-  "⚡",
-  "💎",
-  "💫",
-  "🎉",
-  "🎈",
-  "🎵",
-  "🎮",
-  "🚀",
-  "🌍",
-  "🌸",
-  "🍀",
-  "🍕",
-  "🍩",
-  "☕",
-  "❤️",
-  "💜",
-  "💚",
-  "👍",
+export const MAX_BACKGROUND_EMOJIS = 6;
+export const DEFAULT_BACKGROUND_SEED = 20260930;
+
+// Emoji from Unicode 12 or older, so they render on nearly every device.
+export const EMOJI_THEMES = [
+  { name: "Sparkle", emojis: ["✨", "⭐", "💫", "🌟", "💎"] },
+  { name: "Space", emojis: ["🚀", "🪐", "🌙", "⭐", "🛸", "☄️"] },
+  { name: "Party", emojis: ["🎉", "🎈", "🥳", "🎁", "🎊", "🍾"] },
+  { name: "Garden", emojis: ["🌸", "🌿", "🍀", "🌻", "🌷", "🍄"] },
+  { name: "Snacks", emojis: ["🍕", "🍩", "🍓", "🍉", "🥑", "🧁"] },
+  { name: "Love", emojis: ["❤️", "💖", "💜", "💚", "😍", "💌"] },
+  { name: "Weather", emojis: ["☀️", "🌈", "⚡", "☁️", "❄️", "🔥"] },
+  { name: "Ocean", emojis: ["🐳", "🐠", "🐙", "🌊", "🐚", "🦀"] },
+  { name: "Arcade", emojis: ["🎮", "🎲", "🎵", "🎧", "👾", "🕹️"] },
+  { name: "Faces", emojis: ["😀", "😎", "😂", "🤩", "😜", "👍"] },
+  { name: "Cozy", emojis: ["☕", "🍪", "📚", "🕯️", "🧸", "🌍"] },
 ] as const;
+
+export const SAFE_BACKGROUND_EMOJIS: readonly string[] = Array.from(
+  new Set(EMOJI_THEMES.flatMap((theme) => theme.emojis)),
+);
 
 export const PREVIEW_BACKGROUND_PATTERN_LABELS: Record<
   PreviewBackgroundPattern,
@@ -177,6 +185,17 @@ export const PREVIEW_BACKGROUND_PATTERN_LABELS: Record<
   grid: "Grid",
   diagonal: "Diagonal",
   emoji: "Emoji",
+  confetti: "Confetti",
+  aurora: "Aurora",
+};
+
+export const EMOJI_LAYOUT_LABELS: Record<EmojiLayout, string> = {
+  sprinkle: "Sprinkle",
+  burst: "Burst",
+  spiral: "Spiral",
+  wave: "Wave",
+  mosaic: "Mosaic",
+  grid: "Tiles",
 };
 
 export const QR_EXPORT_FRAME_LABELS: Record<QrExportFrame, string> = {
@@ -230,13 +249,16 @@ export function createDefaultState(): QrState {
     ecLevel: "M",
     previewBackground: {
       color: "#f8fafc",
-      pattern: "dots",
-      patternColor: "#0f172a",
-      patternSize: 32,
-      emoji: FALLBACK_EMOJI,
+      pattern: "emoji",
+      patternColor: "#6366f1",
+      patternSize: 64,
+      emojis: ["✨", "⭐", "🌟", "💖"],
+      emojiLayout: "sprinkle",
+      seed: DEFAULT_BACKGROUND_SEED,
     },
     logoDataUrl: null,
     logoName: null,
+    genome: null,
     caption: {
       enabled: false,
       text: "",

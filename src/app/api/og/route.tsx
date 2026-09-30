@@ -2,8 +2,6 @@ import { ImageResponse } from "next/og";
 import type { NextRequest } from "next/server";
 import { siteConfig } from "@/config/site";
 
-export const runtime = "edge";
-
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
   const title = searchParams.get("title") ?? siteConfig.name;

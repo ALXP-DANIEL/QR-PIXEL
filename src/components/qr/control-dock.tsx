@@ -2,15 +2,35 @@
 
 import {
   ArrowCounterClockwiseIcon,
+  ArrowUUpLeftIcon,
+  ArrowUUpRightIcon,
+  CirclesThreeIcon,
+  ClipboardIcon,
+  ConfettiIcon,
   CopySimpleIcon,
+  DiceFiveIcon,
+  DnaIcon,
+  DotsNineIcon,
   DownloadSimpleIcon,
   FileSvgIcon,
+  GridFourIcon,
   type Icon,
   ImageIcon,
+  LineSegmentsIcon,
+  LockIcon,
+  LockOpenIcon,
   MagicWandIcon,
   PencilSimpleIcon,
+  RainbowIcon,
+  ShuffleIcon,
+  SmileyIcon,
   SparkleIcon,
+  SpiralIcon,
+  SquareIcon,
+  SquaresFourIcon,
+  SunIcon,
   UploadSimpleIcon,
+  WavesIcon,
   XIcon,
 } from "@phosphor-icons/react";
 import { AnimatePresence, motion } from "motion/react";
@@ -29,6 +49,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
+import { randomSeed } from "@/lib/background-scene";
 import {
   BACKGROUND_PATTERN_SIZE_MAX,
   BACKGROUND_PATTERN_SIZE_MIN,
@@ -44,7 +65,10 @@ import {
   type CaptionFontFamily,
   type CaptionFontWeight,
   type CaptionPosition,
-  FALLBACK_EMOJI,
+  EMOJI_LAYOUT_LABELS,
+  EMOJI_THEMES,
+  type EmojiLayout,
+  MAX_BACKGROUND_EMOJIS,
   PREVIEW_BACKGROUND_PATTERN_LABELS,
   type PreviewBackground,
   type PreviewBackgroundPattern,
@@ -57,6 +81,7 @@ import {
   SAFE_BACKGROUND_EMOJIS,
   type ValidationResult,
 } from "@/lib/qr";
+import type { RandomLocks } from "@/lib/theme-random";
 import { cn } from "@/lib/utils";
 
 export type ActivePanel = "content" | "customize" | "image" | "download" | null;
@@ -74,9 +99,20 @@ interface ControlDockProps {
   onLogoRemove: () => void;
   onDownloadPng: () => void;
   onDownloadSvg: () => void;
+  onCopyImage: () => void;
   onCopy: () => void;
   onReset: () => void;
   onRandomize: () => void;
+  onEvolve: () => void;
+  wildness: number;
+  onWildnessChange: (value: number) => void;
+  rollCount: number;
+  locks: RandomLocks;
+  onLocksChange: (locks: RandomLocks) => void;
+  canUndo: boolean;
+  canRedo: boolean;
+  onUndo: () => void;
+  onRedo: () => void;
   onActivePanelChange: (panel: ActivePanel) => void;
 }
 
@@ -108,20 +144,65 @@ function BackgroundColorField({
   );
 }
 
-function normalizeSafeEmoji(value: string): string {
-  const trimmed = value.trim();
-  if (!trimmed) {
-    return FALLBACK_EMOJI;
-  }
+const PATTERN_ICONS: Record<PreviewBackgroundPattern, Icon> = {
+  solid: SquareIcon,
+  dots: DotsNineIcon,
+  grid: GridFourIcon,
+  diagonal: LineSegmentsIcon,
+  emoji: SmileyIcon,
+  confetti: ConfettiIcon,
+  aurora: RainbowIcon,
+};
 
-  const exact = SAFE_BACKGROUND_EMOJIS.find((emoji) => emoji === trimmed);
-  if (exact) {
-    return exact;
-  }
+const EMOJI_LAYOUT_ICONS: Record<EmojiLayout, Icon> = {
+  sprinkle: SparkleIcon,
+  burst: SunIcon,
+  spiral: SpiralIcon,
+  wave: WavesIcon,
+  mosaic: CirclesThreeIcon,
+  grid: SquaresFourIcon,
+};
 
-  const first = Array.from(trimmed)[0];
+const PROCEDURAL_PATTERNS: PreviewBackgroundPattern[] = [
+  "emoji",
+  "confetti",
+  "aurora",
+];
+
+function toggleEmoji(current: readonly string[], emoji: string): string[] {
+  if (current.includes(emoji)) {
+    return current.length > 1
+      ? current.filter((item) => item !== emoji)
+      : [...current];
+  }
+  const next = [...current, emoji];
+  return next.slice(-MAX_BACKGROUND_EMOJIS);
+}
+
+function OptionTile({
+  active,
+  label,
+  Icon,
+  onClick,
+}: {
+  active: boolean;
+  label: string;
+  Icon: Icon;
+  onClick: () => void;
+}) {
   return (
-    SAFE_BACKGROUND_EMOJIS.find((emoji) => emoji === first) ?? FALLBACK_EMOJI
+    <button
+      type="button"
+      aria-pressed={active}
+      onClick={onClick}
+      className={cn(
+        "flex h-14 flex-col items-center justify-center gap-1 border border-input bg-transparent px-1 text-[11px] transition-colors hover:bg-muted/60",
+        active && "border-foreground bg-background text-foreground shadow-sm",
+      )}
+    >
+      <Icon weight={active ? "fill" : "regular"} className="size-4" />
+      <span className="max-w-full truncate">{label}</span>
+    </button>
   );
 }
 
@@ -134,9 +215,47 @@ function BackgroundPanel({
 }) {
   const patchBackground = (patch: Partial<PreviewBackground>) =>
     onPatch({ previewBackground: { ...background, ...patch } });
+  const isProcedural = PROCEDURAL_PATTERNS.includes(background.pattern);
 
   return (
     <div className="flex flex-col gap-4">
+      <div className="flex items-center justify-between gap-3">
+        <div>
+          <h3 className="text-xs font-medium text-foreground">Backdrop</h3>
+          <p className="text-xs text-muted-foreground">
+            Procedural wallpaper behind the card. Exports match the preview.
+          </p>
+        </div>
+        {isProcedural && (
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => patchBackground({ seed: randomSeed() })}
+          >
+            <ShuffleIcon />
+            Shuffle
+          </Button>
+        )}
+      </div>
+
+      <div className="grid grid-cols-4 gap-1.5 sm:grid-cols-7">
+        {(
+          Object.entries(PREVIEW_BACKGROUND_PATTERN_LABELS) as [
+            PreviewBackgroundPattern,
+            string,
+          ][]
+        ).map(([value, label]) => (
+          <OptionTile
+            key={value}
+            active={background.pattern === value}
+            label={label}
+            Icon={PATTERN_ICONS[value]}
+            onClick={() => patchBackground({ pattern: value })}
+          />
+        ))}
+      </div>
+
       <div className="grid grid-cols-2 gap-4">
         <BackgroundColorField
           id="preview-bg-color"
@@ -144,98 +263,104 @@ function BackgroundPanel({
           value={background.color}
           onChange={(color) => patchBackground({ color })}
         />
-        <BackgroundColorField
-          id="preview-pattern-color"
-          label="Pattern"
-          value={background.patternColor}
-          onChange={(patternColor) => patchBackground({ patternColor })}
-        />
-      </div>
-
-      <div className="grid gap-4 sm:grid-cols-[1fr_0.7fr]">
-        <div className="flex flex-col gap-1.5">
-          <Label htmlFor="preview-bg-pattern">Pattern style</Label>
-          <Select
-            items={PREVIEW_BACKGROUND_PATTERN_LABELS}
-            value={background.pattern}
-            onValueChange={(value) =>
-              patchBackground({
-                pattern: value as PreviewBackgroundPattern,
-              })
+        {background.pattern !== "solid" && background.pattern !== "emoji" && (
+          <BackgroundColorField
+            id="preview-pattern-color"
+            label={
+              background.pattern === "dots" ||
+              background.pattern === "grid" ||
+              background.pattern === "diagonal"
+                ? "Pattern"
+                : "Palette seed"
             }
-          >
-            <SelectTrigger id="preview-bg-pattern" className="w-full">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {Object.entries(PREVIEW_BACKGROUND_PATTERN_LABELS).map(
-                ([value, label]) => (
-                  <SelectItem key={value} value={value}>
-                    {label}
-                  </SelectItem>
-                ),
-              )}
-            </SelectContent>
-          </Select>
-        </div>
-
-        {background.pattern === "emoji" && (
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor="preview-bg-emoji">Emoji</Label>
-            <div className="flex gap-2">
-              <div className="grid size-10 shrink-0 place-items-center border border-input bg-background text-xl">
-                {background.emoji}
-              </div>
-              <Input
-                id="preview-bg-emoji"
-                value={background.emoji}
-                placeholder={FALLBACK_EMOJI}
-                className="text-base"
-                onChange={(event) =>
-                  patchBackground({
-                    emoji: normalizeSafeEmoji(event.target.value),
-                  })
-                }
-              />
-            </div>
-            <div className="grid max-h-24 grid-cols-7 gap-1.5 overflow-y-auto pr-1 sm:grid-cols-10">
-              {SAFE_BACKGROUND_EMOJIS.map((emoji) => (
-                <button
-                  key={emoji}
-                  type="button"
-                  aria-label={`Use ${emoji} emoji background`}
-                  aria-pressed={background.emoji === emoji}
-                  onClick={() => patchBackground({ emoji })}
-                  className={cn(
-                    "grid size-7 place-items-center border border-input bg-transparent text-sm transition-colors hover:bg-muted/60",
-                    background.emoji === emoji &&
-                      "border-foreground bg-background",
-                  )}
-                >
-                  {emoji}
-                </button>
-              ))}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Uses conservative emoji that render on most Android, iOS, and
-              desktop devices.
-            </p>
-          </div>
+            value={background.patternColor}
+            onChange={(patternColor) => patchBackground({ patternColor })}
+          />
         )}
       </div>
 
-      {background.pattern !== "solid" && (
+      {background.pattern === "emoji" && (
+        <>
+          <div className="flex flex-col gap-1.5">
+            <span className="text-xs font-medium leading-none">Layout</span>
+            <div className="grid grid-cols-3 gap-1.5 sm:grid-cols-6">
+              {(
+                Object.entries(EMOJI_LAYOUT_LABELS) as [EmojiLayout, string][]
+              ).map(([value, label]) => (
+                <OptionTile
+                  key={value}
+                  active={background.emojiLayout === value}
+                  label={label}
+                  Icon={EMOJI_LAYOUT_ICONS[value]}
+                  onClick={() => patchBackground({ emojiLayout: value })}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-medium leading-none">Emoji</span>
+              <span className="text-xs tabular-nums text-muted-foreground">
+                {background.emojis.length}/{MAX_BACKGROUND_EMOJIS}
+              </span>
+            </div>
+            <div className="-mx-1 flex gap-1.5 overflow-x-auto px-1 pb-1">
+              {EMOJI_THEMES.map((theme) => (
+                <button
+                  key={theme.name}
+                  type="button"
+                  onClick={() =>
+                    patchBackground({
+                      emojis: theme.emojis.slice(0, 4),
+                      seed: randomSeed(),
+                    })
+                  }
+                  className="flex shrink-0 items-center gap-1 rounded-full border border-input px-2.5 py-1 text-[11px] transition-colors hover:bg-muted/60"
+                >
+                  <span aria-hidden="true">{theme.emojis[0]}</span>
+                  {theme.name}
+                </button>
+              ))}
+            </div>
+            <div className="grid max-h-28 grid-cols-8 gap-1.5 overflow-y-auto pr-1 sm:grid-cols-12">
+              {SAFE_BACKGROUND_EMOJIS.map((emoji) => {
+                const selected = background.emojis.includes(emoji);
+                return (
+                  <button
+                    key={emoji}
+                    type="button"
+                    aria-label={`${selected ? "Remove" : "Add"} ${emoji}`}
+                    aria-pressed={selected}
+                    onClick={() =>
+                      patchBackground({
+                        emojis: toggleEmoji(background.emojis, emoji),
+                      })
+                    }
+                    className={cn(
+                      "grid aspect-square place-items-center border border-input bg-transparent text-sm transition-[background-color,transform] hover:bg-muted/60 active:scale-90",
+                      selected && "border-foreground bg-background",
+                    )}
+                  >
+                    {emoji}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </>
+      )}
+
+      {background.pattern !== "solid" && background.pattern !== "aurora" && (
         <div className="flex flex-col gap-2.5">
           <div className="flex items-center justify-between">
-            <span className="text-xs leading-none select-none">
-              Pattern size
-            </span>
+            <span className="text-xs leading-none select-none">Spacing</span>
             <span className="text-xs tabular-nums text-muted-foreground">
               {background.patternSize}px
             </span>
           </div>
           <Slider
-            aria-label="Pattern size"
+            aria-label="Pattern spacing"
             min={BACKGROUND_PATTERN_SIZE_MIN}
             max={BACKGROUND_PATTERN_SIZE_MAX}
             step={BACKGROUND_PATTERN_SIZE_STEP}
@@ -441,40 +566,262 @@ function CaptionPanel({
   );
 }
 
+type CustomizeTab = "qr" | "backdrop" | "caption";
+
+const CUSTOMIZE_TABS: { id: CustomizeTab; label: string }[] = [
+  { id: "qr", label: "QR code" },
+  { id: "backdrop", label: "Backdrop" },
+  { id: "caption", label: "Caption" },
+];
+
+const LOCK_OPTIONS: { key: keyof RandomLocks; label: string }[] = [
+  { key: "colors", label: "Colors" },
+  { key: "backdrop", label: "Backdrop" },
+  { key: "shapes", label: "Shapes" },
+];
+
+function SegmentedTabs<T extends string>({
+  id,
+  value,
+  options,
+  onChange,
+}: {
+  id: string;
+  value: T;
+  options: { id: T; label: string }[];
+  onChange: (value: T) => void;
+}) {
+  return (
+    <div
+      role="tablist"
+      aria-label="Customize sections"
+      className="relative grid grid-flow-col auto-cols-fr rounded-2xl bg-muted/60 p-1"
+    >
+      {options.map((option) => {
+        const active = option.id === value;
+        return (
+          <button
+            key={option.id}
+            type="button"
+            role="tab"
+            aria-selected={active}
+            onClick={() => onChange(option.id)}
+            className={cn(
+              "relative z-10 rounded-xl py-1.5 text-xs transition-colors",
+              active
+                ? "text-foreground"
+                : "text-muted-foreground hover:text-foreground",
+            )}
+          >
+            {active && (
+              <motion.span
+                layoutId={`${id}-pill`}
+                className="absolute inset-0 -z-10 rounded-xl bg-background shadow-sm"
+                transition={{ type: "spring", stiffness: 500, damping: 36 }}
+              />
+            )}
+            {option.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function LockChips({
+  locks,
+  onChange,
+}: {
+  locks: RandomLocks;
+  onChange: (locks: RandomLocks) => void;
+}) {
+  return (
+    <div className="flex flex-wrap items-center gap-1.5">
+      <span className="mr-1 text-[11px] text-muted-foreground">
+        Surprise keeps
+      </span>
+      {LOCK_OPTIONS.map(({ key, label }) => {
+        const locked = locks[key];
+        const LockGlyph = locked ? LockIcon : LockOpenIcon;
+        return (
+          <button
+            key={key}
+            type="button"
+            aria-pressed={locked}
+            onClick={() => onChange({ ...locks, [key]: !locked })}
+            className={cn(
+              "flex items-center gap-1 rounded-full border px-2.5 py-1 text-[11px] transition-colors",
+              locked
+                ? "border-foreground bg-foreground text-background"
+                : "border-input text-muted-foreground hover:bg-muted/60 hover:text-foreground",
+            )}
+          >
+            <LockGlyph
+              weight={locked ? "fill" : "regular"}
+              className="size-3"
+            />
+            {label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function wildnessLabel(value: number): string {
+  if (value < 0.2) return "Tame";
+  if (value < 0.5) return "Balanced";
+  if (value < 0.8) return "Wild";
+  return "Chaos";
+}
+
+function EnginePanel({
+  wildness,
+  onWildnessChange,
+  onRandomize,
+  onEvolve,
+  locks,
+  onLocksChange,
+}: {
+  wildness: number;
+  onWildnessChange: (value: number) => void;
+  onRandomize: () => void;
+  onEvolve: () => void;
+  locks: RandomLocks;
+  onLocksChange: (locks: RandomLocks) => void;
+}) {
+  return (
+    <section className="flex flex-col gap-3 rounded-2xl border border-border/70 bg-muted/30 p-3">
+      <div className="flex items-center justify-between gap-2">
+        <div>
+          <h3 className="text-xs font-medium text-foreground">Theme engine</h3>
+          <p className="text-[11px] text-muted-foreground">
+            Roll a new genome or evolve the current one.
+          </p>
+        </div>
+        <div className="flex shrink-0 gap-1.5">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={onEvolve}
+            aria-keyshortcuts="E"
+            title="Evolve (E)"
+          >
+            <DnaIcon />
+            Evolve
+          </Button>
+          <Button
+            type="button"
+            size="sm"
+            onClick={onRandomize}
+            aria-keyshortcuts="R"
+            title="New roll (R)"
+          >
+            <DiceFiveIcon />
+            Roll
+          </Button>
+        </div>
+      </div>
+      <div className="flex flex-col gap-2">
+        <div className="flex items-center justify-between">
+          <span className="text-xs leading-none select-none">Wildness</span>
+          <span className="text-xs tabular-nums text-muted-foreground">
+            {wildnessLabel(wildness)} · {Math.round(wildness * 100)}
+          </span>
+        </div>
+        <Slider
+          aria-label="Wildness"
+          min={0}
+          max={100}
+          step={1}
+          value={[Math.round(wildness * 100)]}
+          onValueChange={(value) =>
+            onWildnessChange((Array.isArray(value) ? value[0] : value) / 100)
+          }
+        />
+      </div>
+      <LockChips locks={locks} onChange={onLocksChange} />
+    </section>
+  );
+}
+
 function CustomizePanel({
   state,
+  locks,
+  onLocksChange,
+  wildness,
+  onWildnessChange,
+  onRandomize,
+  onEvolve,
   onPatch,
+  onReset,
   onLogoSelect,
   onLogoRemove,
 }: {
   state: QrState;
+  locks: RandomLocks;
+  onLocksChange: (locks: RandomLocks) => void;
+  wildness: number;
+  onWildnessChange: (value: number) => void;
+  onRandomize: () => void;
+  onEvolve: () => void;
   onPatch: (patch: Partial<QrState>) => void;
+  onReset: () => void;
   onLogoSelect: (file: File) => void;
   onLogoRemove: () => void;
 }) {
+  const [tab, setTab] = useState<CustomizeTab>("qr");
+
   return (
-    <div className="flex flex-col gap-5">
-      <StyleControls
-        fgColor={state.fgColor}
-        bgColor={state.bgColor}
-        cardColor={state.cardColor}
-        dotStyle={state.dotStyle}
-        cornerSquareStyle={state.cornerSquareStyle}
-        cornerDotStyle={state.cornerDotStyle}
-        qrPadding={state.qrPadding}
-        exportSize={state.exportSize}
-        ecLevel={state.ecLevel}
-        hasLogo={state.logoDataUrl !== null}
-        logoName={state.logoName}
-        onPatch={onPatch}
-        onLogoSelect={onLogoSelect}
-        onLogoRemove={onLogoRemove}
-        showLogo={false}
+    <div className="flex flex-col gap-4">
+      <SegmentedTabs
+        id="customize"
+        value={tab}
+        options={CUSTOMIZE_TABS}
+        onChange={setTab}
       />
+      <EnginePanel
+        wildness={wildness}
+        onWildnessChange={onWildnessChange}
+        onRandomize={onRandomize}
+        onEvolve={onEvolve}
+        locks={locks}
+        onLocksChange={onLocksChange}
+      />
+      {tab === "qr" && (
+        <StyleControls
+          fgColor={state.fgColor}
+          bgColor={state.bgColor}
+          cardColor={state.cardColor}
+          dotStyle={state.dotStyle}
+          cornerSquareStyle={state.cornerSquareStyle}
+          cornerDotStyle={state.cornerDotStyle}
+          qrPadding={state.qrPadding}
+          exportSize={state.exportSize}
+          ecLevel={state.ecLevel}
+          hasLogo={state.logoDataUrl !== null}
+          logoName={state.logoName}
+          onPatch={onPatch}
+          onLogoSelect={onLogoSelect}
+          onLogoRemove={onLogoRemove}
+          showLogo={false}
+        />
+      )}
+      {tab === "backdrop" && (
+        <BackgroundPanel
+          background={state.previewBackground}
+          onPatch={onPatch}
+        />
+      )}
+      {tab === "caption" && (
+        <CaptionPanel caption={state.caption} onPatch={onPatch} />
+      )}
       <div className="h-px bg-border/70" />
-      <BackgroundPanel background={state.previewBackground} onPatch={onPatch} />
-      <div className="h-px bg-border/70" />
-      <CaptionPanel caption={state.caption} onPatch={onPatch} />
+      <Button type="button" variant="ghost" size="sm" onClick={onReset}>
+        <ArrowCounterClockwiseIcon />
+        Reset everything to defaults
+      </Button>
     </div>
   );
 }
@@ -562,12 +909,14 @@ function DownloadPanel({
   onPatch,
   onDownloadPng,
   onDownloadSvg,
+  onCopyImage,
   onCopy,
 }: {
   exportFrame: QrExportFrame;
   onPatch: (patch: Partial<QrState>) => void;
   onDownloadPng: () => void;
   onDownloadSvg: () => void;
+  onCopyImage: () => void;
   onCopy: () => void;
 }) {
   return (
@@ -641,10 +990,16 @@ function DownloadPanel({
             </span>
           </button>
         </div>
-        <Button type="button" variant="ghost" onClick={onCopy}>
-          <CopySimpleIcon />
-          Copy encoded content
-        </Button>
+        <div className="grid grid-cols-2 gap-2">
+          <Button type="button" variant="outline" onClick={onCopyImage}>
+            <ClipboardIcon />
+            Copy image
+          </Button>
+          <Button type="button" variant="ghost" onClick={onCopy}>
+            <CopySimpleIcon />
+            Copy content
+          </Button>
+        </div>
       </section>
     </div>
   );
@@ -671,9 +1026,20 @@ export function ControlDock({
   onLogoRemove,
   onDownloadPng,
   onDownloadSvg,
+  onCopyImage,
   onCopy,
   onReset,
   onRandomize,
+  onEvolve,
+  wildness,
+  onWildnessChange,
+  rollCount,
+  locks,
+  onLocksChange,
+  canUndo,
+  canRedo,
+  onUndo,
+  onRedo,
   onActivePanelChange,
 }: ControlDockProps) {
   const [activePanel, setActivePanel] = useState<ActivePanel>(null);
@@ -681,11 +1047,6 @@ export function ControlDock({
 
   const toggle = (id: Exclude<ActivePanel, null>) =>
     setActivePanel((prev) => (prev === id ? null : id));
-
-  const handleReset = () => {
-    setActivePanel("content");
-    onReset();
-  };
 
   useEffect(() => {
     if (activePanel !== null) {
@@ -774,7 +1135,14 @@ export function ControlDock({
                 {activePanel === "customize" && (
                   <CustomizePanel
                     state={state}
+                    locks={locks}
+                    onLocksChange={onLocksChange}
+                    wildness={wildness}
+                    onWildnessChange={onWildnessChange}
+                    onRandomize={onRandomize}
+                    onEvolve={onEvolve}
                     onPatch={onPatch}
+                    onReset={onReset}
                     onLogoSelect={onLogoSelect}
                     onLogoRemove={onLogoRemove}
                   />
@@ -793,6 +1161,7 @@ export function ControlDock({
                     onPatch={onPatch}
                     onDownloadPng={onDownloadPng}
                     onDownloadSvg={onDownloadSvg}
+                    onCopyImage={onCopyImage}
                     onCopy={onCopy}
                   />
                 )}
@@ -803,7 +1172,7 @@ export function ControlDock({
 
         {/* Compact button bar */}
         <div className="flex gap-2 pb-[env(safe-area-inset-bottom)]">
-          <div className="glass-panel flex min-w-0 flex-1 rounded-3xl">
+          <div className="glass-panel isolate flex min-w-0 flex-1 rounded-3xl">
             {DOCK_ITEMS.map(({ id, label, Icon }) => {
               const isActive = activePanel === id;
               return (
@@ -811,13 +1180,25 @@ export function ControlDock({
                   key={id}
                   type="button"
                   onClick={() => toggle(id)}
+                  aria-expanded={isActive}
                   className={cn(
-                    "flex min-w-0 flex-1 flex-col items-center justify-center gap-1 py-2.5 text-[9px] leading-none transition-colors duration-150 sm:py-3 sm:text-[11px]",
+                    "relative flex min-w-0 flex-1 flex-col items-center justify-center gap-1 py-2.5 text-[9px] leading-none transition-colors duration-150 sm:py-3 sm:text-[11px]",
                     isActive
                       ? "text-foreground"
                       : "text-muted-foreground hover:text-foreground",
                   )}
                 >
+                  {isActive && (
+                    <motion.span
+                      layoutId="dock-active-pill"
+                      className="absolute inset-1 -z-10 rounded-[1.1rem] bg-foreground/8 dark:bg-foreground/12"
+                      transition={{
+                        type: "spring",
+                        stiffness: 480,
+                        damping: 34,
+                      }}
+                    />
+                  )}
                   <Icon
                     weight={isActive ? "fill" : "regular"}
                     className="size-4 sm:size-5"
@@ -827,23 +1208,64 @@ export function ControlDock({
               );
             })}
           </div>
+          <div className="glass-panel flex shrink-0 rounded-3xl">
+            {(
+              [
+                {
+                  label: "Undo",
+                  shortcut: "Meta+Z",
+                  Glyph: ArrowUUpLeftIcon,
+                  enabled: canUndo,
+                  run: onUndo,
+                },
+                {
+                  label: "Redo",
+                  shortcut: "Meta+Shift+Z",
+                  Glyph: ArrowUUpRightIcon,
+                  enabled: canRedo,
+                  run: onRedo,
+                },
+              ] as const
+            ).map(({ label, shortcut, Glyph, enabled, run }) => (
+              <button
+                key={label}
+                type="button"
+                aria-label={label}
+                aria-keyshortcuts={shortcut}
+                title={`${label} (${shortcut.replace("Meta", "⌘").replaceAll("+", "")})`}
+                disabled={!enabled}
+                onClick={run}
+                className="flex w-10 flex-col items-center justify-center gap-1 py-2.5 text-[9px] leading-none text-muted-foreground transition-colors duration-150 hover:text-foreground disabled:pointer-events-none disabled:opacity-35 sm:w-14 sm:py-3 sm:text-[11px]"
+              >
+                <Glyph className="size-4 sm:size-5" />
+                <span className="hidden sm:inline">{label}</span>
+              </button>
+            ))}
+          </div>
           <button
             type="button"
             aria-label="Randomize QR theme and background"
+            aria-keyshortcuts="R"
+            title="Surprise me (R)"
             onClick={onRandomize}
-            className="glass-panel flex w-13 shrink-0 flex-col items-center justify-center gap-1 rounded-3xl py-2.5 text-[9px] leading-none text-muted-foreground transition-colors duration-150 hover:text-foreground sm:w-18 sm:py-3 sm:text-[11px]"
+            className="glass-panel group flex w-13 shrink-0 flex-col items-center justify-center gap-1 rounded-3xl py-2.5 text-[9px] leading-none text-muted-foreground transition-colors duration-150 hover:text-foreground sm:w-18 sm:py-3 sm:text-[11px]"
           >
-            <SparkleIcon className="size-4 sm:size-5" />
-            <span>Random</span>
-          </button>
-          <button
-            type="button"
-            aria-label="Reset all settings"
-            onClick={handleReset}
-            className="glass-panel flex w-13 shrink-0 flex-col items-center justify-center gap-1 rounded-3xl py-2.5 text-[9px] leading-none text-muted-foreground transition-colors duration-150 hover:text-foreground sm:w-18 sm:py-3 sm:text-[11px]"
-          >
-            <ArrowCounterClockwiseIcon className="size-4 sm:size-5" />
-            <span>Reset</span>
+            <motion.span
+              className="grid place-items-center"
+              animate={{ rotate: rollCount * 270, scale: [1, 1.25, 1] }}
+              key={rollCount}
+              initial={{ rotate: (rollCount - 1) * 270 }}
+              transition={{
+                rotate: { type: "spring", stiffness: 260, damping: 14 },
+                scale: { duration: 0.35, ease: "easeOut" },
+              }}
+            >
+              <DiceFiveIcon
+                weight={rollCount > 0 ? "fill" : "regular"}
+                className="size-4 sm:size-5"
+              />
+            </motion.span>
+            <span>Surprise</span>
           </button>
         </div>
       </motion.div>

@@ -1,4 +1,7 @@
-const CACHE_NAME = "qr-pixel-v1";
+const CACHE_NAME = "qr-pixel-v2";
+// Only content-hashed build output and static icons are safe to serve
+// cache-first; everything else goes to the network so deploys take effect.
+const CACHE_FIRST_PREFIXES = ["/_next/static/", "/icons/"];
 const APP_SHELL = [
   "/",
   "/offline.html",
@@ -52,6 +55,10 @@ self.addEventListener("fetch", (event) => {
         })
         .catch(() => caches.match("/") || caches.match("/offline.html")),
     );
+    return;
+  }
+
+  if (!CACHE_FIRST_PREFIXES.some((prefix) => url.pathname.startsWith(prefix))) {
     return;
   }
 

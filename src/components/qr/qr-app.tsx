@@ -1,62 +1,47 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useEffectEvent, useState } from "react";
 import { toast } from "sonner";
 
 import { type ActivePanel, ControlDock } from "@/components/qr/control-dock";
 import { type PreviewStatus, QrPreview } from "@/components/qr/qr-preview";
 import { downloadBlob } from "@/lib/download";
 import {
+  createHistory,
+  type History,
+  type PushOptions,
+  pushHistory,
+  redoHistory,
+  undoHistory,
+} from "@/lib/history";
+import { loadState, saveState } from "@/lib/persist";
+import {
   buildPayload,
-  CAPTION_FONT_SIZE_MAX,
-  CAPTION_FONT_SIZE_MIN,
-  type CaptionAlign,
-  type CaptionFontFamily,
-  type CaptionFontWeight,
-  type CaptionPosition,
   createDefaultState,
   type EcLevel,
   isContentEmpty,
-  type PreviewBackgroundPattern,
-  type QrCaption,
-  type QrCornerDotStyle,
-  type QrCornerSquareStyle,
-  type QrDotStyle,
   type QrFields,
   type QrState,
   type QrType,
-  SAFE_BACKGROUND_EMOJIS,
   type ValidationResult,
   validate,
 } from "@/lib/qr";
 import { renderFramedQrCanvas, renderFramedQrSvg } from "@/lib/qr-render";
+import {
+  applyLocks,
+  createRandomTheme,
+  DEFAULT_WILDNESS,
+  evolveTheme,
+  NO_LOCKS,
+  type RandomLocks,
+  type RandomThemeResult,
+} from "@/lib/theme-random";
 
 const MAX_LOGO_BYTES = 2 * 1024 * 1024;
+const SAVE_DELAY_MS = 400;
+const WILDNESS_KEY = "qr-pixel:wildness";
+const EVOLVE_AMOUNT = 0.3;
 
-const BACKGROUND_PATTERNS: PreviewBackgroundPattern[] = [
-  "dots",
-  "grid",
-  "diagonal",
-  "emoji",
-];
-const QR_DOT_STYLES: QrDotStyle[] = [
-  "square",
-  "dots",
-  "rounded",
-  "extra-rounded",
-  "classy",
-  "classy-rounded",
-];
-const QR_CORNER_SQUARE_STYLES: QrCornerSquareStyle[] = [
-  "square",
-  "dot",
-  "extra-rounded",
-];
-const QR_CORNER_DOT_STYLES: QrCornerDotStyle[] = ["square", "dot"];
-const CAPTION_FONT_FAMILIES: CaptionFontFamily[] = ["sans", "serif", "mono"];
-const CAPTION_FONT_WEIGHTS: CaptionFontWeight[] = ["normal", "medium", "bold"];
-const CAPTION_ALIGNS: CaptionAlign[] = ["left", "center", "right"];
-const CAPTION_POSITIONS: CaptionPosition[] = ["top", "bottom"];
 const FILENAME_ADJECTIVES = [
   "bright",
   "cosmic",
@@ -90,91 +75,6 @@ function randomInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function hslToHex(hue: number, saturation: number, lightness: number): string {
-  const normalizedHue = ((hue % 360) + 360) % 360;
-  const chroma = (1 - Math.abs((2 * lightness) / 100 - 1)) * (saturation / 100);
-  const segment = normalizedHue / 60;
-  const x = chroma * (1 - Math.abs((segment % 2) - 1));
-  const match =
-    segment < 1
-      ? [chroma, x, 0]
-      : segment < 2
-        ? [x, chroma, 0]
-        : segment < 3
-          ? [0, chroma, x]
-          : segment < 4
-            ? [0, x, chroma]
-            : segment < 5
-              ? [x, 0, chroma]
-              : [chroma, 0, x];
-  const m = lightness / 100 - chroma / 2;
-
-  return `#${match
-    .map((value) =>
-      Math.round((value + m) * 255)
-        .toString(16)
-        .padStart(2, "0"),
-    )
-    .join("")}`;
-}
-
-function randomEmoji(): string {
-  return randomItem(SAFE_BACKGROUND_EMOJIS);
-}
-
-function createRandomTheme(
-  currentCaption: QrCaption,
-): Pick<
-  QrState,
-  | "bgColor"
-  | "fgColor"
-  | "cardColor"
-  | "dotStyle"
-  | "cornerSquareStyle"
-  | "cornerDotStyle"
-  | "previewBackground"
-  | "caption"
-> {
-  const hue = randomInt(0, 359);
-  const accentHue = hue + randomInt(-18, 18);
-  const saturation = randomInt(52, 82);
-
-  return {
-    fgColor: hslToHex(accentHue, saturation, randomInt(16, 24)),
-    bgColor: hslToHex(accentHue, randomInt(34, 50), randomInt(92, 97)),
-    cardColor: hslToHex(accentHue, randomInt(28, 44), randomInt(78, 86)),
-    dotStyle: randomItem(QR_DOT_STYLES),
-    cornerSquareStyle: randomItem(QR_CORNER_SQUARE_STYLES),
-    cornerDotStyle: randomItem(QR_CORNER_DOT_STYLES),
-    previewBackground: {
-      color: hslToHex(
-        hue + randomInt(-10, 10),
-        randomInt(44, 68),
-        randomInt(84, 93),
-      ),
-      pattern: randomItem(BACKGROUND_PATTERNS),
-      patternColor: hslToHex(
-        hue + randomInt(-24, 24),
-        randomInt(46, 76),
-        randomInt(28, 42),
-      ),
-      patternSize: randomInt(28, 112),
-      emoji: randomEmoji(),
-    },
-    caption: {
-      enabled: currentCaption.enabled,
-      text: currentCaption.text,
-      fontFamily: randomItem(CAPTION_FONT_FAMILIES),
-      fontWeight: randomItem(CAPTION_FONT_WEIGHTS),
-      fontSize:
-        randomInt(CAPTION_FONT_SIZE_MIN / 2, CAPTION_FONT_SIZE_MAX / 2) * 2,
-      color: hslToHex(accentHue, saturation, randomInt(10, 30)),
-      align: randomItem(CAPTION_ALIGNS),
-      position: randomItem(CAPTION_POSITIONS),
-    },
-  };
-}
-
 function exportErrorMessage(error: unknown, format: string): string {
   if (error instanceof Error && /too big/i.test(error.message)) {
     return "Content is too long for a QR code";
@@ -189,9 +89,96 @@ function createDownloadFilename(extension: "png" | "svg"): string {
   return `qr-${adjective}-${noun}-${suffix}.${extension}`;
 }
 
+function exportOptions(state: QrState, payload: string, ecLevel: EcLevel) {
+  return {
+    payload,
+    size: state.exportSize,
+    frame: state.exportFrame,
+    qrPadding: state.qrPadding,
+    fgColor: state.fgColor,
+    bgColor: state.bgColor,
+    dotStyle: state.dotStyle,
+    cornerSquareStyle: state.cornerSquareStyle,
+    cornerDotStyle: state.cornerDotStyle,
+    cardColor: state.cardColor,
+    ecLevel,
+    logoDataUrl: state.logoDataUrl,
+    previewBackground: state.previewBackground,
+    caption: state.caption,
+  };
+}
+
+async function renderPngBlob(
+  state: QrState,
+  payload: string,
+  ecLevel: EcLevel,
+): Promise<Blob> {
+  const canvas = await renderFramedQrCanvas(
+    exportOptions(state, payload, ecLevel),
+  );
+  const blob = await new Promise<Blob | null>((resolve) =>
+    canvas.toBlob(resolve, "image/png"),
+  );
+  if (blob === null) {
+    throw new Error("PNG encoding failed");
+  }
+  return blob;
+}
+
+function isTypingTarget(target: EventTarget | null): boolean {
+  return (
+    target instanceof HTMLElement &&
+    target.closest(
+      "input, textarea, select, [contenteditable='true'], [role='listbox']",
+    ) !== null
+  );
+}
+
 export function QrApp() {
-  const [state, setState] = useState<QrState>(createDefaultState);
+  const [history, setHistory] = useState<History<QrState>>(() =>
+    createHistory(createDefaultState()),
+  );
+  const [restored, setRestored] = useState(false);
   const [activePanel, setActivePanel] = useState<ActivePanel>(null);
+  const [rollCount, setRollCount] = useState(0);
+  const [locks, setLocks] = useState<RandomLocks>(NO_LOCKS);
+  const [wildness, setWildness] = useState(DEFAULT_WILDNESS);
+  const state = history.present;
+
+  // Restore after mount so server and client render the same first frame.
+  useEffect(() => {
+    const saved = loadState();
+    if (saved) {
+      setHistory(createHistory(saved));
+    }
+    try {
+      const raw = window.localStorage.getItem(WILDNESS_KEY);
+      const storedWildness = raw === null ? Number.NaN : Number(raw);
+      if (storedWildness >= 0 && storedWildness <= 1) {
+        setWildness(storedWildness);
+      }
+    } catch {
+      // Storage unavailable; keep the default.
+    }
+    setRestored(true);
+  }, []);
+
+  useEffect(() => {
+    if (!restored) {
+      return;
+    }
+    const timer = window.setTimeout(() => saveState(state), SAVE_DELAY_MS);
+    return () => window.clearTimeout(timer);
+  }, [state, restored]);
+
+  const handleWildnessChange = (value: number) => {
+    setWildness(value);
+    try {
+      window.localStorage.setItem(WILDNESS_KEY, String(value));
+    } catch {
+      // Storage unavailable; the setting just won't persist.
+    }
+  };
 
   const contentEmpty = isContentEmpty(state.type, state.fields);
   const validation: ValidationResult = contentEmpty
@@ -209,20 +196,31 @@ export function QrApp() {
       : "invalid";
   const invalidMessage = validation.ok ? null : validation.message;
 
-  const patch = (partial: Partial<QrState>) =>
-    setState((current) => ({ ...current, ...partial }));
+  const update = (
+    change: (current: QrState) => QrState,
+    options?: PushOptions,
+  ) =>
+    setHistory((current) =>
+      pushHistory(current, change(current.present), options),
+    );
+
+  const patch = (partial: Partial<QrState>, options?: PushOptions) =>
+    update((current) => ({ ...current, ...partial }), options);
 
   const patchFields = <T extends QrType>(
     type: T,
     partial: Partial<QrFields[T]>,
   ) =>
-    setState((current) => ({
+    update((current) => ({
       ...current,
       fields: {
         ...current.fields,
         [type]: { ...current.fields[type], ...partial },
       },
     }));
+
+  const handleUndo = () => setHistory(undoHistory);
+  const handleRedo = () => setHistory(redoHistory);
 
   const requirePayload = (): string | null => {
     if (payload === null) {
@@ -238,28 +236,7 @@ export function QrApp() {
       return;
     }
     try {
-      const canvas = await renderFramedQrCanvas({
-        payload: content,
-        size: state.exportSize,
-        frame: state.exportFrame,
-        qrPadding: state.qrPadding,
-        fgColor: state.fgColor,
-        bgColor: state.bgColor,
-        dotStyle: state.dotStyle,
-        cornerSquareStyle: state.cornerSquareStyle,
-        cornerDotStyle: state.cornerDotStyle,
-        cardColor: state.cardColor,
-        ecLevel: effectiveEcLevel,
-        logoDataUrl: state.logoDataUrl,
-        previewBackground: state.previewBackground,
-        caption: state.caption,
-      });
-      const blob = await new Promise<Blob | null>((resolve) =>
-        canvas.toBlob(resolve, "image/png"),
-      );
-      if (blob === null) {
-        throw new Error("PNG encoding failed");
-      }
+      const blob = await renderPngBlob(state, content, effectiveEcLevel);
       downloadBlob(blob, createDownloadFilename("png"));
       toast.success("PNG downloaded");
     } catch (error) {
@@ -273,27 +250,36 @@ export function QrApp() {
       return;
     }
     try {
-      const svg = await renderFramedQrSvg({
-        payload: content,
-        size: state.exportSize,
-        frame: state.exportFrame,
-        qrPadding: state.qrPadding,
-        fgColor: state.fgColor,
-        bgColor: state.bgColor,
-        dotStyle: state.dotStyle,
-        cornerSquareStyle: state.cornerSquareStyle,
-        cornerDotStyle: state.cornerDotStyle,
-        cardColor: state.cardColor,
-        ecLevel: effectiveEcLevel,
-        logoDataUrl: state.logoDataUrl,
-        previewBackground: state.previewBackground,
-        caption: state.caption,
-      });
+      const svg = await renderFramedQrSvg(
+        exportOptions(state, content, effectiveEcLevel),
+      );
       const blob = new Blob([svg], { type: "image/svg+xml;charset=utf-8" });
       downloadBlob(blob, createDownloadFilename("svg"));
       toast.success("SVG downloaded");
     } catch (error) {
       toast.error(exportErrorMessage(error, "SVG"));
+    }
+  };
+
+  const handleCopyImage = async () => {
+    const content = requirePayload();
+    if (content === null) {
+      return;
+    }
+    if (typeof ClipboardItem === "undefined" || !navigator.clipboard?.write) {
+      toast.error("Image copy isn't supported in this browser");
+      return;
+    }
+    try {
+      // Hand the clipboard a pending blob so Safari keeps the user gesture.
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          "image/png": renderPngBlob(state, content, effectiveEcLevel),
+        }),
+      ]);
+      toast.success("Image copied — paste it anywhere");
+    } catch (error) {
+      toast.error(exportErrorMessage(error, "image"));
     }
   };
 
@@ -311,8 +297,11 @@ export function QrApp() {
   };
 
   const handleReset = () => {
-    setState(createDefaultState());
-    toast.success("Reset to defaults");
+    patch(createDefaultState(), { coalesce: false });
+    toast("Reset to defaults", {
+      id: "history",
+      action: { label: "Undo", onClick: handleUndo },
+    });
   };
 
   const handleLogoSelect = (file: File) => {
@@ -323,18 +312,87 @@ export function QrApp() {
     const reader = new FileReader();
     reader.onload = () => {
       if (typeof reader.result === "string") {
-        patch({ logoDataUrl: reader.result, logoName: file.name });
+        patch(
+          { logoDataUrl: reader.result, logoName: file.name },
+          { coalesce: false },
+        );
       }
     };
     reader.onerror = () => toast.error("Could not read the logo file");
     reader.readAsDataURL(file);
   };
 
-  const handleLogoRemove = () => patch({ logoDataUrl: null, logoName: null });
+  const handleLogoRemove = () =>
+    patch({ logoDataUrl: null, logoName: null }, { coalesce: false });
 
-  const handleRandomize = () => {
-    patch(createRandomTheme(state.caption));
+  const applyGenerated = (
+    result: RandomThemeResult,
+    verb: "rolled" | "evolved",
+  ) => {
+    const locked = Object.values(locks).some(Boolean);
+    patch(
+      {
+        ...applyLocks(result.theme, state, locks),
+        // A partially locked theme no longer matches its genome; Evolve will
+        // infer a fresh one from the screen instead.
+        genome: locked ? null : result.genome,
+      },
+      { coalesce: false },
+    );
+    setRollCount((count) => count + 1);
+    toast(result.name, {
+      id: "randomize",
+      description: `${verb === "evolved" ? "Evolved" : "New roll"}${locked ? " · locks kept" : ""} · R roll · E evolve`,
+      action: { label: "Undo", onClick: handleUndo },
+    });
   };
+
+  const handleRandomize = () =>
+    applyGenerated(
+      createRandomTheme(state.caption, undefined, wildness),
+      "rolled",
+    );
+
+  const handleEvolve = () =>
+    applyGenerated(evolveTheme(state, undefined, EVOLVE_AMOUNT), "evolved");
+
+  const onShortcut = useEffectEvent((event: KeyboardEvent) => {
+    if (isTypingTarget(event.target) || event.altKey) {
+      return;
+    }
+    const key = event.key.toLowerCase();
+    const mod = event.metaKey || event.ctrlKey;
+    if (mod && key === "z") {
+      event.preventDefault();
+      if (event.shiftKey) {
+        handleRedo();
+      } else {
+        handleUndo();
+      }
+      return;
+    }
+    if (mod && key === "y") {
+      event.preventDefault();
+      handleRedo();
+      return;
+    }
+    if (mod || event.shiftKey || event.repeat) {
+      return;
+    }
+    if (key === "r") {
+      event.preventDefault();
+      handleRandomize();
+    } else if (key === "e") {
+      event.preventDefault();
+      handleEvolve();
+    }
+  });
+
+  useEffect(() => {
+    const listener = (event: KeyboardEvent) => onShortcut(event);
+    window.addEventListener("keydown", listener);
+    return () => window.removeEventListener("keydown", listener);
+  }, []);
 
   return (
     <>
@@ -360,16 +418,27 @@ export function QrApp() {
       <ControlDock
         state={state}
         validation={validation}
-        onTypeChange={(type) => patch({ type })}
+        onTypeChange={(type) => patch({ type }, { coalesce: false })}
         onFieldChange={patchFields}
         onPatch={patch}
         onLogoSelect={handleLogoSelect}
         onLogoRemove={handleLogoRemove}
         onDownloadPng={handleDownloadPng}
         onDownloadSvg={handleDownloadSvg}
+        onCopyImage={handleCopyImage}
         onCopy={handleCopy}
         onReset={handleReset}
         onRandomize={handleRandomize}
+        onEvolve={handleEvolve}
+        wildness={wildness}
+        onWildnessChange={handleWildnessChange}
+        rollCount={rollCount}
+        locks={locks}
+        onLocksChange={setLocks}
+        canUndo={history.past.length > 0}
+        canRedo={history.future.length > 0}
+        onUndo={handleUndo}
+        onRedo={handleRedo}
         onActivePanelChange={setActivePanel}
       />
     </>

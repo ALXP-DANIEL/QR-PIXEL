@@ -9,6 +9,14 @@ async function gotoReady(page: Page) {
   });
 }
 
+async function fillLink(page: Page, value: string) {
+  const link = page.getByLabel("Link", { exact: true });
+  if (!(await link.isVisible())) {
+    await page.getByRole("button", { name: "Content" }).click();
+  }
+  await link.fill(value);
+}
+
 test("shows the first-open splash screen once per session", async ({
   page,
 }) => {
@@ -32,7 +40,7 @@ test("generates a QR preview from a URL", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "QR Pixel" })).toBeVisible();
   await expect(page.getByText("Nothing to encode yet")).toBeVisible();
 
-  await page.getByLabel("Link").fill("example.com");
+  await fillLink(page, "example.com");
 
   await expect(
     page.getByRole("img", { name: "QR code preview" }),
@@ -43,12 +51,61 @@ test("generates a QR preview from a URL", async ({ page }) => {
 test("shows validation for invalid URL content", async ({ page }) => {
   await gotoReady(page);
 
-  await page.getByLabel("Link").fill("example");
+  await fillLink(page, "example");
 
   await expect(
     page.getByRole("main").getByText("Enter a full domain, e.g. example.com"),
   ).toBeVisible();
-  await expect(page.getByText("Can’t generate QR code")).toBeVisible();
+  await expect(page.getByText("Can't generate QR code")).toBeVisible();
+});
+
+test("rolls a random theme with R and can undo it", async ({ page }) => {
+  await gotoReady(page);
+  await fillLink(page, "example.com");
+  await page.getByLabel("Link", { exact: true }).blur();
+  await page.keyboard.press("r");
+  const toast = page.locator("[data-sonner-toast]").first();
+  await expect(toast).toContainText("·");
+  await expect(toast.getByRole("button", { name: "Undo" })).toBeVisible();
+
+  await page
+    .getByRole("button", { name: "Randomize QR theme and background" })
+    .click();
+  await expect(toast).toContainText("·");
+});
+
+test("undoes changes and restores the design after reload", async ({
+  page,
+}) => {
+  await gotoReady(page);
+  await fillLink(page, "example.com");
+  await page.getByLabel("Link", { exact: true }).blur();
+
+  await page
+    .getByRole("button", { name: "Randomize QR theme and background" })
+    .click();
+  const undo = page.getByRole("button", { name: "Undo", exact: true }).last();
+  await expect(undo).toBeEnabled();
+  await page.keyboard.press("ControlOrMeta+z");
+  await expect(page.getByRole("button", { name: "Redo" })).toBeEnabled();
+
+  await page.waitForTimeout(600);
+  await page.reload();
+  await expect(
+    page.getByRole("img", { name: "QR code preview" }),
+  ).toBeVisible();
+  await expect(page.getByText("Nothing to encode yet")).toBeHidden();
+});
+
+test("exports the framed PNG", async ({ page }) => {
+  await gotoReady(page);
+  await fillLink(page, "example.com");
+  await page.getByRole("button", { name: "Download" }).first().click();
+  const [download] = await Promise.all([
+    page.waitForEvent("download"),
+    page.getByRole("button", { name: /PNG/ }).click(),
+  ]);
+  expect(download.suggestedFilename()).toMatch(/^qr-[a-z]+-[a-z]+-\d{4}\.png$/);
 });
 
 test("exposes installable PWA metadata and service worker", async ({

@@ -1,4 +1,10 @@
 import QRCodeStyling from "qr-code-styling";
+import {
+  buildScene,
+  drawScene,
+  glyphDataUrl,
+  sceneToSvg,
+} from "@/lib/background-scene";
 import type {
   EcLevel,
   PreviewBackground,
@@ -8,7 +14,6 @@ import type {
   QrDotStyle,
   QrExportFrame,
 } from "@/lib/qr";
-import { FALLBACK_EMOJI } from "@/lib/qr";
 
 export interface QrRenderOptions {
   payload: string;
@@ -22,9 +27,19 @@ export interface QrRenderOptions {
   logoDataUrl: string | null;
 }
 
-const QR_MARGIN = 20;
-const PREVIEW_CARD_REFERENCE_SIZE = 400;
-const PREVIEW_QR_RADIUS = 20;
+// Quiet zone as a fraction of the QR size (20px at the 1024px preview), so a
+// small export has the same proportions as the preview.
+const QR_MARGIN_RATIO = 20 / 1024;
+
+// The live preview and the exporters share these, in "reference pixels" of a
+// 400px card, so both scale identically at any size.
+export const CARD_REFERENCE_SIZE = 400;
+export const CARD_RADIUS = 22;
+export const QR_RADIUS = 20;
+const CARD_SHADOW = { offsetY: 25, blur: 50, spread: -12, alpha: 0.25 };
+export const CARD_SHADOW_CSS = `0 ${CARD_SHADOW.offsetY}px ${CARD_SHADOW.blur}px ${CARD_SHADOW.spread}px rgb(0 0 0 / ${CARD_SHADOW.alpha})`;
+const PREVIEW_CARD_REFERENCE_SIZE = CARD_REFERENCE_SIZE;
+const PREVIEW_QR_RADIUS = QR_RADIUS;
 
 interface ExportFrameOptions extends QrRenderOptions {
   frame: QrExportFrame;
@@ -125,7 +140,7 @@ function createStyledQr(options: QrRenderOptions, type: "canvas" | "svg") {
     type,
     width: options.size,
     height: options.size,
-    margin: QR_MARGIN,
+    margin: Math.round(options.size * QR_MARGIN_RATIO),
     data: options.payload,
     image: options.logoDataUrl ?? undefined,
     qrOptions: {
@@ -189,105 +204,21 @@ function roundedRectPath(
   ].join(" ");
 }
 
-function fillCanvasBackground(
-  ctx: CanvasRenderingContext2D,
+function buildExportScene(
+  background: PreviewBackground,
   width: number,
   height: number,
-  background: PreviewBackground,
+  cardX: number,
+  cardY: number,
+  cardSize: number,
 ) {
-  ctx.fillStyle = background.color;
-  ctx.fillRect(0, 0, width, height);
-
-  if (background.pattern === "solid") {
-    return;
-  }
-
-  ctx.save();
-  ctx.globalAlpha = 0.72;
-  ctx.strokeStyle = background.patternColor;
-  ctx.fillStyle = background.patternColor;
-  ctx.lineWidth = Math.max(1, Math.round(width / 960));
-
-  if (background.pattern === "dots") {
-    const gap = background.patternSize;
-    const radius = Math.max(1.5, gap * 0.07);
-    for (let x = gap / 2; x < width; x += gap) {
-      for (let y = gap / 2; y < height; y += gap) {
-        ctx.beginPath();
-        ctx.arc(x, y, radius, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
-  }
-
-  if (background.pattern === "grid") {
-    const gap = background.patternSize;
-    for (let x = 0; x <= width; x += gap) {
-      ctx.beginPath();
-      ctx.moveTo(x, 0);
-      ctx.lineTo(x, height);
-      ctx.stroke();
-    }
-    for (let y = 0; y <= height; y += gap) {
-      ctx.beginPath();
-      ctx.moveTo(0, y);
-      ctx.lineTo(width, y);
-      ctx.stroke();
-    }
-  }
-
-  if (background.pattern === "diagonal") {
-    const gap = background.patternSize;
-    for (let x = -height; x < width; x += gap) {
-      ctx.beginPath();
-      ctx.moveTo(x, height);
-      ctx.lineTo(x + height, 0);
-      ctx.stroke();
-    }
-  }
-
-  if (background.pattern === "emoji") {
-    const emoji = background.emoji.trim() || FALLBACK_EMOJI;
-    const gap = background.patternSize;
-    ctx.globalAlpha = 0.9;
-    ctx.font = `${Math.round(gap * 0.4)}px system-ui, sans-serif`;
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    for (let x = gap / 2; x < width + gap; x += gap) {
-      for (let y = gap / 2; y < height + gap; y += gap) {
-        ctx.fillText(emoji, x, y);
-      }
-    }
-  }
-
-  ctx.restore();
-}
-
-function svgBackgroundMarkup(background: PreviewBackground): string {
-  const color = escapeSvgAttribute(background.color);
-  const patternColor = escapeSvgAttribute(background.patternColor);
-  const patternId = "preview-pattern";
-  const patternSize = background.patternSize;
-  const base = `<rect width="100%" height="100%" fill="${color}"/>`;
-
-  if (background.pattern === "solid") {
-    return base;
-  }
-
-  if (background.pattern === "dots") {
-    return `${base}<defs><pattern id="${patternId}" width="${patternSize}" height="${patternSize}" patternUnits="userSpaceOnUse"><circle cx="${patternSize / 2}" cy="${patternSize / 2}" r="${Math.max(1.5, patternSize * 0.07)}" fill="${patternColor}" opacity="0.72"/></pattern></defs><rect width="100%" height="100%" fill="url(#${patternId})"/>`;
-  }
-
-  if (background.pattern === "grid") {
-    return `${base}<defs><pattern id="${patternId}" width="${patternSize}" height="${patternSize}" patternUnits="userSpaceOnUse"><path d="M ${patternSize} 0 H 0 V ${patternSize}" fill="none" stroke="${patternColor}" stroke-width="1" opacity="0.72"/></pattern></defs><rect width="100%" height="100%" fill="url(#${patternId})"/>`;
-  }
-
-  if (background.pattern === "diagonal") {
-    return `${base}<defs><pattern id="${patternId}" width="${patternSize}" height="${patternSize}" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="${patternSize}" stroke="${patternColor}" stroke-width="1" opacity="0.72"/></pattern></defs><rect width="100%" height="100%" fill="url(#${patternId})"/>`;
-  }
-
-  const emoji = escapeSvgText(background.emoji.trim() || FALLBACK_EMOJI);
-  return `${base}<defs><pattern id="${patternId}" width="${patternSize}" height="${patternSize}" patternUnits="userSpaceOnUse"><text x="${patternSize / 2}" y="${patternSize / 2}" text-anchor="middle" dominant-baseline="middle" font-size="${Math.round(patternSize * 0.4)}">${emoji}</text></pattern></defs><rect width="100%" height="100%" fill="url(#${patternId})"/>`;
+  return buildScene(background, {
+    width,
+    height,
+    scale: cardSize / PREVIEW_CARD_REFERENCE_SIZE,
+    originX: cardX + cardSize / 2,
+    originY: cardY + cardSize / 2,
+  });
 }
 
 export async function renderQrCanvas(
@@ -330,8 +261,6 @@ export async function renderFramedQrCanvas(
     throw new Error("Canvas 2D context is unavailable");
   }
 
-  fillCanvasBackground(ctx, width, height, options.previewBackground);
-
   const minSide = Math.min(width, height);
   const cardSize = Math.round(minSide * 0.7);
   const scale = cardSize / PREVIEW_CARD_REFERENCE_SIZE;
@@ -341,7 +270,7 @@ export async function renderFramedQrCanvas(
   const qrSize = Math.max(128, cardSize - cardPad * 2);
   const cardX = (width - cardSize) / 2;
   const cardY = groupCenteredCardY(height, cardSize, options.caption, scale);
-  const cardRadius = Math.round(cardSize * 0.06);
+  const cardRadius = (cardSize * CARD_RADIUS) / CARD_REFERENCE_SIZE;
   const qrX = cardX + cardPad;
   const qrY = cardY + cardPad;
   const qrRadius = Math.round(
@@ -349,6 +278,37 @@ export async function renderFramedQrCanvas(
       (PREVIEW_CARD_REFERENCE_SIZE - options.qrPadding * 2)) *
       qrSize,
   );
+
+  drawScene(
+    ctx,
+    buildExportScene(
+      options.previewBackground,
+      width,
+      height,
+      cardX,
+      cardY,
+      cardSize,
+    ),
+  );
+
+  // CSS box-shadow: blur radius = 2σ, canvas shadowBlur = 2σ too; the
+  // negative spread is emulated by shrinking the shadow-casting shape.
+  const inset = -CARD_SHADOW.spread * scale;
+  ctx.save();
+  ctx.shadowColor = `rgba(0, 0, 0, ${CARD_SHADOW.alpha})`;
+  ctx.shadowBlur = CARD_SHADOW.blur * scale;
+  ctx.shadowOffsetY = CARD_SHADOW.offsetY * scale;
+  ctx.fillStyle = options.cardColor;
+  ctx.beginPath();
+  ctx.roundRect(
+    cardX + inset,
+    cardY + inset,
+    cardSize - inset * 2,
+    cardSize - inset * 2,
+    Math.max(0, cardRadius - inset),
+  );
+  ctx.fill();
+  ctx.restore();
 
   ctx.fillStyle = options.cardColor;
   ctx.beginPath();
@@ -398,7 +358,7 @@ export async function renderFramedQrSvg(
   const qrSize = Math.max(128, cardSize - cardPad * 2);
   const cardX = (width - cardSize) / 2;
   const cardY = groupCenteredCardY(height, cardSize, options.caption, scale);
-  const cardRadius = Math.round(cardSize * 0.06);
+  const cardRadius = (cardSize * CARD_RADIUS) / CARD_REFERENCE_SIZE;
   const qrX = cardX + cardPad;
   const qrY = cardY + cardPad;
   const qrRadius = Math.round(
@@ -406,6 +366,7 @@ export async function renderFramedQrSvg(
       (PREVIEW_CARD_REFERENCE_SIZE - options.qrPadding * 2)) *
       qrSize,
   );
+  const shadowInset = -CARD_SHADOW.spread * scale;
   // Embed QR as a data URL image — avoids coordinate-system issues when
   // splicing the QR library's raw SVG body into an outer SVG document.
   const qrSvg = await renderQrSvg({ ...options, size: qrSize });
@@ -435,8 +396,20 @@ export async function renderFramedQrSvg(
 
   return [
     `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">`,
-    svgBackgroundMarkup(options.previewBackground),
-    `<defs><clipPath id="qr-inner-clip"><rect x="${qrX}" y="${qrY}" width="${qrSize}" height="${qrSize}" rx="${qrRadius}" ry="${qrRadius}"/></clipPath></defs>`,
+    sceneToSvg(
+      buildExportScene(
+        options.previewBackground,
+        width,
+        height,
+        cardX,
+        cardY,
+        cardSize,
+      ),
+      // Embed the emoji exactly as rendered here, not with the viewer's font.
+      { glyphHref: glyphDataUrl },
+    ),
+    `<defs><clipPath id="qr-inner-clip"><rect x="${qrX}" y="${qrY}" width="${qrSize}" height="${qrSize}" rx="${qrRadius}" ry="${qrRadius}"/></clipPath><filter id="card-shadow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="${(CARD_SHADOW.blur * scale) / 2}"/></filter></defs>`,
+    `<path d="${roundedRectPath(cardX + shadowInset, cardY + shadowInset + CARD_SHADOW.offsetY * scale, cardSize - shadowInset * 2, cardSize - shadowInset * 2, Math.max(0, cardRadius - shadowInset))}" fill="#000" opacity="${CARD_SHADOW.alpha}" filter="url(#card-shadow)"/>`,
     `<path d="${roundedRectPath(cardX, cardY, cardSize, cardSize, cardRadius)}" fill="${escapeSvgAttribute(options.cardColor)}"/>`,
     `<image href="${qrDataUrl}" x="${qrX}" y="${qrY}" width="${qrSize}" height="${qrSize}" clip-path="url(#qr-inner-clip)"/>`,
     captionSvg,

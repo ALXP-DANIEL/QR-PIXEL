@@ -1,6 +1,11 @@
 "use client";
 
-import { UploadSimpleIcon, XIcon } from "@phosphor-icons/react";
+import {
+  ShieldCheckIcon,
+  UploadSimpleIcon,
+  WarningIcon,
+  XIcon,
+} from "@phosphor-icons/react";
 import { type ReactNode, useRef } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -13,6 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
+import { contrastRatio, ensureContrast, hexToHsl } from "@/lib/color";
 import {
   EC_LEVEL_LABELS,
   type EcLevel,
@@ -31,6 +37,68 @@ import {
   type QrState,
 } from "@/lib/qr";
 import { cn } from "@/lib/utils";
+
+// Phone scanners are happiest with dark modules on a light field and strong
+// contrast; below ~4:1 many cameras start to miss codes in dim light.
+const SAFE_CONTRAST = 7;
+const RISKY_CONTRAST = 4;
+
+function ScanBadge({
+  fgColor,
+  bgColor,
+  onFix,
+}: {
+  fgColor: string;
+  bgColor: string;
+  onFix: () => void;
+}) {
+  const ratio = contrastRatio(fgColor, bgColor);
+  const inverted = hexToHsl(fgColor).l > hexToHsl(bgColor).l;
+  const level = inverted
+    ? "risky"
+    : ratio >= SAFE_CONTRAST
+      ? "safe"
+      : ratio >= RISKY_CONTRAST
+        ? "ok"
+        : "risky";
+  const Glyph = level === "risky" ? WarningIcon : ShieldCheckIcon;
+  const message =
+    level === "safe"
+      ? "Scans reliably"
+      : level === "ok"
+        ? "Should scan; more contrast is safer"
+        : inverted
+          ? "Light-on-dark codes fail on many scanners"
+          : "Low contrast — may not scan";
+
+  return (
+    <div
+      role="status"
+      className={cn(
+        "flex items-center gap-2 rounded-2xl border px-3 py-2 text-xs",
+        level === "safe" &&
+          "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
+        level === "ok" &&
+          "border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-300",
+        level === "risky" &&
+          "border-destructive/40 bg-destructive/10 text-destructive",
+      )}
+    >
+      <Glyph weight="fill" className="size-4 shrink-0" />
+      <span className="min-w-0 flex-1">
+        {message}
+        <span className="ml-1.5 tabular-nums opacity-70">
+          {ratio.toFixed(1)}:1
+        </span>
+      </span>
+      {level !== "safe" && (
+        <Button type="button" variant="outline" size="xs" onClick={onFix}>
+          Fix
+        </Button>
+      )}
+    </div>
+  );
+}
 
 interface StyleControlsProps {
   fgColor: string;
@@ -142,6 +210,19 @@ export function StyleControls({
   return (
     <div className="flex flex-col gap-5">
       <ControlSection title="Color">
+        <ScanBadge
+          fgColor={fgColor}
+          bgColor={bgColor}
+          onFix={() => {
+            // Swap an inverted pair first, then darken until it is safe.
+            const inverted = hexToHsl(fgColor).l > hexToHsl(bgColor).l;
+            const [fg, bg] = inverted ? [bgColor, fgColor] : [fgColor, bgColor];
+            onPatch({
+              fgColor: ensureContrast(fg, bg, SAFE_CONTRAST),
+              bgColor: bg,
+            });
+          }}
+        />
         <div className="grid grid-cols-2 gap-4">
           <ColorField
             id="qr-fg-color"

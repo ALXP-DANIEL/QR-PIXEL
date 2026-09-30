@@ -2,9 +2,10 @@
 
 import { QrCodeIcon, WarningCircleIcon, XIcon } from "@phosphor-icons/react";
 import { AnimatePresence, motion, useAnimationControls } from "motion/react";
-import type { CSSProperties } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+
+import { BackgroundCanvas } from "@/components/qr/background-canvas";
 import type {
   EcLevel,
   PreviewBackground,
@@ -13,11 +14,17 @@ import type {
   QrCornerSquareStyle,
   QrDotStyle,
 } from "@/lib/qr";
-import { FALLBACK_EMOJI } from "@/lib/qr";
-import { renderQrCanvas } from "@/lib/qr-render";
+import {
+  CARD_RADIUS,
+  CARD_REFERENCE_SIZE,
+  CARD_SHADOW_CSS,
+  QR_RADIUS,
+  renderQrCanvas,
+} from "@/lib/qr-render";
 import { cn } from "@/lib/utils";
 
 const PREVIEW_SIZE = 1024;
+const RENDER_DEBOUNCE_MS = 40;
 
 export type PreviewStatus = "empty" | "invalid" | "ready";
 
@@ -51,56 +58,14 @@ interface QrPreviewProps {
   dockExpanded: boolean;
 }
 
-function escapeSvgText(value: string): string {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-}
-
-function emojiPatternDataUrl(emoji: string, size: number): string {
-  const glyph = emoji.trim() || FALLBACK_EMOJI;
-  const fontSize = Math.round(size * 0.4);
-  const center = size / 2;
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"><text x="${center}" y="${center}" text-anchor="middle" dominant-baseline="middle" font-size="${fontSize}">${escapeSvgText(glyph)}</text></svg>`;
-  return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
-}
-
-function getPreviewBackgroundStyle(
-  background: PreviewBackground,
-): CSSProperties {
-  const patternColor = background.patternColor;
-  const patternSize = background.patternSize;
-
-  switch (background.pattern) {
-    case "dots":
-      return {
-        backgroundColor: background.color,
-        backgroundImage: `radial-gradient(circle at ${patternSize / 2}px ${patternSize / 2}px, ${patternColor} ${Math.max(1.5, patternSize * 0.07)}px, transparent 0)`,
-        backgroundSize: `${patternSize}px ${patternSize}px`,
-      };
-    case "grid":
-      return {
-        backgroundColor: background.color,
-        backgroundImage: `linear-gradient(${patternColor} 1px, transparent 1px), linear-gradient(90deg, ${patternColor} 1px, transparent 1px)`,
-        backgroundSize: `${patternSize}px ${patternSize}px`,
-      };
-    case "diagonal":
-      return {
-        backgroundColor: background.color,
-        backgroundImage: `repeating-linear-gradient(135deg, ${patternColor} 0 1px, transparent 1px ${patternSize}px)`,
-      };
-    case "emoji":
-      return {
-        backgroundColor: background.color,
-        backgroundImage: emojiPatternDataUrl(background.emoji, patternSize),
-        backgroundSize: `${patternSize}px ${patternSize}px`,
-      };
-    case "solid":
-      return {
-        backgroundColor: background.color,
-      };
+// The flex column centres card + caption together, nudging the card away from
+// the caption by half of the caption block.
+function captionCardOffset(caption: QrCaption): number {
+  if (!caption.enabled || !caption.text.trim()) {
+    return 0;
   }
+  const shift = (caption.fontSize + Math.round(caption.fontSize * 0.33)) / 2;
+  return caption.position === "top" ? shift : -shift;
 }
 
 export function QrPreview({
@@ -150,33 +115,38 @@ export function QrPreview({
       return;
     }
     const epoch = ++epochRef.current;
-    renderQrCanvas({
-      payload,
-      size: PREVIEW_SIZE,
-      fgColor,
-      bgColor,
-      dotStyle,
-      cornerSquareStyle,
-      cornerDotStyle,
-      ecLevel,
-      logoDataUrl,
-    })
-      .then((rendered) => {
-        if (epoch !== epochRef.current) {
-          return;
-        }
-        const context = canvasRef.current?.getContext("2d");
-        if (context) {
-          context.clearRect(0, 0, PREVIEW_SIZE, PREVIEW_SIZE);
-          context.drawImage(rendered, 0, 0);
-        }
-        setRenderError(null);
+    // Colour pickers and sliders fire many times per second; wait for a
+    // short pause so only the latest look is rasterised.
+    const timer = window.setTimeout(() => {
+      renderQrCanvas({
+        payload,
+        size: PREVIEW_SIZE,
+        fgColor,
+        bgColor,
+        dotStyle,
+        cornerSquareStyle,
+        cornerDotStyle,
+        ecLevel,
+        logoDataUrl,
       })
-      .catch(() => {
-        if (epoch === epochRef.current) {
-          setRenderError("Content is too long for a QR code");
-        }
-      });
+        .then((rendered) => {
+          if (epoch !== epochRef.current) {
+            return;
+          }
+          const context = canvasRef.current?.getContext("2d");
+          if (context) {
+            context.clearRect(0, 0, PREVIEW_SIZE, PREVIEW_SIZE);
+            context.drawImage(rendered, 0, 0);
+          }
+          setRenderError(null);
+        })
+        .catch(() => {
+          if (epoch === epochRef.current) {
+            setRenderError("Content is too long for a QR code");
+          }
+        });
+    }, RENDER_DEBOUNCE_MS);
+    return () => window.clearTimeout(timer);
   }, [
     status,
     payload,
@@ -235,7 +205,6 @@ export function QrPreview({
     <>
       <motion.div
         className="fixed inset-0 overflow-hidden"
-        style={getPreviewBackgroundStyle(previewBackground)}
         initial={{ opacity: 0, scale: 0.97 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{
@@ -244,7 +213,10 @@ export function QrPreview({
           ease: [0.21, 0.47, 0.32, 0.98],
         }}
       >
-        <div className="absolute inset-0 bg-background/10" />
+        <BackgroundCanvas
+          background={previewBackground}
+          cardOffsetY={captionCardOffset(caption)}
+        />
         <div className="relative flex h-full items-center justify-center px-4 pt-24 pb-24">
           <motion.div
             animate={{ y: dockExpanded ? -dockShift : 0 }}
@@ -252,7 +224,9 @@ export function QrPreview({
           >
             <div
               className="flex flex-col items-center"
-              style={{ gap: Math.round(caption.fontSize * 0.33) }}
+              style={{
+                gap: `calc(min(60vmin, 400px) * ${(caption.fontSize * 0.33) / CARD_REFERENCE_SIZE})`,
+              }}
             >
               {caption.enabled &&
                 caption.text.trim() &&
@@ -261,7 +235,7 @@ export function QrPreview({
                     style={{
                       fontFamily: CAPTION_FONT_CSS[caption.fontFamily],
                       fontWeight: CAPTION_FONT_WEIGHT_CSS[caption.fontWeight],
-                      fontSize: caption.fontSize,
+                      fontSize: `calc(min(60vmin, 400px) * ${caption.fontSize / CARD_REFERENCE_SIZE})`,
                       color: caption.color,
                       textAlign: caption.align,
                     }}
@@ -272,12 +246,19 @@ export function QrPreview({
                 )}
               <motion.div
                 className={cn(
-                  "glass-panel relative w-[min(60vmin,400px)] rounded-3xl",
+                  "relative w-[min(60vmin,400px)]",
+                  // Once a code is shown, the card is styled exactly like the
+                  // exported one instead of like themed UI chrome.
+                  !showCanvas && "glass-panel",
                   canExpand && "cursor-zoom-in",
                 )}
                 style={{
-                  padding: qrPadding,
+                  // Percentages resolve against the card width, so padding and
+                  // corners scale with the card like they do in exports.
+                  padding: `${(qrPadding / CARD_REFERENCE_SIZE) * 100}%`,
+                  borderRadius: `${(CARD_RADIUS / CARD_REFERENCE_SIZE) * 100}% / ${(CARD_RADIUS / CARD_REFERENCE_SIZE) * 100}%`,
                   backgroundColor: showCanvas ? cardColor : undefined,
+                  boxShadow: showCanvas ? CARD_SHADOW_CSS : undefined,
                 }}
                 animate={qrCardControls}
                 whileHover={canExpand ? { scale: 1.04 } : undefined}
@@ -290,8 +271,11 @@ export function QrPreview({
                   height={PREVIEW_SIZE}
                   role="img"
                   aria-label="QR code preview"
+                  style={{
+                    borderRadius: `${(QR_RADIUS / (CARD_REFERENCE_SIZE - qrPadding * 2)) * 100}%`,
+                  }}
                   className={cn(
-                    "aspect-square h-auto w-full rounded-[1.25rem]",
+                    "aspect-square h-auto w-full",
                     !showCanvas && "invisible",
                   )}
                 />
@@ -346,7 +330,7 @@ export function QrPreview({
                     style={{
                       fontFamily: CAPTION_FONT_CSS[caption.fontFamily],
                       fontWeight: CAPTION_FONT_WEIGHT_CSS[caption.fontWeight],
-                      fontSize: caption.fontSize,
+                      fontSize: `calc(min(60vmin, 400px) * ${caption.fontSize / CARD_REFERENCE_SIZE})`,
                       color: caption.color,
                       textAlign: caption.align,
                     }}
