@@ -7,8 +7,8 @@
   "overview": "QR Pixel is a premium QR studio built with Next.js 16 and React 19. It supports multiple content types (URL, text, email, phone, Wi-Fi) with shared validation, a live customizable preview (colors, dot and corner styles, padding, logo upload, error correction, and backdrop patterns), and PNG/SVG export in multiple framed layouts. A GraphQL endpoint reuses the same validation and payload-builder logic as the UI.",
   "year": "2026",
   "spotlight": true,
-  "thumbnail": "./metadata/picture/cover-thumbnail.jpeg",
-  "spotlightImage": "./metadata/picture/cover-spotlight.jpeg",
+  "thumbnail": "./metadata/picture/cover-thumbnail-safe.jpeg",
+  "spotlightImage": "./metadata/picture/cover-spotlight-safe.jpeg",
   "techStack": [
     "Next.js 16",
     "React 19",
